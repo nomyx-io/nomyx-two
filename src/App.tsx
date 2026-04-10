@@ -8,11 +8,61 @@ import {
   Menu,
   X,
   ArrowRight,
-  Cpu
+  Cpu,
+  Clock3,
+  ArrowLeftRight,
+  ShieldCheck
 } from 'lucide-react';
 
 const navItems = ['Infrastructure', 'Technology', 'Insights', 'Partners'];
 
+const CustomCursor = () => {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('button') || target.closest('a')) {
+        setIsHovering(true);
+      } else {
+        setIsHovering(false);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseover', handleMouseOver);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleMouseOver);
+    };
+  }, []);
+
+  return (
+    <>
+      <motion.div
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-ink rounded-full pointer-events-none z-[9999]"
+        animate={{ x: mousePos.x - 3, y: mousePos.y - 3 }}
+        transition={{ type: 'spring', damping: 30, stiffness: 250, mass: 0.5 }}
+      />
+      <motion.div
+        className="fixed top-0 left-0 w-10 h-10 border border-ink/20 rounded-full pointer-events-none z-[9998]"
+        animate={{
+          x: mousePos.x - 20,
+          y: mousePos.y - 20,
+          scale: isHovering ? 1.5 : 1,
+          backgroundColor: isHovering ? 'rgba(10, 17, 40, 0.05)' : 'transparent'
+        }}
+        transition={{ type: 'spring', damping: 25, stiffness: 150, mass: 0.8 }}
+      />
+    </>
+  );
+};
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -102,6 +152,17 @@ const Navbar = () => {
 };
 
 const Hero = () => {
+  const kickerWords = ['Compliance-Native', 'Diamond Architecture', 'Institutional Grade'];
+  const [kickerIndex, setKickerIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setKickerIndex((prev) => (prev + 1) % kickerWords.length);
+    }, 2200);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
   return (
     <section className="pt-28 pb-8 md:pt-28 md:pb-12 border-b border-border">
       <div className="max-w-[88rem] mx-auto px-6 md:px-8">
@@ -113,10 +174,26 @@ const Hero = () => {
               transition={{ duration: 0.6 }}
               className="mb-7"
             >
-              <span className="label-mono inline-flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-ink rounded-full" />
-                Institutional Tokenization
-              </span>
+              <div className="inline-flex items-center gap-3 bg-ink text-white pl-4 pr-5 py-2.5 shadow-[0_10px_30px_rgba(10,17,40,0.18)]">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-300" />
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.12em]">Institutional Tokenization</span>
+                <span className="h-4 w-px bg-white/30" />
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={kickerWords[kickerIndex]}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.25 }}
+                    className="text-[11px] font-semibold uppercase tracking-[0.08em] text-white/90 min-w-[150px]"
+                  >
+                    {kickerWords[kickerIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
             </motion.div>
 
             <motion.h1
@@ -164,20 +241,40 @@ const Hero = () => {
 
           <div className="border border-border bg-white divide-y divide-border mt-6 lg:mt-10">
             {[
-              { label: 'Setup Time', value: 'Minutes', sub: 'Vs. months on legacy' },
-              { label: 'Settlement', value: 'T+0', sub: 'Atomic on-chain finality' },
-              { label: 'Compliance', value: 'Built-in', sub: 'Protocol-level enforcement' }
+              {
+                label: 'Setup Time',
+                value: 'Minutes',
+                sub: 'Vs. months on legacy',
+                icon: <Clock3 size={24} className="text-ink" />
+              },
+              {
+                label: 'Settlement',
+                value: 'T+0',
+                sub: 'Atomic on-chain finality',
+                icon: <ArrowLeftRight size={24} className="text-ink" />
+              },
+              {
+                label: 'Compliance',
+                value: 'Built-in',
+                sub: 'Protocol-level enforcement',
+                icon: <ShieldCheck size={24} className="text-ink" />
+              }
             ].map((stat, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.55 + i * 0.1 }}
-                className="p-7 md:p-8 flex flex-col items-start text-left"
+                className="p-7 md:p-8 flex items-center justify-between gap-4"
               >
-                <div className="text-xs uppercase tracking-[0.12em] text-ink-muted font-semibold mb-2">{stat.label}</div>
-                <div className="text-4xl md:text-[42px] font-black tracking-tight text-ink mb-1">{stat.value}</div>
-                <div className="text-sm text-ink-muted uppercase tracking-[0.08em]">{stat.sub}</div>
+                <div className="flex-1">
+                  <div className="text-xs uppercase tracking-[0.12em] text-ink-muted font-semibold mb-2">{stat.label}</div>
+                  <div className="text-4xl md:text-[42px] font-black tracking-tight text-ink mb-1">{stat.value}</div>
+                  <div className="text-sm text-ink-muted uppercase tracking-[0.08em]">{stat.sub}</div>
+                </div>
+                <div className="w-14 h-14 border border-border flex items-center justify-center flex-shrink-0">
+                  {stat.icon}
+                </div>
               </motion.div>
             ))}
           </div>
@@ -189,7 +286,13 @@ const Hero = () => {
 
 const SectionHeader = ({ title, label }: { title: string; label?: string }) => (
   <div className="max-w-[88rem] mx-auto px-6 md:px-8 py-14 md:py-16 text-center">
-    {label && <p className="label-mono mb-4">{label}</p>}
+    {label && (
+      <div className="mb-5">
+        <span className="inline-flex bg-ink text-white text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5">
+          {label}
+        </span>
+      </div>
+    )}
     <h2 className="text-display text-[clamp(34px,6vw,76px)]">{title}</h2>
   </div>
 );
@@ -218,11 +321,13 @@ const ValueProp = () => {
       <SectionHeader label="Infrastructure" title="Infrastructure without friction." />
 
       <div className="max-w-[88rem] mx-auto px-6 md:px-8 pb-16 md:pb-20 space-y-8">
-        <div className="bg-ink text-white p-8 md:p-10">
-          <p className="text-xl md:text-2xl font-semibold leading-relaxed max-w-4xl">
-            Agile infrastructure for institutional capital. Tokenization-as-a-Service for the $25
-            trillion private markets sector.
-          </p>
+        <div className="flex justify-center">
+          <div className="bg-ink text-white px-6 py-4 md:px-8 md:py-5 w-fit max-w-full">
+            <p className="text-lg md:text-2xl font-semibold leading-relaxed text-center max-w-4xl">
+              Agile infrastructure for institutional capital. Tokenization-as-a-Service for the $25
+              trillion private markets sector.
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border">
@@ -233,11 +338,11 @@ const ValueProp = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="p-8 md:p-9 border-b md:border-b-0 md:border-r last:border-r-0 border-border bg-white hover:bg-slate-50 transition-colors"
+              className="p-8 md:p-9 border-b md:border-b-0 md:border-r last:border-r-0 border-border bg-white hover:bg-slate-50 transition-colors text-center flex flex-col items-center"
             >
-              <div className="mb-6">{card.icon}</div>
-              <h3 className="text-3xl font-black tracking-tight uppercase mb-4">{card.title}</h3>
-              <p className="text-ink-muted leading-relaxed text-base">{card.desc}</p>
+              <div className="mb-6 flex justify-center">{card.icon}</div>
+              <h3 className="text-3xl font-black tracking-tight uppercase mb-4 text-center">{card.title}</h3>
+              <p className="text-ink-muted leading-relaxed text-base text-center">{card.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -376,7 +481,11 @@ const Partners = () => {
   return (
     <section id="partners" className="border-b border-border py-16 md:py-20">
       <div className="max-w-[88rem] mx-auto px-6 md:px-8 mb-10 text-center">
-        <p className="label-mono mb-4">Partners</p>
+        <div className="mb-5">
+          <span className="inline-flex bg-ink text-white text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5">
+            Partners
+          </span>
+        </div>
         <h2 className="text-display text-[clamp(34px,6vw,72px)]">Trusted by institutions.</h2>
       </div>
 
@@ -508,6 +617,7 @@ const Footer = () => {
 export default function App() {
   return (
     <div className="bg-bg min-h-screen text-ink font-sans">
+      <CustomCursor />
       <Navbar />
 
       <main>
@@ -522,3 +632,13 @@ export default function App() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
