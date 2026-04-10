@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Shield,
@@ -152,55 +152,17 @@ const Navbar = () => {
 };
 
 const Hero = () => {
-  const kickerWords = ['Compliance-Native', 'Diamond Architecture', 'Institutional Grade'];
-  const [kickerIndex, setKickerIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setKickerIndex((prev) => (prev + 1) % kickerWords.length);
-    }, 2200);
-
-    return () => window.clearInterval(interval);
-  }, []);
-
   return (
-    <section className="pt-28 pb-8 md:pt-28 md:pb-12 border-b border-border">
+    <section className="pt-32 pb-8 md:pt-36 md:pb-12 border-b border-border">
       <div className="max-w-[88rem] mx-auto px-6 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-12 items-start">
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mb-7"
-            >
-              <div className="inline-flex items-center gap-3 bg-ink text-white pl-4 pr-5 py-2.5 shadow-[0_10px_30px_rgba(10,17,40,0.18)]">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />
-                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-300" />
-                </span>
-                <span className="text-[11px] font-bold uppercase tracking-[0.12em]">Institutional Tokenization</span>
-                <span className="h-4 w-px bg-white/30" />
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={kickerWords[kickerIndex]}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    transition={{ duration: 0.25 }}
-                    className="text-[11px] font-semibold uppercase tracking-[0.08em] text-white/90 min-w-[150px]"
-                  >
-                    {kickerWords[kickerIndex]}
-                  </motion.span>
-                </AnimatePresence>
-              </div>
-            </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.15 }}
-              className="text-display text-[clamp(48px,8.8vw,112px)] mb-6"
+              className="text-display text-[clamp(48px,8.8vw,112px)] mb-6 mt-1"
             >
               Unlock <span className="text-accent">$25T</span> In
               <br />
@@ -288,7 +250,7 @@ const SectionHeader = ({ title, label }: { title: string; label?: string }) => (
   <div className="max-w-[88rem] mx-auto px-6 md:px-8 py-14 md:py-16 text-center">
     {label && (
       <div className="mb-5">
-        <span className="inline-flex bg-ink text-white text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5">
+        <span className="inline-flex border-2 border-accent text-[#1E3A8A] text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5">
           {label}
         </span>
       </div>
@@ -482,7 +444,7 @@ const Partners = () => {
     <section id="partners" className="border-b border-border py-16 md:py-20">
       <div className="max-w-[88rem] mx-auto px-6 md:px-8 mb-10 text-center">
         <div className="mb-5">
-          <span className="inline-flex bg-ink text-white text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5">
+          <span className="inline-flex border-2 border-accent text-[#1E3A8A] text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5">
             Partners
           </span>
         </div>
@@ -632,6 +594,9 @@ export default function App() {
     </div>
   );
 }
+
+
+
 
 
 
