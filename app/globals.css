@@ -19,6 +19,43 @@
 }
 
 @layer utilities {
+  .custom-container {
+    width: 100%;
+    max-width: 25em;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 40em) {
+    .custom-container {
+      max-width: 50em;
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (min-width: 64em) {
+    .custom-container {
+      max-width: 80em;
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 80em) {
+    .custom-container {
+      max-width: 100em;
+      padding-inline: 2rem;
+    }
+  }
+
+  .section-padding {
+    @apply py-16 md:py-20;
+  }
+
+  .section-heading {
+    @apply font-sans font-black tracking-tight leading-[0.92] uppercase;
+    font-size: 40px;
+  }
+
   .text-display {
     @apply font-sans font-black tracking-tight leading-[0.92] uppercase;
   }

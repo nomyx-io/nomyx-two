@@ -90,7 +90,7 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="w-full max-w-[88rem] mx-auto px-6 md:px-8">
+      <div className="w-full custom-container">
         <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center">
           <a href="#" className="flex items-center">
             <img src="/nomyx-logo.png" alt="Nomyx" className="h-9 w-auto" />
@@ -168,7 +168,7 @@ const Navbar = () => {
 const Hero = () => {
   return (
     <section className="pt-32 pb-8 md:pt-36 md:pb-12 border-b border-border">
-      <div className="max-w-[88rem] mx-auto px-6 md:px-8">
+      <div className="custom-container">
         <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-12 items-start">
           <div>
             <motion.h1
@@ -271,7 +271,7 @@ const Hero = () => {
 };
 
 const SectionHeader = ({ title, label }: { title: string; label?: string }) => (
-  <div className="max-w-[88rem] mx-auto px-6 md:px-8 py-14 md:py-16 text-center">
+  <div className="custom-container py-14 md:py-16 text-center">
     {label && (
       <div className="mb-5">
         <span className="inline-flex border-2 border-accent text-[#1E3A8A] text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5">
@@ -279,7 +279,7 @@ const SectionHeader = ({ title, label }: { title: string; label?: string }) => (
         </span>
       </div>
     )}
-    <h2 className="text-display text-[clamp(34px,6vw,76px)]">{title}</h2>
+    <h2 className="section-heading">{title}</h2>
   </div>
 );
 
@@ -309,7 +309,7 @@ const ValueProp = () => {
         title="Beyond Tokenization. Intelligent Financial Infrastructure."
       />
 
-      <div className="max-w-[88rem] mx-auto px-6 md:px-8 pb-16 md:pb-20 space-y-8">
+      <div className="custom-container pb-16 md:pb-20 space-y-8">
         <div className="flex justify-center">
           <div className="bg-ink text-white px-6 py-4 md:px-8 md:py-5 w-fit max-w-full">
             <p className="text-lg md:text-2xl font-semibold leading-relaxed text-center max-w-4xl">
@@ -361,7 +361,7 @@ const Technology = () => {
     <section id="technology" className="border-b border-border">
       <SectionHeader label="Technology" title="The Diamond Standard." />
 
-      <div className="max-w-[88rem] mx-auto px-6 md:px-8 pb-16 md:pb-20">
+      <div className="custom-container pb-16 md:pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
           <div className="border border-border bg-white p-8 md:p-9">
             <p className="text-lg md:text-[22px] text-ink-muted leading-relaxed mb-9">
@@ -480,15 +480,15 @@ const Partners = () => {
   const marqueePartners = [...partners, ...partners];
 
   return (
-    <section id="partners" className="border-b border-border py-16 md:py-20">
-      <div className="max-w-[88rem] mx-auto px-6 md:px-8 mb-10 text-center">
+    <section id="partners" className="border-b border-border section-padding">
+      <div className="custom-container mb-10 text-center">
         <div className="mb-5">
           <span className="inline-flex border-2 border-accent text-[#1E3A8A] text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5">
             Partners
           </span>
         </div>
-        <h2 className="text-display text-[clamp(34px,6vw,72px)]">
-          Trusted by institutions.
+        <h2 className="section-heading">
+          SECURING THE NEXT GENERATION<br/>OF FINANCE WITH INDUSTRY LEADERS. 
         </h2>
       </div>
 
@@ -528,8 +528,8 @@ const CTA = () => {
       id="cta"
       className="py-20 md:py-24 border-b border-border bg-slate-50/50"
     >
-      <div className="max-w-5xl mx-auto px-6 md:px-8 text-center">
-        <h2 className="text-display text-[clamp(40px,8vw,92px)] mb-8">
+      <div className="custom-container text-center">
+        <h2 className="section-heading mb-8">
           Ready to modernize your AUM?
         </h2>
         <p className="text-xl text-ink-muted leading-relaxed mb-12 max-w-3xl mx-auto">
@@ -553,8 +553,8 @@ const CTA = () => {
 
 const Footer = () => {
   return (
-    <footer className="py-16 md:py-20">
-      <div className="max-w-[88rem] mx-auto px-6 md:px-8">
+    <footer className="section-padding">
+      <div className="custom-container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 border-b border-border pb-12 items-start">
           <div className="lg:col-span-4">
             <a href="#" className="mb-5 block">
@@ -693,9 +693,9 @@ export default function Page() {
 
       <main>
         <Hero />
+        <Partners />
         <ValueProp />
         <Technology />
-        <Partners />
         <CTA />
       </main>
 
