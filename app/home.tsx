@@ -75,7 +75,7 @@ const navDropdowns = {
     {
       title: "Technical Documentation",
       description: "Institutional library of guides, briefs, and reports",
-      href: "#resources",
+      href: "/resources",
     },
   ],
 } satisfies Partial<
@@ -91,6 +91,7 @@ const navDropdowns = {
 
 const topLevelNavRoutes: Partial<Record<string, string>> = {
   "The Diamond Standard": "/the-diamond-standard",
+  "Developers": "/developers",
 };
 
 const getNavHref = (item: string) =>
@@ -857,7 +858,7 @@ export const SmartContracts = () => (
             ))}
           </div>
           <a
-            href="#developers"
+            href="/developers"
             className="mt-9 inline-flex h-12 items-center gap-3 border border-border bg-white px-6 text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-slate-50"
           >
             {pageContent.smartContracts.cta}
