@@ -1,0 +1,152 @@
+{
+  "nav": ["Solutions", "Platform", "Resources", "The Diamond Standard", "Developers"],
+  "hero": {
+    "title": "The Agile Infrastructure for Institutional Capital.",
+    "accent": "Institutional Capital",
+    "description": "Tokenize Real-World Assets with upgradeable smart contracts. Future-proof compliance, automated lifecycle management, and T+0 settlement.",
+    "primaryCta": "Start Building",
+    "secondaryCta": "View Documentation"
+  },
+  "partners": {
+    "label": "SECURING THE NEXT GENERATION OF FINANCE WITH INDUSTRY LEADERS.",
+    "items": [
+      { "name": "Stellar", "src": "/stellar.avif" },
+      { "name": "Plug and Play", "src": "/plugandplay.png" },
+      { "name": "Dfns" },
+      { "name": "Bridge", "src": "/bridge-CTOzOHvk.svg" },
+      { "name": "Persona", "src": "/persona.png" },
+      { "name": "Halborn", "src": "/halborn.png" }
+    ]
+  },
+  "value": {
+    "title": "Beyond Tokenization. Intelligent Financial Infrastructure.",
+    "description": "Streamline the lifecycle of regulated funds, SPVs, and yield-bearing assets with infrastructure built for institutional scale.",
+    "cards": [
+      {
+        "title": "Yield-Native Architecture",
+        "description": "Built for Private Credit and Treasuries. Automate daily yield accrual, coupon distribution, and tax reporting logic directly on-chain.",
+        "icon": "chart"
+      },
+      {
+        "title": "The Diamond Standard(TM)",
+        "description": "Powered by Diamond Proxy technology (EIP-2535). Upgrade your compliance modules instantly without migrating assets or disrupting investors.",
+        "icon": "shield"
+      },
+      {
+        "title": "Your Liquidity. Your Rules.",
+        "description": "Avoid the \"yield premium.\" Deploy institutional-grade liquidity on AMMs and new financial rails, secondary markets, and distribution channels.",
+        "icon": "network"
+      }
+    ]
+  },
+  "roles": {
+    "title": "Infrastructure That Adapts to Your Role.",
+    "tabs": ["For Asset Managers", "For Fund Administrators"],
+    "heading": "Launch Faster. Distribute Globally.",
+    "bullets": [
+      {
+        "title": "Automated Vehicles:",
+        "text": "Program daily interest accruals and investor contributions into your workflow."
+      },
+      {
+        "title": "Liquidity Optionality:",
+        "text": "Offer secondary market liquidity via white-label solutions."
+      },
+      {
+        "title": "Capital Efficiency:",
+        "text": "Use tokenized assets as collateral in DeFi protocols."
+      }
+    ],
+    "wizard": {
+      "title": "Token Issuance Wizard",
+      "status": "Ready",
+      "rows": [
+        ["Asset", "U.S. Navy"],
+        ["Distribution Frequency", "Weekly"],
+        ["Total Supply", "$50,000,000"]
+      ],
+      "button": "Execute Deployment"
+    },
+    "caption": "Built for the assets that matter in 2025.",
+    "assets": [
+      {
+        "title": "Private Credit",
+        "description": "Automate loan amortization, interest payments, and collateral management."
+      },
+      {
+        "title": "Real Estate",
+        "description": "Fractionalize equity and automate rent distribution for commercial or residential assets."
+      },
+      {
+        "title": "SPVs & Evergreen Funds",
+        "description": "Streamline capital calls and distributions with automated subscriptions, redemptions, and real-time NAV updates."
+      }
+    ]
+  },
+  "smartContracts": {
+    "eyebrow": "Powered by EIP-2535",
+    "title": "Smart Contracts That Evolve With the Law.",
+    "description": "The \"immutability Paradox\" is solved. Nomyx allows you to upgrade compliance logic and yield structures without migrating assets or changing token addresses.",
+    "callouts": ["Issuance Facet (Upgradeable)", "Subscription/Redemption (Upgradeable)", "Compliance Facet (Upgradeable)", "Yield Logic Facet (Upgradeable)"],
+    "core": "Core Storage (Immutable)",
+    "legend": ["Immutable Core", "Upgradeable Facets"],
+    "bullets": [
+      {
+        "title": "Zero-Migration Upgrades:",
+        "text": "Regulatory changes in 2026? Update the compliance module instantly. No token swaps required."
+      },
+      {
+        "title": "Modular Security:",
+        "text": "Add institutional facets independently. Keep the core asset secure while iterating on features."
+      },
+      {
+        "title": "Future-Ready:",
+        "text": "Built on infrastructure designed to last decades, not just the current crypto cycle."
+      }
+    ],
+    "cta": "Explore The Technical Paper"
+  },
+  "developers": {
+    "title": "No-Code Simplicity. Full-Code Control.",
+    "description": "While business teams manage assets via the dashboard, your engineering team maintains full control. Nomyx is built on an API-first architecture, allowing seamless integration with your existing ERP, CRM, and fund administration software.",
+    "bullets": [
+      "GraphQL & REST APIs for all lifecycle management.",
+      "Webhooks for real-time settlement notifications.",
+      "Export compliance logs directly to external audit tools."
+    ],
+    "cta": "Read the API Documentation"
+  },
+  "security": {
+    "title": "Enterprise-Grade Security & Compliance.",
+    "description": "Your reputation is your asset. We protect it with banking-grade infrastructure.",
+    "items": [
+      { "title": "SOC 2 Type II Pending", "description": "Continuous security monitoring", "icon": "shield" },
+      { "title": "GDPR & CCPA Ready", "description": "Privacy by design", "icon": "globe" },
+      { "title": "Smart Contracts Audited", "description": "Halborn security review", "icon": "file" }
+    ]
+  },
+  "cta": {
+    "title": "Ready to modernize your AUM?",
+    "description": "Join the asset managers moving billions on-chain with Nomyx.",
+    "button": "Request a Demo"
+  },
+  "footer": {
+    "description": "The infrastructure layer for the future of capital.",
+    "columns": [
+      {
+        "title": "Solutions",
+        "links": ["Asset Managers", "SPVs & Debt Syndication", "Private Credit", "Real Estate"]
+      },
+      {
+        "title": "Platform",
+        "links": ["Nomyx Engine", "Nomyx OS", "Nomyx Gateway", "Diamond Standard"]
+      },
+      {
+        "title": "Resources",
+        "links": ["Developers", "Knowledge", "Legal Center"]
+      }
+    ],
+    "copyright": "(C) 2025 Nomyx. All rights reserved.",
+    "legal": ["Privacy Policy", "Terms of Use", "Main Service Agreement", "Securities Disclaimer", "Marketing Terms", "Cookie Policy"]
+  }
+}
