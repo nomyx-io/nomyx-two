@@ -8,6 +8,7 @@ import {
   BarChart3,
   Check,
   CheckCircle2,
+  ChevronDown,
   Clock3,
   Code2,
   FileCheck2,
@@ -26,6 +27,87 @@ const iconMap = {
   network: Network,
   globe: Globe2,
   file: FileCheck2,
+};
+
+const navDropdowns = {
+  Solutions: [
+    {
+      title: "Evergreen & Open-Ended Funds",
+      description: "Perpetual fund automation with real-time NAV and 24/7 liquidity",
+      href: "/evergreen-open-ended-funds",
+    },
+    {
+      title: "SPVs & Deal Syndication",
+      description: "Spin up compliant SPVs in hours with automated carry logic",
+      href: "#solutions",
+    },
+    {
+      title: "Private Credit & Syndication",
+      description: "Aggregate LP capital on-chain, deploy to borrowers, automate yield distribution",
+      href: "#solutions",
+    },
+    {
+      title: "Real Estate Tokenization",
+      description: "Fractional ownership with automated rent distribution and secondary liquidity",
+      href: "#solutions",
+    },
+  ],
+  Platform: [
+    {
+      title: "Nomyx Engine",
+      description: "The operating system for digital assets with infinite upgradability",
+      href: "#platform",
+    },
+    {
+      title: "Nomyx ID",
+      description: "On-chain identity and compliance verification system",
+      href: "#platform",
+    },
+    {
+      title: "Nomyx Gateway",
+      description: "White-label liquidity infrastructure for your branded portal",
+      href: "#platform",
+    },
+  ],
+  Resources: [
+    {
+      title: "Technical Documentation",
+      description: "Institutional library of guides, briefs, and reports",
+      href: "#resources",
+    },
+  ],
+} satisfies Partial<
+  Record<
+    string,
+    {
+      title: string;
+      description: string;
+      href: string;
+    }[]
+  >
+>;
+
+const getNavHref = (item: string) => `#${item.toLowerCase().replaceAll(" ", "-")}`;
+
+const NavBorderTrace = ({ active = false }: { active?: boolean }) => {
+  const visible = active ? "scale-100" : "scale-0";
+
+  return (
+    <>
+      <span
+        className={`pointer-events-none absolute left-0 top-0 h-px w-full origin-left bg-accent transition-transform duration-150 ${visible} group-hover:scale-x-100`}
+      />
+      <span
+        className={`pointer-events-none absolute right-0 top-0 h-full w-px origin-top bg-accent transition-transform delay-150 duration-150 ${visible} group-hover:scale-y-100`}
+      />
+      <span
+        className={`pointer-events-none absolute bottom-0 right-0 h-px w-full origin-right bg-accent transition-transform delay-300 duration-150 ${visible} group-hover:scale-x-100`}
+      />
+      <span
+        className={`pointer-events-none absolute bottom-0 left-0 h-full w-px origin-bottom bg-accent transition-transform delay-[450ms] duration-150 ${visible} group-hover:scale-y-100`}
+      />
+    </>
+  );
 };
 
 const CustomCursor = () => {
@@ -77,6 +159,7 @@ const CustomCursor = () => {
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -94,20 +177,104 @@ const Navbar = () => {
     >
       <div className="custom-container w-full">
         <div className="hidden grid-cols-[1fr_auto_1fr] items-center gap-8 md:grid">
-          <a href="#" className="flex items-center">
+          <a href="/" className="flex items-center">
             <img src="/nomyx-logo.png" alt="Nomyx" className="h-9 w-auto" />
           </a>
 
-          <div className="flex items-center justify-center gap-7 xl:gap-10">
-            {pageContent.nav.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase().replaceAll(" ", "-")}`}
-                className="label-mono whitespace-nowrap hover:text-ink transition-colors"
-              >
-                {item}
-              </a>
-            ))}
+          <div className="flex items-center justify-center gap-2 xl:gap-3">
+            {pageContent.nav.map((item) => {
+              const dropdown = navDropdowns[item as keyof typeof navDropdowns];
+              const isActive = activeDropdown === item;
+
+              if (!dropdown) {
+                return (
+                  <a
+                    key={item}
+                    href={getNavHref(item)}
+                    className="label-mono group relative inline-flex h-10 items-center whitespace-nowrap rounded-[6px] px-3 transition-colors hover:text-accent xl:px-4"
+                  >
+                    {item}
+                    <span className="absolute bottom-1 left-4 right-4 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 group-hover:scale-x-100" />
+                  </a>
+                );
+              }
+
+              return (
+                <div
+                  key={item}
+                  className="relative"
+                  onMouseEnter={() => setActiveDropdown(item)}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                  onFocus={() => setActiveDropdown(item)}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                      setActiveDropdown(null);
+                    }
+                  }}
+                >
+                  <button
+                    type="button"
+                    aria-expanded={isActive}
+                    className={`label-mono group relative inline-flex h-10 items-center gap-1.5 overflow-hidden whitespace-nowrap rounded-[6px] px-3 transition-colors duration-200 xl:px-4 ${
+                      isActive
+                        ? "text-accent"
+                        : "hover:text-accent"
+                    }`}
+                  >
+                    {item}
+                    <ChevronDown
+                      size={14}
+                      strokeWidth={2.4}
+                      className={`transition-transform duration-200 ${
+                        isActive ? "rotate-180" : ""
+                      }`}
+                    />
+                    <NavBorderTrace active={isActive} />
+                  </button>
+
+                  <AnimatePresence>
+                    {isActive && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                        transition={{ duration: 0.18, ease: "easeOut" }}
+                        className="absolute left-1/2 top-full w-[400px] -translate-x-1/2 pt-2"
+                      >
+                        <div className="relative rounded-[6px] border border-border bg-white p-4 shadow-[0_22px_48px_rgba(10,17,40,0.14)]">
+                          <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
+                          <div className="space-y-1">
+                            {dropdown.map((dropdownItem) => (
+                              <a
+                                key={dropdownItem.title}
+                                href={dropdownItem.href}
+                                className="group block rounded-[6px] px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-[0_12px_28px_rgba(10,17,40,0.08)]"
+                                onClick={() => setActiveDropdown(null)}
+                              >
+                                <span className="flex items-start justify-between gap-4">
+                                  <span>
+                                    <span className="block text-sm font-black text-ink transition-colors group-hover:text-accent">
+                                      {dropdownItem.title}
+                                    </span>
+                                    <span className="mt-1 block text-sm leading-relaxed text-ink-muted">
+                                      {dropdownItem.description}
+                                    </span>
+                                  </span>
+                                  <ArrowRight
+                                    size={16}
+                                    className="mt-1 shrink-0 translate-x-[-4px] text-accent opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
+                                  />
+                                </span>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
           </div>
 
           <div className="flex justify-end">
@@ -121,7 +288,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center justify-between md:hidden">
-          <a href="#" className="flex items-center">
+          <a href="/" className="flex items-center">
             <img src="/nomyx-logo.png" alt="Nomyx" className="h-8 w-auto" />
           </a>
           <button
@@ -143,16 +310,41 @@ const Navbar = () => {
             className="absolute left-0 right-0 top-20 border-b border-border bg-white p-6 shadow-xl md:hidden"
           >
             <div className="flex flex-col gap-5">
-              {pageContent.nav.map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase().replaceAll(" ", "-")}`}
-                  className="text-lg font-bold text-ink"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item}
-                </a>
-              ))}
+              {pageContent.nav.map((item) => {
+                const dropdown = navDropdowns[item as keyof typeof navDropdowns];
+
+                return (
+                  <div key={item}>
+                    <a
+                      href={getNavHref(item)}
+                      className="flex items-center justify-between text-lg font-bold text-ink"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item}
+                      {dropdown && <ChevronDown size={16} className="-rotate-90" />}
+                    </a>
+                    {dropdown && (
+                      <div className="mt-3 space-y-2 border-l-2 border-accent pl-4">
+                        {dropdown.map((dropdownItem) => (
+                          <a
+                            key={dropdownItem.title}
+                            href={dropdownItem.href}
+                            className="block rounded-[6px] px-3 py-2 transition-colors hover:bg-slate-50"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            <span className="block text-sm font-black text-ink">
+                              {dropdownItem.title}
+                            </span>
+                            <span className="mt-0.5 block text-sm leading-relaxed text-ink-muted">
+                              {dropdownItem.description}
+                            </span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
               <a
                 href="#cta"
                 className="inline-flex h-11 items-center justify-center bg-ink text-xs font-bold uppercase tracking-[0.14em] text-white"
