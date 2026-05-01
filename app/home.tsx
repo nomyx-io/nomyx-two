@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { usePathname } from "next/navigation";
 import {
   ArrowLeftRight,
   ArrowRight,
@@ -67,7 +68,7 @@ const navDropdowns = {
     {
       title: "Nomyx Gateway",
       description: "White-label liquidity infrastructure for your branded portal",
-      href: "#platform",
+      href: "/nomyx-gateway",
     },
   ],
   Resources: [
@@ -88,7 +89,12 @@ const navDropdowns = {
   >
 >;
 
-const getNavHref = (item: string) => `#${item.toLowerCase().replaceAll(" ", "-")}`;
+const topLevelNavRoutes: Partial<Record<string, string>> = {
+  "The Diamond Standard": "/the-diamond-standard",
+};
+
+const getNavHref = (item: string) =>
+  topLevelNavRoutes[item] ?? `#${item.toLowerCase().replaceAll(" ", "-")}`;
 
 const NavBorderTrace = ({ active = false }: { active?: boolean }) => {
   const visible = active ? "scale-100" : "scale-0";
@@ -164,15 +170,44 @@ export const CustomCursor = ({
 };
 
 export const Navbar = () => {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeHash, setActiveHash] = useState("");
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const syncHash = () => setActiveHash(window.location.hash);
+
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, []);
+
+  const isHomeRoute = pathname === "/";
+  const isHrefActive = (href: string) => {
+    if (href.startsWith("#")) {
+      return isHomeRoute && activeHash === href;
+    }
+
+    return pathname === href;
+  };
+
+  const isNavItemActive = (item: string) => {
+    const dropdown = navDropdowns[item as keyof typeof navDropdowns];
+
+    if (dropdown?.some((dropdownItem) => isHrefActive(dropdownItem.href))) {
+      return true;
+    }
+
+    return isHrefActive(getNavHref(item));
+  };
 
   return (
     <nav
@@ -192,17 +227,26 @@ export const Navbar = () => {
           <div className="flex items-center justify-center gap-2 xl:gap-3">
             {pageContent.nav.map((item) => {
               const dropdown = navDropdowns[item as keyof typeof navDropdowns];
-              const isActive = activeDropdown === item;
+              const isOpen = activeDropdown === item;
+              const isCurrent = isNavItemActive(item);
+              const isActive = isOpen || isCurrent;
 
               if (!dropdown) {
                 return (
                   <a
                     key={item}
                     href={getNavHref(item)}
-                    className="label-mono group relative inline-flex h-10 items-center whitespace-nowrap rounded-[6px] px-3 transition-colors hover:text-accent xl:px-4"
+                    aria-current={isCurrent ? "page" : undefined}
+                    className={`label-mono group relative inline-flex h-10 items-center whitespace-nowrap rounded-[6px] px-3 transition-colors xl:px-4 ${
+                      isCurrent ? "bg-accent/5 text-accent" : "hover:text-accent"
+                    }`}
                   >
                     {item}
-                    <span className="absolute bottom-1 left-4 right-4 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 group-hover:scale-x-100" />
+                    <span
+                      className={`absolute bottom-1 left-4 right-4 h-px origin-left bg-accent transition-transform duration-300 group-hover:scale-x-100 ${
+                        isCurrent ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
                   </a>
                 );
               }
@@ -222,10 +266,11 @@ export const Navbar = () => {
                 >
                   <button
                     type="button"
-                    aria-expanded={isActive}
+                    aria-expanded={isOpen}
+                    aria-current={isCurrent ? "page" : undefined}
                     className={`label-mono group relative inline-flex h-10 items-center gap-1.5 overflow-hidden whitespace-nowrap rounded-[6px] px-3 transition-colors duration-200 xl:px-4 ${
                       isActive
-                        ? "text-accent"
+                        ? "bg-accent/5 text-accent"
                         : "hover:text-accent"
                     }`}
                   >
@@ -234,14 +279,14 @@ export const Navbar = () => {
                       size={14}
                       strokeWidth={2.4}
                       className={`transition-transform duration-200 ${
-                        isActive ? "rotate-180" : ""
+                        isOpen ? "rotate-180" : ""
                       }`}
                     />
                     <NavBorderTrace active={isActive} />
                   </button>
 
                   <AnimatePresence>
-                    {isActive && (
+                    {isOpen && (
                       <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.98 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -252,29 +297,42 @@ export const Navbar = () => {
                         <div className="relative rounded-[6px] border border-border bg-white p-4 shadow-[0_22px_48px_rgba(10,17,40,0.14)]">
                           <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
                           <div className="space-y-1">
-                            {dropdown.map((dropdownItem) => (
-                              <a
-                                key={dropdownItem.title}
-                                href={dropdownItem.href}
-                                className="group block rounded-[6px] px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-[0_12px_28px_rgba(10,17,40,0.08)]"
-                                onClick={() => setActiveDropdown(null)}
-                              >
-                                <span className="flex items-start justify-between gap-4">
-                                  <span>
-                                    <span className="block text-sm font-black text-ink transition-colors group-hover:text-accent">
-                                      {dropdownItem.title}
+                            {dropdown.map((dropdownItem) => {
+                              const isDropdownItemActive = isHrefActive(dropdownItem.href);
+
+                              return (
+                                <a
+                                  key={dropdownItem.title}
+                                  href={dropdownItem.href}
+                                  aria-current={isDropdownItemActive ? "page" : undefined}
+                                  className={`group block rounded-[6px] px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-[0_12px_28px_rgba(10,17,40,0.08)] ${
+                                    isDropdownItemActive
+                                      ? "border-l-2 border-accent bg-accent/5"
+                                      : "border-l-2 border-transparent"
+                                  }`}
+                                  onClick={() => setActiveDropdown(null)}
+                                >
+                                  <span className="flex items-start justify-between gap-4">
+                                    <span>
+                                      <span className="block text-sm font-black text-ink transition-colors group-hover:text-accent">
+                                        {dropdownItem.title}
+                                      </span>
+                                      <span className="mt-1 block text-sm leading-relaxed text-ink-muted">
+                                        {dropdownItem.description}
+                                      </span>
                                     </span>
-                                    <span className="mt-1 block text-sm leading-relaxed text-ink-muted">
-                                      {dropdownItem.description}
-                                    </span>
+                                    <ArrowRight
+                                      size={16}
+                                      className={`mt-1 shrink-0 transition-all duration-200 ${
+                                        isDropdownItemActive
+                                          ? "translate-x-0 text-accent opacity-100"
+                                          : "translate-x-[-4px] text-accent opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+                                      }`}
+                                    />
                                   </span>
-                                  <ArrowRight
-                                    size={16}
-                                    className="mt-1 shrink-0 translate-x-[-4px] text-accent opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
-                                  />
-                                </span>
-                              </a>
-                            ))}
+                                </a>
+                              );
+                            })}
                           </div>
                         </div>
                       </motion.div>
@@ -288,7 +346,10 @@ export const Navbar = () => {
           <div className="flex justify-end">
             <a
               href="#cta"
-              className="inline-flex h-11 items-center justify-center bg-ink px-7 text-xs font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-ink/90"
+              aria-current={isHrefActive("#cta") ? "page" : undefined}
+              className={`inline-flex h-11 items-center justify-center px-7 text-xs font-bold uppercase tracking-[0.18em] text-white transition-colors ${
+                isHrefActive("#cta") ? "bg-accent" : "bg-ink hover:bg-ink/90"
+              }`}
             >
               Request Demo
             </a>
@@ -320,12 +381,16 @@ export const Navbar = () => {
             <div className="flex flex-col gap-5">
               {pageContent.nav.map((item) => {
                 const dropdown = navDropdowns[item as keyof typeof navDropdowns];
+                const isCurrent = isNavItemActive(item);
 
                 return (
                   <div key={item}>
                     <a
                       href={getNavHref(item)}
-                      className="flex items-center justify-between text-lg font-bold text-ink"
+                      aria-current={isCurrent ? "page" : undefined}
+                      className={`flex items-center justify-between rounded-[6px] px-3 py-2 text-lg font-bold ${
+                        isCurrent ? "bg-accent/5 text-accent" : "text-ink"
+                      }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item}
@@ -333,21 +398,32 @@ export const Navbar = () => {
                     </a>
                     {dropdown && (
                       <div className="mt-3 space-y-2 border-l-2 border-accent pl-4">
-                        {dropdown.map((dropdownItem) => (
-                          <a
-                            key={dropdownItem.title}
-                            href={dropdownItem.href}
-                            className="block rounded-[6px] px-3 py-2 transition-colors hover:bg-slate-50"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                          >
-                            <span className="block text-sm font-black text-ink">
-                              {dropdownItem.title}
-                            </span>
-                            <span className="mt-0.5 block text-sm leading-relaxed text-ink-muted">
-                              {dropdownItem.description}
-                            </span>
-                          </a>
-                        ))}
+                        {dropdown.map((dropdownItem) => {
+                          const isDropdownItemActive = isHrefActive(dropdownItem.href);
+
+                          return (
+                            <a
+                              key={dropdownItem.title}
+                              href={dropdownItem.href}
+                              aria-current={isDropdownItemActive ? "page" : undefined}
+                              className={`block rounded-[6px] px-3 py-2 transition-colors hover:bg-slate-50 ${
+                                isDropdownItemActive ? "bg-accent/5" : ""
+                              }`}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              <span
+                                className={`block text-sm font-black ${
+                                  isDropdownItemActive ? "text-accent" : "text-ink"
+                                }`}
+                              >
+                                {dropdownItem.title}
+                              </span>
+                              <span className="mt-0.5 block text-sm leading-relaxed text-ink-muted">
+                                {dropdownItem.description}
+                              </span>
+                            </a>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -355,7 +431,10 @@ export const Navbar = () => {
               })}
               <a
                 href="#cta"
-                className="inline-flex h-11 items-center justify-center bg-ink text-xs font-bold uppercase tracking-[0.14em] text-white"
+                aria-current={isHrefActive("#cta") ? "page" : undefined}
+                className={`inline-flex h-11 items-center justify-center text-xs font-bold uppercase tracking-[0.14em] text-white ${
+                  isHrefActive("#cta") ? "bg-accent" : "bg-ink"
+                }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Request Demo

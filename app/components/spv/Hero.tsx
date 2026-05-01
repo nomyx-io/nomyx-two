@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowRight, Check, FileCheck2, Users } from "lucide-react";
-import { fadeUp, forceHomeNavigation, HoverTextSwap } from "../evergreen/shared";
+import { Check, FileCheck2, Users } from "lucide-react";
+import { AnimatedButton } from "../AnimatedButton";
+import { fadeUp, forceHomeNavigation } from "../evergreen/shared";
 
 const titleWords = ["Compliant", "SPVs", "In", "Hours."];
 
@@ -96,17 +97,15 @@ const FundingCard = () => (
         </div>
       </div>
     </div>
-    <motion.a
+    <AnimatedButton
       href="/#cta"
-      initial="rest"
-      whileHover="hover"
-      animate="rest"
+      text="Close Round & Mint Tokens"
+      bgColor="bg-ink"
+      hoverBgColor="hover:bg-accent"
+      textColor="text-white"
       onClick={(event) => forceHomeNavigation(event, "/#cta")}
-      className="flex h-16 items-center justify-between bg-ink px-6 text-sm font-black uppercase tracking-[0.12em] text-white transition-colors hover:bg-accent"
-    >
-      <HoverTextSwap text="Close Round & Mint Tokens" />
-      <ArrowRight size={18} />
-    </motion.a>
+      className="flex h-16 w-full justify-between text-sm tracking-[0.12em]"
+    />
   </motion.div>
 );
 
@@ -139,17 +138,14 @@ export const SpvHero = () => (
         <motion.p variants={fadeUp} className="mb-8 max-w-3xl text-lg leading-relaxed text-ink-muted md:text-xl">
           The fastest way to syndicate deals. Automate capital formation, cap table management, and carry distribution for single-asset vehicles.
         </motion.p>
-        <motion.a
+        <AnimatedButton
           href="/#cta"
-          initial="rest"
-          whileHover="hover"
-          animate="rest"
+          text="Start Your Syndication"
+          bgColor="bg-ink"
+          hoverBgColor="hover:bg-accent"
+          textColor="text-white"
           onClick={(event) => forceHomeNavigation(event, "/#cta")}
-          className="inline-flex h-14 items-center gap-3 bg-ink px-8 text-xs font-black uppercase tracking-[0.14em] text-white transition-colors hover:bg-accent"
-        >
-          <HoverTextSwap text="Start Your Syndication" />
-          <ArrowRight size={16} />
-        </motion.a>
+        />
       </motion.div>
       <div className="space-y-6">
         <FundingCard />

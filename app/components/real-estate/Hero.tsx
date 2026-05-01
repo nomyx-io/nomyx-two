@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowRight, Building2, Coins, Users } from "lucide-react";
-import { fadeUp, forceHomeNavigation, HoverTextSwap } from "../evergreen/shared";
+import { Building2, Coins, Users } from "lucide-react";
+import { AnimatedButton } from "../AnimatedButton";
+import { fadeUp, forceHomeNavigation } from "../evergreen/shared";
 
 const titleWords = ["Unlock", "Liquidity", "In", "Brick", "&", "Mortar."];
 
@@ -130,17 +131,14 @@ export const RealEstateHero = () => (
         <motion.p variants={fadeUp} className="mb-8 max-w-3xl text-lg leading-relaxed text-ink-muted md:text-xl">
           Lower your minimum ticket size to access a global pool of capital. Manage 500+ investors as easily as one.
         </motion.p>
-        <motion.a
+        <AnimatedButton
           href="/#cta"
-          initial="rest"
-          whileHover="hover"
-          animate="rest"
+          text="Tokenize Your Property"
+          bgColor="bg-ink"
+          hoverBgColor="hover:bg-accent"
+          textColor="text-white"
           onClick={(event) => forceHomeNavigation(event, "/#cta")}
-          className="inline-flex h-14 items-center gap-3 bg-ink px-8 text-xs font-black uppercase tracking-[0.14em] text-white transition-colors hover:bg-accent"
-        >
-          <HoverTextSwap text="Tokenize Your Property" />
-          <ArrowRight size={16} />
-        </motion.a>
+        />
       </motion.div>
       <BuildingVisual />
     </div>
