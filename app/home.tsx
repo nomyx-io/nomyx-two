@@ -40,17 +40,17 @@ const navDropdowns = {
     {
       title: "SPVs & Deal Syndication",
       description: "Spin up compliant SPVs in hours with automated carry logic",
-      href: "#solutions",
+      href: "/spv-deal-syndication",
     },
     {
       title: "Private Credit & Syndication",
       description: "Aggregate LP capital on-chain, deploy to borrowers, automate yield distribution",
-      href: "#solutions",
+      href: "/private-credit-syndication",
     },
     {
       title: "Real Estate Tokenization",
       description: "Fractional ownership with automated rent distribution and secondary liquidity",
-      href: "#solutions",
+      href: "/real-estate-tokenization",
     },
   ],
   Platform: [
@@ -111,7 +111,13 @@ const NavBorderTrace = ({ active = false }: { active?: boolean }) => {
   );
 };
 
-export const CustomCursor = () => {
+export const CustomCursor = ({
+  color = "#0A1128",
+  hoverBackgroundColor = "rgba(10, 17, 40, 0.05)",
+}: {
+  color?: string;
+  hoverBackgroundColor?: string;
+}) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
@@ -137,19 +143,19 @@ export const CustomCursor = () => {
   return (
     <>
       <motion.div
-        className="fixed left-0 top-0 z-[9999] hidden h-1.5 w-1.5 rounded-full bg-ink pointer-events-none md:block"
+        className="fixed left-0 top-0 z-[9999] hidden h-1.5 w-1.5 rounded-full pointer-events-none md:block"
+        style={{ backgroundColor: color }}
         animate={{ x: mousePos.x - 3, y: mousePos.y - 3 }}
         transition={{ type: "spring", damping: 30, stiffness: 250, mass: 0.5 }}
       />
       <motion.div
-        className="fixed left-0 top-0 z-[9998] hidden h-10 w-10 rounded-full border border-ink/20 pointer-events-none md:block"
+        className="fixed left-0 top-0 z-[9998] hidden h-10 w-10 rounded-full border pointer-events-none md:block"
+        style={{ borderColor: `color-mix(in srgb, ${color} 24%, transparent)` }}
         animate={{
           x: mousePos.x - 20,
           y: mousePos.y - 20,
           scale: isHovering ? 1.5 : 1,
-          backgroundColor: isHovering
-            ? "rgba(10, 17, 40, 0.05)"
-            : "transparent",
+          backgroundColor: isHovering ? hoverBackgroundColor : "transparent",
         }}
         transition={{ type: "spring", damping: 25, stiffness: 150, mass: 0.8 }}
       />
@@ -173,7 +179,8 @@ export const Navbar = () => {
       className={`fixed left-0 right-0 top-0 z-[200] flex h-20 items-center transition-all duration-300 ${
         isScrolled
           ? "border-b border-border bg-white/95 backdrop-blur-md"
-          : "bg-transparent"
+          : "bg-white/95"
+          // : "bg-transparent"
       }`}
     >
       <div className="custom-container w-full">
@@ -494,7 +501,7 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          <div className="border border-border bg-white divide-y divide-border mt-6 lg:mt-10">
+          <div className="border border-border bg-white divide-y divide-border">
             {[
               {
                 label: "Setup Time",
