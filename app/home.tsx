@@ -20,6 +20,7 @@ import {
   X,
 } from "lucide-react";
 import pageContent from "./pageContent.json";
+import Link from "next/link";
 
 const iconMap = {
   chart: BarChart3,
@@ -56,12 +57,12 @@ const navDropdowns = {
     {
       title: "Nomyx Engine",
       description: "The operating system for digital assets with infinite upgradability",
-      href: "#platform",
+      href: "/nomyx-engine",
     },
     {
       title: "Nomyx ID",
       description: "On-chain identity and compliance verification system",
-      href: "#platform",
+      href: "/nomyx-id",
     },
     {
       title: "Nomyx Gateway",
@@ -110,7 +111,7 @@ const NavBorderTrace = ({ active = false }: { active?: boolean }) => {
   );
 };
 
-const CustomCursor = () => {
+export const CustomCursor = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
@@ -156,7 +157,7 @@ const CustomCursor = () => {
   );
 };
 
-const Navbar = () => {
+export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -570,7 +571,7 @@ const SectionHeader = ({
   </div>
 );
 
-const Partners = () => {
+export const Partners = () => {
   const marqueePartners = [
     ...pageContent.partners.items,
     ...pageContent.partners.items,
@@ -614,7 +615,7 @@ const Partners = () => {
   );
 };
 
-const ValueProp = () => (
+export const ValueProp = () => (
   <section id="solutions" className="border-b border-border">
     <SectionHeader
       title={pageContent.value.title}
@@ -649,7 +650,7 @@ const ValueProp = () => (
   </section>
 );
 
-const RoleInfrastructure = () => (
+export const RoleInfrastructure = () => (
   <section id="platform" className="border-b border-border bg-slate-50/60">
     <SectionHeader title={pageContent.roles.title} />
 
@@ -738,7 +739,7 @@ const RoleInfrastructure = () => (
   </section>
 );
 
-const SmartContracts = () => (
+export const SmartContracts = () => (
   <section id="the-diamond-standard" className="border-b border-border">
     <div className="custom-container py-16 md:py-20">
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
@@ -782,7 +783,7 @@ const SmartContracts = () => (
   </section>
 );
 
-const Developers = () => (
+export const Developers = () => (
   <section id="developers" className="border-b border-border bg-ink text-white">
     <div className="custom-container py-16 md:py-20">
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
@@ -837,7 +838,7 @@ const Developers = () => (
   </section>
 );
 
-const Security = () => (
+export const Security = () => (
   <section id="resources" className="border-b border-border">
     <SectionHeader
       title={pageContent.security.title}
@@ -869,7 +870,7 @@ const Security = () => (
   </section>
 );
 
-const CTA = () => (
+export const CTA = () => (
   <section id="cta" className="border-b border-border bg-slate-50/50 py-20 md:py-24">
     <div className="custom-container text-center">
       <h2 className="section-heading mb-8">{pageContent.cta.title}</h2>
@@ -888,30 +889,30 @@ const CTA = () => (
   </section>
 );
 
-const Footer = () => (
-  <footer className="bg-ink py-14 text-white md:py-16">
+export const Footer = () => (
+  <footer className="bg-white py-14 md:py-16">
     <div className="custom-container">
       <div className="grid grid-cols-1 gap-10 border-b border-white/10 pb-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4">
-          <a href="#" className="mb-5 block">
-            <img src="/nomyx-logo.png" alt="Nomyx" className="h-10 w-auto invert" />
-          </a>
-          <p className="max-w-xs text-sm leading-relaxed text-white/65">
+          <Link href="/" className="mb-5 block">
+            <img src="/nomyx-logo.png" alt="Nomyx" className="h-10 w-auto" />
+          </Link>
+          <p className="max-w-xs text-sm leading-relaxed ">
             {pageContent.footer.description}
           </p>
         </div>
 
         {pageContent.footer.columns.map((column) => (
           <div key={column.title} className="lg:col-span-2">
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-white">
+            <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] ">
               {column.title}
             </h4>
-            <ul className="space-y-3 text-sm text-white/65">
+            <ul className="space-y-3 text-sm /65">
               {column.links.map((link) => (
                 <li key={link}>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <Link href="#" className="transition-colors ">
                     {link}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -920,14 +921,14 @@ const Footer = () => (
       </div>
 
       <div className="flex flex-col items-center justify-between gap-5 pt-8 lg:flex-row">
-        <div className="text-xs uppercase tracking-[0.12em] text-white/55">
+        <div className="text-xs uppercase tracking-[0.12em] ">
           {pageContent.footer.copyright}
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-white/55">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs ">
           {pageContent.footer.legal.map((link) => (
-            <a key={link} href="#" className="transition-colors hover:text-white">
+            <Link key={link} href="#" className="transition-colors">
               {link}
-            </a>
+            </Link>
           ))}
         </div>
       </div>
