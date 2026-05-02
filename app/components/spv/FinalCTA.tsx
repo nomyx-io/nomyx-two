@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
-import { fadeUp, forceHomeNavigation, HoverTextSwap } from "../evergreen/shared";
+import { AnimatedButton } from "../AnimatedButton";
+import { fadeUp, forceHomeNavigation } from "../evergreen/shared";
 
 export const SpvFinalCTA = () => (
   <section className="relative overflow-hidden bg-ink px-6 py-20 text-center text-white md:py-24">
@@ -21,17 +21,14 @@ export const SpvFinalCTA = () => (
       <h2 className="section-heading mx-auto mb-8 max-w-3xl text-white">
         Ready For Your Next Deal?
       </h2>
-      <motion.a
+      <AnimatedButton
         href="/#cta"
-        initial="rest"
-        whileHover="hover"
-        animate="rest"
+        text="Launch An SPV Demo"
+        bgColor="bg-white"
+        hoverBgColor="hover:bg-white/90"
+        textColor="text-ink"
         onClick={(event) => forceHomeNavigation(event, "/#cta")}
-        className="inline-flex h-14 items-center gap-3 bg-white px-8 text-xs font-black uppercase tracking-[0.14em] text-ink transition-colors hover:bg-white/90"
-      >
-        <HoverTextSwap text="Launch An SPV Demo" />
-        <ArrowRight size={16} />
-      </motion.a>
+      />
     </motion.div>
   </section>
 );
