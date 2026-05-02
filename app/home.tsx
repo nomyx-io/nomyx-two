@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import pageContent from "./pageContent.json";
 import Link from "next/link";
+import type { BlogPost } from "@/lib/blogs";
 
 const iconMap = {
   chart: BarChart3,
@@ -76,6 +77,11 @@ const navDropdowns = {
       title: "Technical Documentation",
       description: "Institutional library of guides, briefs, and reports",
       href: "/resources",
+    },
+    {
+      title: "Blog",
+      description: "Published insights, updates, and market commentary",
+      href: "/blog",
     },
   ],
 } satisfies Partial<
@@ -976,6 +982,81 @@ export const CTA = () => (
   </section>
 );
 
+const formatBlogDate = (value: string | null) => {
+  if (!value) {
+    return "Unscheduled";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(value));
+};
+
+const FeaturedBlogs = ({ blogs }: { blogs: BlogPost[] }) => {
+  if (blogs.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="border-b border-border bg-white py-20 md:py-24">
+      <div className="custom-container">
+        <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-accent">
+              Featured Insights
+            </p>
+            <h2 className="section-heading max-w-3xl">From The Blog</h2>
+          </div>
+          <Link
+            href="/blog"
+            className="inline-flex h-11 items-center justify-center border border-border px-5 text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-slate-50"
+          >
+            View All Posts
+          </Link>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          {blogs.map((blog) => (
+            <article key={blog.id} className="border border-border bg-white">
+              {blog.cover_image_url ? (
+                <img
+                  src={blog.cover_image_url}
+                  alt={blog.title}
+                  className="h-64 w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-64 items-center justify-center bg-slate-100 text-sm font-bold uppercase tracking-[0.16em] text-ink-muted">
+                  No Image
+                </div>
+              )}
+
+              <div className="p-6">
+                <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent">
+                  {formatBlogDate(blog.published_at)}
+                </p>
+                <h3 className="mb-4 text-2xl font-black uppercase tracking-tight">
+                  {blog.title}
+                </h3>
+                <p className="mb-6 text-base leading-relaxed text-ink-muted">
+                  {blog.excerpt || "Featured article"}
+                </p>
+                <Link
+                  href={`/blog/${blog.slug}`}
+                  className="inline-flex h-11 items-center justify-center border border-border px-5 text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-slate-50"
+                >
+                  Read More
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export const Footer = () => (
   <footer className="bg-white py-14 md:py-16">
     <div className="custom-container">
@@ -1023,7 +1104,7 @@ export const Footer = () => (
   </footer>
 );
 
-export default function Home() {
+export default function Home({ featuredBlogs = [] }: { featuredBlogs?: BlogPost[] }) {
   return (
     <div className="min-h-screen bg-bg font-sans text-ink">
       <CustomCursor />
@@ -1038,6 +1119,7 @@ export default function Home() {
         <Developers />
         <Security />
         <CTA />
+        <FeaturedBlogs blogs={featuredBlogs} />
       </main>
 
       <Footer />

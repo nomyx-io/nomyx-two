@@ -1,5 +1,9 @@
 import Home from "./home";
 
-export default function Page() {
-  return <Home />;
+import { getFeaturedBlogs } from "@/lib/blogs";
+
+export default async function Page() {
+  const featuredBlogs = await getFeaturedBlogs(3);
+
+  return <Home featuredBlogs={featuredBlogs} />;
 }

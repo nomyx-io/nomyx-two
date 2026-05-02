@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ToastProvider from "@/app/components/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Nomyx - Agile Infrastructure for Institutional Capital",
@@ -17,7 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <ToastProvider />
+      </body>
     </html>
   );
 }
