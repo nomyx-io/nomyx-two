@@ -67,4 +67,138 @@
   .glass-card {
     @apply bg-white/40 backdrop-blur-md border border-white/60;
   }
+
+  .app-grid-bg {
+    background-image:
+      linear-gradient(rgba(10, 17, 40, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10, 17, 40, 0.035) 1px, transparent 1px),
+      linear-gradient(180deg, #ffffff 0%, #ffffff 52%, #f8fafc 100%);
+    background-size: 56px 56px, 56px 56px, auto;
+  }
+
+  .app-panel {
+    @apply border border-border bg-white shadow-[0_20px_70px_rgba(10,17,40,0.07)];
+  }
+
+  .app-hairline {
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ink/35 to-transparent;
+  }
+
+  .app-scanline {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(10, 17, 40, 0.22) 48%,
+      rgba(10, 17, 40, 0.06) 50%,
+      transparent 100%
+    );
+    animation: scanline 6.6s ease-in-out infinite;
+  }
+
+  .app-float {
+    animation: app-float 8s ease-in-out infinite;
+  }
+
+  .app-pulse {
+    animation: app-pulse 3.2s ease-in-out infinite;
+  }
+
+  .app-reveal {
+    animation: app-reveal 0.65s ease-out both;
+  }
+
+  .app-lift {
+    transition: transform 280ms ease, box-shadow 280ms ease, border-color 280ms ease,
+      background-color 280ms ease;
+  }
+
+  .app-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 28px 70px rgba(10, 17, 40, 0.12);
+  }
+
+  .app-line-stack {
+    background-image: repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.16) 0,
+      rgba(255, 255, 255, 0.16) 1px,
+      transparent 1px,
+      transparent 18px
+    );
+    animation: line-stack 9s linear infinite;
+  }
+
+  .app-border-orbit {
+    animation: border-orbit 7s ease-in-out infinite;
+  }
+
+  @keyframes scanline {
+    0%,
+    100% {
+      transform: translateX(-110%);
+      opacity: 0;
+    }
+    12%,
+    78% {
+      opacity: 1;
+    }
+    90% {
+      transform: translateX(110%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes app-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  @keyframes app-pulse {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes app-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes line-stack {
+    from {
+      background-position-y: 0;
+    }
+    to {
+      background-position-y: 72px;
+    }
+  }
+
+  @keyframes border-orbit {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+      opacity: 0.22;
+    }
+    50% {
+      transform: translate3d(10px, -10px, 0) rotate(6deg);
+      opacity: 0.42;
+    }
+  }
 }

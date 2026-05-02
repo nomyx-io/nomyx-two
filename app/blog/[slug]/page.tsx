@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, Clock3 } from "lucide-react";
+import { CalendarDays, ChevronRight, Clock3, ListTree } from "lucide-react";
 
 import { CustomCursor, Footer, Navbar } from "@/app/home";
 import { getPublishedBlogBySlug, plainTextFromHtml } from "@/lib/blogs";
@@ -18,7 +18,7 @@ function formatDate(value: string | null) {
   }
 
   return new Intl.DateTimeFormat("en-US", {
-    month: "long",
+    month: "short",
     day: "numeric",
     year: "numeric",
   }).format(new Date(value));
@@ -33,88 +33,62 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   }
 
   const { content, headings } = enhanceBlogHtml(blog.content_html);
-  const wordCount = plainTextFromHtml(blog.content_html).split(/\s+/).filter(Boolean).length;
+  const plainText = plainTextFromHtml(blog.content_html);
+  const wordCount = plainText.split(/\s+/).filter(Boolean).length;
   const readTime = Math.max(1, Math.ceil(wordCount / 220));
+  const briefText = blog.excerpt || plainText.slice(0, 180);
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_18%,#ffffff_100%)] text-ink">
-      <CustomCursor />
+    <div className="min-h-screen bg-white text-ink">
+      <CustomCursor color="#0A1128" hoverBackgroundColor="rgba(10,17,40,0.06)" />
       <Navbar />
 
-      <main className="pt-28">
-        <article className="pb-24">
+      <main className="relative mx-auto max-w-8xl overflow-visible bg-white pt-20">
+        <div className="pointer-events-none absolute inset-x-0 top-20 h-[440px] border-b border-border bg-white">
+          <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#0A1128_1px,transparent_1px),linear-gradient(90deg,#0A1128_1px,transparent_1px)] [background-size:56px_56px]" />
+        </div>
+
+        <article className="relative py-8 md:py-12 lg:py-14">
           <div className="custom-container">
-            <div className="relative overflow-hidden border border-border bg-white shadow-[0_24px_80px_rgba(10,17,40,0.08)]">
-              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 via-accent to-cyan-400" />
-              <header className="relative overflow-hidden border-b border-border px-6 py-10 md:px-10 md:py-14">
-                <div className="absolute right-[-5%] top-[-10%] h-56 w-56 rounded-full bg-cyan-100/60 blur-3xl" />
-                <div className="absolute bottom-[-20%] left-[-5%] h-64 w-64 rounded-full bg-blue-100/70 blur-3xl" />
+            <div className="max-w-8xl mx-auto">
+              <nav
+                aria-label="Breadcrumb"
+                className="app-reveal mb-6 flex flex-wrap items-center gap-2 text-[16px] font-bold uppercase tracking-[0.16em] text-ink-muted"
+              >
+                <Link href="/" className="transition-colors hover:text-ink">
+                  Home
+                </Link>
+                <ChevronRight size={13} />
+                <Link href="/blog" className="transition-colors hover:text-ink">
+                  Blog
+                </Link>
+                <ChevronRight size={13} />
+                <span className=" text-accent ">
+                  {blog.title}
+                </span>
+              </nav>
 
-                <div className="relative z-10">
-                  <Link
-                    href="/blog"
-                    className="mb-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-ink-muted transition-colors hover:text-accent"
-                  >
-                    <ArrowLeft size={15} />
-                    Back To Blog
-                  </Link>
-
-                  <div className="mb-5 flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted">
-                    <span className="inline-flex items-center gap-2 border border-border bg-white/90 px-3 py-2">
-                      <CalendarDays size={14} className="text-accent" />
-                      {formatDate(blog.published_at)}
-                    </span>
-                    <span className="inline-flex items-center gap-2 border border-border bg-white/90 px-3 py-2">
-                      <Clock3 size={14} className="text-accent" />
-                      {readTime} min read
-                    </span>
-                    {blog.featured && (
-                      <span className="inline-flex items-center gap-2 border border-accent bg-accent/5 px-3 py-2 text-accent">
-                        Featured Post
-                      </span>
-                    )}
-                  </div>
-
-                  <h1 className="max-w-5xl text-[clamp(42px,7vw,72px)] font-black uppercase tracking-[-0.04em] leading-[0.92]">
-                    {blog.title}
-                  </h1>
-
-                  {blog.excerpt && (
-                    <p className="mt-6 max-w-3xl text-lg leading-relaxed text-ink-muted md:text-xl">
-                      {blog.excerpt}
-                    </p>
-                  )}
-                </div>
-              </header>
-
-              {blog.cover_image_url && (
-                <div className="border-b border-border bg-slate-50 px-6 py-6 md:px-10 md:py-10">
-                  <img
-                    src={blog.cover_image_url}
-                    alt={blog.title}
-                    className="h-auto max-h-[720px] w-full object-cover shadow-[0_24px_64px_rgba(10,17,40,0.12)]"
-                  />
-                </div>
-              )}
-
-              <div className="grid gap-10 px-6 py-10 md:px-10 md:py-14 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-14">
-                <aside className="lg:sticky lg:top-28 lg:self-start">
-                  <div className="border border-border bg-slate-50">
-                    <div className="border-b border-border px-5 py-4">
-                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent">
+              <div className="grid gap-7 lg:grid-cols-[270px_minmax(0,1fr)] lg:items-start">
+                <aside className="app-reveal lg:sticky lg:top-28 lg:self-start">
+                  <div className="relative overflow-hidden border border-border bg-white text-ink shadow-[0_18px_48px_rgba(10,17,40,0.06)]">
+                    <span className="app-border-orbit pointer-events-none absolute -right-8 top-8 h-20 w-20 border border-ink/10" />
+                    <span className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-ink/25 to-transparent" />
+                    <div className="relative border-b border-border px-5 py-4">
+                      <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-accent">
+                        <ListTree size={15} />
                         Table Of Contents
                       </p>
                     </div>
 
-                    <div className="px-5 py-5">
+                    <div className="relative px-5 py-5">
                       {headings.length > 0 ? (
-                        <nav className="space-y-3">
+                        <nav className="space-y-1">
                           {headings.map((heading) => (
                             <a
                               key={heading.id}
                               href={`#${heading.id}`}
-                              className={`block text-sm leading-relaxed text-ink-muted transition-colors hover:text-accent ${
-                                heading.level === 3 ? "pl-4" : ""
+                              className={`block border-l-2 border-border py-2 pr-2 text-sm leading-relaxed text-ink-muted transition-all duration-200 hover:border-ink hover:text-ink ${
+                                heading.level === 3 ? "pl-5" : "pl-3"
                               }`}
                             >
                               {heading.text}
@@ -122,18 +96,67 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                           ))}
                         </nav>
                       ) : (
-                        <p className="text-sm leading-relaxed text-ink-muted">
-                          Add `H2` and `H3` headings in the editor to generate a table of contents here.
-                        </p>
+                        <p className="text-sm leading-relaxed text-ink-muted">{briefText}</p>
                       )}
+
+                      <div className="mt-6 grid gap-3 border-t border-border pt-5 text-[10px] font-bold uppercase tracking-[0.14em] text-ink-muted">
+                        <div className="flex items-center justify-between gap-3">
+                          <span>Published</span>
+                          <span className="text-ink">{formatDate(blog.published_at)}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-3">
+                          <span>Read Time</span>
+                          <span className="text-ink">{readTime} Min</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </aside>
 
-                <div
-                  className="min-w-0 text-[17px] leading-8 text-ink md:text-[18px] [&_a]:font-semibold [&_a]:text-accent [&_blockquote]:my-10 [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:bg-slate-50 [&_blockquote]:px-6 [&_blockquote]:py-5 [&_blockquote]:italic [&_h2]:scroll-mt-28 [&_h2]:mt-14 [&_h2]:mb-5 [&_h2]:text-4xl [&_h2]:font-black [&_h2]:uppercase [&_h2]:tracking-tight [&_h3]:scroll-mt-28 [&_h3]:mt-10 [&_h3]:mb-4 [&_h3]:text-2xl [&_h3]:font-black [&_li]:ml-6 [&_li]:mb-2 [&_li]:list-disc [&_ol]:mb-6 [&_ol]:pl-6 [&_p]:mb-6 [&_ul]:mb-6"
-                  dangerouslySetInnerHTML={{ __html: content }}
-                />
+                <section className="min-w-0">
+                  <div className="app-reveal border border-border bg-white p-6 shadow-[0_22px_70px_rgba(10,17,40,0.08)] sm:p-8 lg:p-10">
+                    <div className="mb-5 flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted">
+                      <span className="inline-flex h-9 items-center gap-2 border border-border bg-white px-3">
+                        <CalendarDays size={14} className="text-accent" />
+                        {formatDate(blog.published_at)}
+                      </span>
+                      <span className="inline-flex h-9 items-center gap-2 border border-border bg-white px-3">
+                        <Clock3 size={14} className="text-accent" />
+                        {readTime} min read
+                      </span>
+                      {blog.featured && (
+                        <span className="inline-flex h-9 items-center border border-ink bg-ink px-3 text-white">
+                          Featured
+                        </span>
+                      )}
+                    </div>
+
+                    <h1 className="max-w-5xl text-[clamp(34px,5vw,60px)] font-black uppercase leading-[0.95] tracking-tight">
+                      {blog.title}
+                    </h1>
+
+                    {/* {blog.excerpt && (
+                      <p className="mt-5 max-w-3xl text-base leading-relaxed text-ink-muted md:text-lg">
+                        {blog.excerpt}
+                      </p>
+                    )} */}
+
+                    {blog.cover_image_url && (
+                      <div className="mt-8 overflow-hidden border border-border bg-ink shadow-[0_18px_54px_rgba(10,17,40,0.10)]">
+                        <img
+                          src={blog.cover_image_url}
+                          alt={blog.title}
+                          className="aspect-[16/8.7] w-full object-cover"
+                        />
+                      </div>
+                    )}
+
+                    <div
+                      className="mt-8 min-w-0 text-[16px] leading-8 text-ink md:text-[17px] [&_a]:font-semibold [&_a]:text-accent [&_blockquote]:my-8 [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:bg-slate-50 [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:italic [&_h2]:scroll-mt-28 [&_h2]:mt-12 [&_h2]:mb-5 [&_h2]:text-2xl [&_h2]:font-black [&_h2]:uppercase [&_h2]:tracking-tight md:[&_h2]:text-3xl [&_h3]:scroll-mt-28 [&_h3]:mt-9 [&_h3]:mb-4 [&_h3]:text-xl [&_h3]:font-black [&_h3]:uppercase [&_img]:border [&_img]:border-border [&_li]:ml-6 [&_li]:mb-2 [&_li]:list-disc [&_ol]:mb-6 [&_ol]:pl-6 [&_p]:mb-6 [&_ul]:mb-6"
+                      dangerouslySetInnerHTML={{ __html: content }}
+                    />
+                  </div>
+                </section>
               </div>
             </div>
           </div>
