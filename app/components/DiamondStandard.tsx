@@ -162,27 +162,16 @@ const DiamondArchitecture = () => (
 const DiamondHero = () => (
   <section className="relative overflow-hidden border-b border-border bg-white pt-28 text-ink">
     <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_26%,rgba(30,58,138,0.08),transparent_32%)]" />
-    <div className="absolute inset-0 opacity-[0.055] [background-image:linear-gradient(#0A1128_1px,transparent_1px),linear-gradient(90deg,#0A1128_1px,transparent_1px)] [background-size:56px_56px]" />
-    <motion.div
-      className="absolute left-[7%] top-36 h-36 w-36 rotate-12 border border-cyan-300/15"
-      animate={{ rotate: [12, 27, 12], y: [0, 14, 0] }}
-      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-    />
-    <motion.div
-      className="absolute bottom-16 right-[6%] h-28 w-28 -rotate-6 border border-accent/20"
-      animate={{ rotate: [-6, -18, -6], y: [0, -12, 0] }}
-      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-    />
 
     <div className="custom-container relative grid grid-cols-1 items-center gap-12 py-20 md:py-24 lg:grid-cols-[0.95fr_1.05fr]">
       <motion.div initial="hidden" animate="show" transition={{ staggerChildren: 0.1 }}>
         <motion.div
           variants={fadeUp}
-          className="mb-7 inline-flex border border-accent/30 bg-accent/5 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-accent"
+          className="mb-7 inline-flex border border-accent/30  px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-accent"
         >
           EIP-2535 Architecture
         </motion.div>
-        <h1 className="mb-6 max-w-4xl font-black leading-[0.94] tracking-tight text-ink text-[clamp(46px,6vw,84px)]">
+        <h1 className="text-display text-[clamp(48px,8.0vw,60px)] mb-6 mt-1">
           {titleWords.map((word, index) => (
             <motion.span
               key={word}
@@ -204,7 +193,7 @@ const DiamondHero = () => (
           whileHover="hover"
           animate="rest"
           onClick={(event) => forceHomeNavigation(event, "/#cta")}
-          className="inline-flex h-14 items-center gap-3 bg-accent px-8 text-xs font-black uppercase tracking-[0.14em] text-white transition-colors hover:bg-accent/90"
+          className="h-14 min-w-[190px] px-8 inline-flex items-center justify-center gap-3 bg-ink text-white font-bold uppercase tracking-[0.14em] hover:bg-ink/90 transition-colors"
         >
           <HoverTextSwap text="Consult With Our Solutions Architect" />
           <ArrowRight size={16} />

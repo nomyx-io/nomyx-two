@@ -13,6 +13,8 @@ export const AnimatedButton = ({
   onClick,
   className = "",
   showArrow = true,
+  target,
+  rel,
 }: {
   href: string;
   text: string;
@@ -22,9 +24,13 @@ export const AnimatedButton = ({
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   className?: string;
   showArrow?: boolean;
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
 }) => (
   <motion.a
     href={href}
+    target={target}
+    rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
     initial="rest"
     whileHover="hover"
     animate="rest"
@@ -35,4 +41,3 @@ export const AnimatedButton = ({
     {showArrow && <ArrowRight size={16} />}
   </motion.a>
 );
-

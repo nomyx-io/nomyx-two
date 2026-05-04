@@ -2,20 +2,20 @@
 
 import { motion } from "motion/react";
 import { Bolt, CreditCard, Cpu, HandCoins, Settings } from "lucide-react";
-import { fadeUp, HoverTextSwap, SectionIntro } from "../evergreen/shared";
+import { fadeUp, SectionIntro } from "../evergreen/shared";
 
 const steps = [
   [HandCoins, "Step 1", "Capital Aggregation", "LPs subscribe via stablecoins into a compliance-gated smart contract."],
-  [CreditCard, "Step 2", "Deployment", "Funds convert to fiat and wire to your off-chain borrower or servicer."],
-  [Settings, "Step 3", "Off-Chain Servicing", "Your servicer collects repayments and interest from the borrower in fiat."],
-  [Bolt, "Step 4", "Atomic Distribution", "Yield is bridged back on-chain and distributed to LP wallets in one transaction."],
+  [CreditCard, "Step 2", "Deployment", "Funds are converted to fiat and wired to your off-chain borrower or servicer."],
+  [Settings, "Step 3", "Off-Chain Servicing", "Your existing servicer collects repayments and interest from the borrower in fiat."],
+  [Bolt, "Step 4", "Atomic Distribution", "Yield is bridged back on-chain. The Nomyx Engine splits and sends payments to all LP wallets in a single transaction."],
 ];
 
 export const YieldBridge = () => (
   <section className="border-b border-border py-20 md:py-24">
     <div className="custom-container">
       <SectionIntro
-        eyebrow="Yield Bridge"
+        // eyebrow="Yield Bridge"
         title="Bridging Real World Yield To Digital Investors."
         description="Keep your existing loan servicing partners. Upgrade your investor experience."
       />
@@ -48,9 +48,7 @@ export const YieldBridge = () => (
                 <TypedIcon size={24} />
               </div>
               <h3 className="mb-4 text-xl font-black uppercase tracking-tight text-ink">
-                <motion.span initial="rest" whileHover="hover" animate="rest" className="inline-block">
-                  <HoverTextSwap text={title as string} />
-                </motion.span>
+                {title as string}
               </h3>
               <p className="text-sm leading-relaxed text-ink-muted">{text as string}</p>
             </motion.div>

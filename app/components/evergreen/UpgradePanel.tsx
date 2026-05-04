@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Layers3, LockKeyhole, RefreshCw, Shield } from "lucide-react";
-import { fadeUp, HoverTextSwap } from "./shared";
+import { RefreshCw, Shield, Zap } from "lucide-react";
+import { fadeUp } from "./shared";
 
 const OrbitGraphic = () => (
   <div className="relative flex h-56 w-56 items-center justify-center border border-white/20">
@@ -46,28 +46,23 @@ export const UpgradePanel = () => (
           <OrbitGraphic />
         </div>
         <div className="p-8 md:p-12">
-          <div className="mb-5 inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-accent">
-            Diamond Standard
-          </div>
-          <h2 className="section-heading mb-6">Built For Regulations That Change.</h2>
+          <h2 className="section-heading mb-6">Built for the Long Haul.</h2>
           <p className="mb-10 max-w-3xl text-lg leading-relaxed text-ink-muted">
-            Evergreen funds should not migrate assets every time compliance changes. Upgrade modules while keeping token addresses, investor records, and fund operations intact.
+            Evergreen funds need evergreen technology. Powered by the Diamond Standard (EIP-2535), your fund's smart contracts are upgradable. Adapt to new regulations in 2030 without migrating assets or disrupting your LPs.
           </p>
           <div className="grid grid-cols-1 border border-border sm:grid-cols-3">
             {[
-              [Layers3, "Modular", "Swap logic independently"],
-              [LockKeyhole, "Controlled", "Protect core storage"],
-              [RefreshCw, "Upgradeable", "Adapt without migration"],
+              [RefreshCw, "Future-Proof", "Upgrade without migration"],
+              [Shield, "Regulatory Ready", "Adapt to new compliance"],
+              [Zap, "Zero Disruption", "LPs stay unaffected"],
             ].map(([Icon, title, text]) => {
-              const TypedIcon = Icon as typeof Layers3;
+              const TypedIcon = Icon as typeof RefreshCw;
 
               return (
                 <div key={title as string} className="group border-b border-border p-5 transition-colors hover:bg-slate-50 sm:border-b-0 sm:border-r last:sm:border-r-0">
                   <TypedIcon className="mb-4 text-accent transition-transform group-hover:translate-x-1" size={24} />
                   <h3 className="mb-2 text-sm font-black uppercase tracking-tight text-ink">
-                    <motion.span initial="rest" whileHover="hover" animate="rest" className="inline-block">
-                      <HoverTextSwap text={title as string} />
-                    </motion.span>
+                    {title as string}
                   </h3>
                   <p className="text-sm leading-relaxed text-ink-muted">{text as string}</p>
                 </div>

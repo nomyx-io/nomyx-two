@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { Banknote, FileSearch, KeyRound, Users } from "lucide-react";
-import { fadeUp, HoverTextSwap, SectionIntro } from "../evergreen/shared";
+import { fadeUp, SectionIntro } from "../evergreen/shared";
 
 export const OwnershipFlow = () => (
   <section className="border-b border-border py-20 md:py-24">
@@ -43,9 +43,7 @@ export const OwnershipFlow = () => (
                 <TypedIcon size={24} />
               </div>
               <h3 className="mb-4 text-2xl font-black uppercase tracking-tight text-ink">
-                <motion.span initial="rest" whileHover="hover" animate="rest" className="inline-block">
-                  <HoverTextSwap text={title as string} />
-                </motion.span>
+                {title as string}
               </h3>
               <p className="text-sm leading-relaxed text-ink-muted">{text as string}</p>
             </motion.div>

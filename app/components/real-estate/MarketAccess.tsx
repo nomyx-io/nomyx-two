@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { ArrowRightLeft, BadgeCheck, LockKeyhole } from "lucide-react";
-import { fadeUp, HoverTextSwap, SectionIntro } from "../evergreen/shared";
+import { fadeUp, SectionIntro } from "../evergreen/shared";
 
 export const MarketAccess = () => (
   <section className="border-b border-border py-20 md:py-24">
@@ -31,9 +31,7 @@ export const MarketAccess = () => (
             >
               <TypedIcon className="mb-6 text-accent transition-transform group-hover:translate-x-1" size={28} />
               <h3 className="mb-4 text-2xl font-black uppercase tracking-tight text-ink">
-                <motion.span initial="rest" whileHover="hover" animate="rest" className="inline-block">
-                  <HoverTextSwap text={title as string} />
-                </motion.span>
+                {title as string}
               </h3>
               <p className="text-sm leading-relaxed text-ink-muted">{text as string}</p>
             </motion.div>

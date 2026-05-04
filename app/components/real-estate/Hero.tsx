@@ -16,14 +16,7 @@ const BuildingVisual = () => (
   >
     {/* border border-border bg-white p-8 shadow-[0_30px_80px_rgba(10,17,40,0.12)] */}
     <div className="relative overflow-hidden ">
-       {/* [background-image:linear-gradient(#0A1128_1px,transparent_1px),linear-gradient(90deg,#0A1128_1px,transparent_1px)] [background-size:28px_28px] */}
       <div className="absolute inset-0 opacity-[0.045]" />
-      <motion.div
-        className="absolute right-8 top-8 h-24 w-24 rotate-45 border border-accent/15"
-        animate={{ rotate: [45, 60, 45], opacity: [0.35, 0.75, 0.35] }}
-        transition={{ duration: 6, repeat: Infinity }}
-      />
-
       <div className="relative mx-auto mb-7 max-w-xs border border-border bg-slate-50 p-5 text-center">
         <Building2 className="mx-auto mb-3 text-[#31d6c7]" size={32} />
         <div className="text-xs font-black uppercase tracking-[0.14em] text-ink-muted">Total Asset Value</div>
@@ -104,18 +97,12 @@ const BuildingVisual = () => (
 
 export const RealEstateHero = () => (
   <section className="relative overflow-hidden border-b border-border bg-white pt-28">
-    <div className="absolute inset-0 opacity-[0.055] [background-image:linear-gradient(#0A1128_1px,transparent_1px),linear-gradient(90deg,#0A1128_1px,transparent_1px)] [background-size:54px_54px]" />
-    <motion.div
-      className="absolute left-[7%] top-32 h-32 w-32 border border-accent/15"
-      animate={{ rotate: [0, 8, 0], y: [0, 12, 0] }}
-      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-    />
     <div className="custom-container relative grid grid-cols-1 items-center gap-12 py-20 md:py-24 lg:grid-cols-[1.05fr_0.95fr]">
       <motion.div initial="hidden" animate="show" transition={{ staggerChildren: 0.1 }}>
-        <motion.div variants={fadeUp} className="mb-7 inline-flex border border-accent/30 bg-accent/5 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-accent">
+        <motion.div variants={fadeUp} className="mb-7 inline-flex border border-accent/30  px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-accent">
           Solution: Real Estate
         </motion.div>
-        <motion.h1 className="text-display mb-6 max-w-4xl text-[clamp(50px,6.6vw,96px)] text-ink">
+        <motion.h1 className="text-display text-[clamp(48px,8.0vw,60px)] mb-6 mt-1">
           {titleWords.map((word, index) => (
             <motion.span
               key={`${word}-${index}`}

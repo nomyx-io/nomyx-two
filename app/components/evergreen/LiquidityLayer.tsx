@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { fadeUp, HoverTextSwap } from "./shared";
+import { fadeUp } from "./shared";
 
 export const LiquidityLayer = () => (
   <section className="border-b border-border py-20 md:py-24">
@@ -16,17 +16,14 @@ export const LiquidityLayer = () => (
       >
         <div className="flex items-center justify-between border-b border-border bg-ink px-6 py-4 text-white">
           <span className="text-sm font-black uppercase tracking-tight">
-            Controlled Secondary Liquidity
-          </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/55">
-            Whitelist Only
+            Secondary Market Bulletin Board
           </span>
         </div>
         <div className="divide-y divide-border p-6">
           {[
-            ["500 tokens", "$105.50", "LP #4782"],
-            ["1,200 tokens", "$104.25", "LP #2103"],
-            ["850 tokens", "$106.00", "LP #8891"],
+            ["500 Tokens Available", "$105.50 per token", "Seller: LP #4782 • Listed 2 days ago"],
+            ["1,200 Tokens Available", "$104.25 per token", "Seller: LP #2103 • Listed 5 days ago"],
+            ["850 Tokens Available", "$106.00 per token", "Seller: LP #8921 • Listed 1 week ago"],
           ].map(([amount, price, seller], index) => (
             <motion.div
               key={seller}
@@ -35,19 +32,18 @@ export const LiquidityLayer = () => (
               transition={{ type: "spring", stiffness: 260, damping: 22 }}
             >
               <div>
-                <h3 className="text-lg font-black uppercase tracking-tight text-ink">
-                  <motion.span initial="rest" whileHover="hover" animate="rest" className="inline-block">
-                    <HoverTextSwap text={`${amount} Available`} />
-                  </motion.span>
+                <h3 className="text-lg font-black tracking-tight text-ink">
+                  {amount}
                 </h3>
-                <p className="text-sm text-ink-muted">{price} per token - {seller}</p>
+                <p className="text-sm text-ink-muted">{price}</p>
+                <p className="mt-2 text-xs text-ink-muted">{seller}</p>
               </div>
               <motion.div
                 className="self-start border border-accent/30 px-3 py-1 text-xs font-bold uppercase tracking-[0.1em] text-accent"
                 animate={{ opacity: [0.6, 1, 0.6] }}
                 transition={{ duration: 2.2, repeat: Infinity, delay: index * 0.35 }}
               >
-                Passed
+                Compliance: Passed
               </motion.div>
             </motion.div>
           ))}
@@ -61,10 +57,10 @@ export const LiquidityLayer = () => (
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.55, delay: 0.1 }}
       >
-        <div className="mb-5 inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-accent">
+        {/* <div className="mb-5 inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-accent">
           Liquidity Layer
-        </div>
-        <h2 className="section-heading mb-6">Give LPs A Controlled Exit.</h2>
+        </div> */}
+        <h2 className="section-heading mb-6">Give LPs the Exit They Want.</h2>
         <p className="mb-8 max-w-2xl text-lg leading-relaxed text-ink-muted">
           Offer price discovery and early exits without forcing the fund to sell underlying assets or lower investor quality.
         </p>
@@ -75,10 +71,8 @@ export const LiquidityLayer = () => (
             ["Capital", "No forced liquidation"],
           ].map(([title, text]) => (
             <div key={title} className="group border-b border-border p-5 transition-colors hover:bg-slate-50 sm:border-b-0 sm:border-r last:sm:border-r-0">
-              <h3 className="mb-2 text-sm font-black uppercase tracking-tight text-ink group-hover:text-accent">
-                <motion.span initial="rest" whileHover="hover" animate="rest" className="inline-block">
-                  <HoverTextSwap text={title} />
-                </motion.span>
+              <h3 className="mb-2 text-sm font-black uppercase tracking-tight text-ink">
+                {title}
               </h3>
               <p className="text-sm leading-relaxed text-ink-muted">{text}</p>
             </div>

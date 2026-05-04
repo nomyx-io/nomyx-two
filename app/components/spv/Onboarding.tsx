@@ -2,15 +2,15 @@
 
 import { motion } from "motion/react";
 import { ShieldCheck, UserCheck, Zap } from "lucide-react";
-import { fadeUp, HoverTextSwap, SectionIntro } from "../evergreen/shared";
+import { fadeUp, SectionIntro } from "../evergreen/shared";
 
 export const Onboarding = () => (
   <section className="border-b border-border bg-slate-50/60 py-20 md:py-24">
     <div className="custom-container">
       <SectionIntro
-        eyebrow="Investor Onboarding"
+        // eyebrow="Investor Onboarding"
         title="Onboard Investors In Minutes."
-        description="Send links, verify eligibility, collect signatures, and move funds without chasing PDFs or wires."
+        description=""
       />
 
       <div className="mt-14 grid grid-cols-1 border border-border bg-white md:grid-cols-3">
@@ -38,9 +38,7 @@ export const Onboarding = () => (
                 {step as string}
               </div>
               <h3 className="mb-4 text-2xl font-black uppercase tracking-tight text-ink">
-                <motion.span initial="rest" whileHover="hover" animate="rest" className="inline-block">
-                  <HoverTextSwap text={title as string} />
-                </motion.span>
+                {title as string}
               </h3>
               <p className="text-base leading-relaxed text-ink-muted">{text as string}</p>
             </motion.div>

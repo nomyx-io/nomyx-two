@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { AnimatedButton } from "../AnimatedButton";
-import { fadeUp, forceHomeNavigation } from "../evergreen/shared";
+import { fadeUp } from "../evergreen/shared";
 
 export const SpvFinalCTA = () => (
   <section className="relative overflow-hidden bg-ink px-6 py-20 text-center text-white md:py-24">
@@ -22,12 +22,12 @@ export const SpvFinalCTA = () => (
         Ready For Your Next Deal?
       </h2>
       <AnimatedButton
-        href="/#cta"
+        href="https://calendly.com/ivan-j-nomyx"
         text="Launch An SPV Demo"
         bgColor="bg-white"
         hoverBgColor="hover:bg-white/90"
         textColor="text-ink"
-        onClick={(event) => forceHomeNavigation(event, "/#cta")}
+        target="_blank"
       />
     </motion.div>
   </section>

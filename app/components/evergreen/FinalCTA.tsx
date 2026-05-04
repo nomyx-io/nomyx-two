@@ -21,7 +21,7 @@ export const FinalCTA = () => (
     >
       <CircleDollarSign className="mx-auto mb-5 text-white/70" size={30} />
       <h2 className="section-heading mx-auto mb-8 max-w-4xl text-white">
-        Stop Running Evergreen Funds On Quarterly Deadlines.
+        Stop running your fund on quarterly deadlines.
       </h2>
       <motion.a
         href="/#cta"

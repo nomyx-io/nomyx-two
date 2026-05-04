@@ -13,9 +13,9 @@ export const DistributionEngine = () => (
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.55 }}
       >
-        <div className="mb-5 inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-accent">
+        {/* <div className="mb-5 inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-accent">
           Distribution Engine
-        </div>
+        </div> */}
         <h2 className="section-heading mb-6">Replace 500 Wire Transfers With 1 Transaction.</h2>
         <p className="max-w-xl text-lg leading-relaxed text-ink-muted">
           Manual quarterly distributions are an administrative nightmare. With Nomyx, when the off-chain payment clears, you trigger a single on-chain function. The smart contract calculates every LP share and distributes USDC instantly.

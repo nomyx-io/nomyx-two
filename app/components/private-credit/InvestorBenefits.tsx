@@ -2,12 +2,12 @@
 
 import { motion } from "motion/react";
 import { Eye, Repeat2, Shuffle } from "lucide-react";
-import { fadeUp, HoverTextSwap, SectionIntro } from "../evergreen/shared";
+import { fadeUp, SectionIntro } from "../evergreen/shared";
 
 export const InvestorBenefits = () => (
   <section className="border-b border-border py-20 md:py-24">
     <div className="custom-container">
-      <SectionIntro eyebrow="Investor Experience" title="What Your Investors Gain." />
+      <SectionIntro title="What Your Investors Gain." />
 
       <div className="mt-14 grid grid-cols-1 border border-border bg-white md:grid-cols-3">
         {[
@@ -30,9 +30,7 @@ export const InvestorBenefits = () => (
                 <TypedIcon size={22} />
               </div>
               <h3 className="mb-4 text-2xl font-black uppercase tracking-tight text-ink">
-                <motion.span initial="rest" whileHover="hover" animate="rest" className="inline-block">
-                  <HoverTextSwap text={title as string} />
-                </motion.span>
+                {title as string}
               </h3>
               <p className="text-sm leading-relaxed text-ink-muted">{text as string}</p>
             </motion.div>

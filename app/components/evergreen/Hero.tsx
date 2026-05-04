@@ -2,13 +2,13 @@
 
 import { motion } from "motion/react";
 import { ArrowRight, Activity, Database, RefreshCw } from "lucide-react";
-import { fadeUp, forceHomeNavigation, HoverTextSwap, HoverTextTrigger } from "./shared";
+import { fadeUp, forceHomeNavigation, HoverTextSwap } from "./shared";
 
 const headlineWords = ["Always-On", "Fund", "Infrastructure."];
 
 const AnimatedHeadline = () => (
   <motion.h1
-    className="text-display mb-6 max-w-5xl text-[clamp(52px,7vw,104px)] text-ink"
+    className="text-display text-[clamp(48px,8.0vw,60px)] mb-6 mt-1"
     aria-label="Always-On Fund Infrastructure."
   >
     {headlineWords.map((word, index) => (
@@ -108,11 +108,6 @@ const HeroConsole = () => (
     transition={{ delay: 0.18, duration: 0.6 }}
     className="group relative overflow-hidden border border-border bg-white shadow-[0_30px_80px_rgba(10,17,40,0.12)]"
   >
-    <motion.div
-      className="absolute -right-24 -top-24 h-56 w-56 border border-accent/10"
-      animate={{ rotate: 360 }}
-      transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-    />
     <div className="grid grid-cols-3 border-b border-border text-center">
       {[
         ["NAV", "$10.42"],
@@ -123,9 +118,7 @@ const HeroConsole = () => (
           <div className="mb-1 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
             {label}
           </div>
-          <HoverTextTrigger className="inline-block">
-            <HoverTextSwap text={value} className="text-2xl font-black text-ink" stagger={0.025} />
-          </HoverTextTrigger>
+          <div className="text-2xl font-black text-ink">{value}</div>
         </div>
       ))}
     </div>
@@ -150,7 +143,7 @@ const HeroConsole = () => (
             className="flex items-center gap-3 border-r border-border p-4 text-sm font-semibold text-ink-muted last:border-r-0"
           >
             <TypedIcon size={15} className="text-accent" />
-            <HoverTextSwap text={item as string} />
+            {item as string}
           </motion.div>
         );
       })}
@@ -160,22 +153,11 @@ const HeroConsole = () => (
 
 export const EvergreenHero = () => (
   <section className="relative overflow-hidden border-b border-border bg-white text-ink">
-    <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(#0A1128_1px,transparent_1px),linear-gradient(90deg,#0A1128_1px,transparent_1px)] [background-size:56px_56px]" />
-    <motion.div
-      className="absolute left-[8%] top-24 h-40 w-40 border border-accent/15"
-      animate={{ y: [0, 18, 0], rotate: [0, 5, 0] }}
-      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-    />
-    <motion.div
-      className="absolute bottom-16 right-[6%] h-28 w-28 border border-accent/15"
-      animate={{ y: [0, -16, 0], rotate: [0, -7, 0] }}
-      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-    />
     <div className="custom-container relative grid grid-cols-1 items-center gap-12 py-24 md:py-28 lg:grid-cols-[1.05fr_0.95fr]">
       <motion.div initial="hidden" animate="show" transition={{ staggerChildren: 0.12 }}>
         <motion.div
           variants={fadeUp}
-          className="mb-7 inline-flex border border-accent/30 bg-accent/5 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-accent"
+          className="mb-7 inline-flex border border-accent/30  px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-accent"
         >
           Solution: Evergreen & Open-Ended Funds
         </motion.div>

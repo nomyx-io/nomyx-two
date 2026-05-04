@@ -2,11 +2,11 @@
 
 import { motion } from "motion/react";
 import { Check, Calculator, Eye, Zap } from "lucide-react";
-import { fadeUp, HoverTextSwap, SectionIntro } from "../evergreen/shared";
+import { fadeUp, SectionIntro } from "../evergreen/shared";
 
 const steps = [
   ["Step 1", "Return Of Capital", "LP principal returned first", "100%"],
-  ["Step 2", "Preferred Return", "Target return threshold", "8%"],
+  ["Step 2", "Preferred Return (Hurdle)", "Target return threshold", "8%"],
   ["Step 3", "Carried Interest", "Split: LPs get 80%, GP gets 20%", "80/20"],
 ];
 
@@ -14,9 +14,9 @@ export const Waterfall = () => (
   <section className="border-b border-border py-20 md:py-24">
     <div className="custom-container">
       <SectionIntro
-        eyebrow="Waterfall Engine"
+        // eyebrow="Waterfall Engine"
         title="Perfect Waterfalls. Zero Spreadsheets."
-        description="Program carry logic once, then let the SPV execute the distribution rules when proceeds arrive."
+        description=""
       />
 
       <div className="mt-14 grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
@@ -46,9 +46,7 @@ export const Waterfall = () => (
                     {label}
                   </div>
                   <h3 className="text-xl font-black uppercase tracking-tight text-ink">
-                    <motion.span initial="rest" whileHover="hover" animate="rest" className="inline-block">
-                      <HoverTextSwap text={title} />
-                    </motion.span>
+                    {title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-ink-muted">{text}</p>
                 </div>
@@ -69,7 +67,7 @@ export const Waterfall = () => (
           <Calculator className="mb-6 text-accent" size={30} />
           <h2 className="section-heading mb-6">Program Your Carry Logic.</h2>
           <p className="mb-8 text-lg leading-relaxed text-ink-muted">
-            Forget manual calculations at exit. Encode LP preferences, hurdle rates, and GP catch-up logic directly into the SPV smart contract.
+            Forget manual calculations at exit. Encode your LP preferences, hurdle rates, and GP catch-up logic directly into the SPV smart contract. When the exit happens, funds distribute instantly according to the code.
           </p>
           <div className="space-y-5">
             {[

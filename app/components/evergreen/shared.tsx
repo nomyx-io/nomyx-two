@@ -20,7 +20,7 @@ export const SectionIntro = ({
   title,
   description,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description?: string;
 }) => (
@@ -32,9 +32,11 @@ export const SectionIntro = ({
     transition={{ duration: 0.55 }}
     className="mx-auto max-w-4xl text-center"
   >
-    <div className="mb-5 inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-accent">
-      {eyebrow}
-    </div>
+    {eyebrow && (
+      <div className="mb-5 inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-accent">
+        {eyebrow}
+      </div>
+    )}
     <h2 className="section-heading">{title}</h2>
     {description && (
       <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-ink-muted">

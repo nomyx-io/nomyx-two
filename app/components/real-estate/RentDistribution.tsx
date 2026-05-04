@@ -79,15 +79,15 @@ export const RentDistribution = () => (
         <div className="mb-5 inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-accent">
           Distribution Automation
         </div>
-        <h2 className="section-heading mb-6">Rental Yield Becomes Programmable Cash Flow.</h2>
+        <h2 className="section-heading mb-6">Rent Distributions on Autopilot.</h2>
         <p className="mb-8 max-w-xl text-lg leading-relaxed text-ink-muted">
-          Snapshot token holders, calculate pro-rata entitlement, and distribute rent to hundreds of wallets without reconciliation work.
+          Distribute rental income to hundreds of investors in a single click. The smart contract calculates the pro-rata share based on tokens held at the time of the snapshot and distributes USDC instantly.
         </p>
-        <div className="grid grid-cols-1 border border-border bg-white sm:grid-cols-3">
+        <div className="grid grid-cols-1 border border-border bg-white sm:grid-cols-2">
           {[
             [Clock3, "12 sec", "Distribution time"],
             [Banknote, "$5", "Gas cost"],
-            [Calculator, "0", "Manual calculations"],
+            // [Calculator, "0", "Manual calculations"],
           ].map(([Icon, value, label]) => {
             const TypedIcon = Icon as typeof Clock3;
             return (
