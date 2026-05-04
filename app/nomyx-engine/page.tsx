@@ -228,24 +228,17 @@ const EngineHero = () => (
 
 /* ── Deploy Once section ── */
 const DeployOnce = () => {
-  const [showSolution, setShowSolution] = useState(false);
-
-  useEffect(() => {
-    const id = setInterval(() => setShowSolution((p) => !p), 4000);
-    return () => clearInterval(id);
-  }, []);
-
   return (
-    <section className="border-b border-border section-padding overflow-hidden">
+    <section className="border-b border-border section-padding overflow-hidden bg-white">
       <div className="custom-container">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-14 md:mb-18"
+          className="text-center mb-12 md:mb-16"
         >
-          <h2 className="section-heading mb-5">
+          <h2 className="section-heading mb-4">
             Deploy Once. Upgrade Forever.
           </h2>
           <p className="text-base md:text-lg text-ink-muted max-w-2xl mx-auto leading-relaxed">
@@ -255,64 +248,62 @@ const DeployOnce = () => {
         </motion.div>
 
         {/* Two-panel comparison */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-border">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+          
           {/* ── LEFT: The Problem ── */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="p-8 md:p-10 border-b lg:border-b-0 lg:border-r border-border bg-white"
+            className="flex flex-col rounded-[2rem] border border-slate-200 bg-white shadow-sm overflow-hidden"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
-                <Lock size={18} className="text-red-500" />
+            {/* Text Section */}
+            <div className="bg-slate-50 p-6 md:p-8 border-b border-slate-100 flex-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                  <Lock size={18} className="text-red-500" />
+                </div>
+                <h3 className="text-xl font-black uppercase tracking-tight text-ink">
+                  The Problem
+                </h3>
               </div>
-              <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight">
-                The Problem
-              </h3>
+              <p className="text-sm md:text-base text-slate-500 leading-relaxed font-medium">
+                Financial institutions rely on flexibility in their assets to maintain compliance in an evolving regulatory environment. However, traditional smart contracts are immutable. If regulations change, you have to migrate tokens — a security nightmare.
+              </p>
             </div>
 
-            <p className="text-base text-ink-muted leading-relaxed mb-8">
-              Financial institutions rely on flexibility in their assets to
-              maintain compliance in an evolving regulatory environment. However,
-              traditional smart contracts immutable. If regulations change, you
-              have to migrate tokens — a security nightmare.
-            </p>
-
-            {/* Traditional contract mock */}
-            <div className="border border-border bg-slate-50 p-5">
-              <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-ink-muted mb-5">
-                Traditional Smart Contracts
-              </div>
-
+            {/* Visual Box */}
+            <div className="p-6 md:p-8 bg-white">
               {/* Mini contract card */}
-              <div className="flex items-center gap-3 bg-white border border-border p-4 mb-5">
-                <div className="w-10 h-10 bg-slate-100 rounded flex items-center justify-center flex-shrink-0">
-                  <Lock size={16} className="text-slate-400" />
+              <div className="flex items-center gap-4 bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6 shadow-sm">
+                <div className="w-12 h-12 bg-white border border-slate-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                  <Lock size={20} className="text-slate-400" />
                 </div>
-                <div className="flex-1 space-y-1.5">
-                  <div className="h-2 w-24 bg-slate-200 rounded-full" />
-                  <div className="h-2 w-16 bg-slate-100 rounded-full" />
+                <div className="flex-1">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">
+                    Traditional Smart Contracts
+                  </div>
+                  <div className="flex gap-2.5">
+                    <div className="h-2 w-20 bg-slate-200 rounded-full" />
+                    <div className="h-2 w-12 bg-slate-200 rounded-full" />
+                  </div>
                 </div>
-                <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center">
-                  <XCircle size={14} className="text-red-400" />
+                <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                  <XCircle size={18} className="text-red-500" />
                 </div>
               </div>
 
               {/* Limitation badges */}
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 {[
                   "Cannot be modified after deployment",
                   "Must be completely replaced if changes arise",
                   "Cannot reference live data",
                 ].map((text) => (
-                  <div key={text} className="flex items-start gap-2.5">
-                    <XCircle
-                      size={15}
-                      className="text-red-400 mt-0.5 flex-shrink-0"
-                    />
-                    <span className="text-sm text-ink-muted leading-snug">
+                  <div key={text} className="flex items-start gap-3">
+                    <XCircle size={18} className="text-red-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm font-medium text-slate-600 leading-snug">
                       {text}
                     </span>
                   </div>
@@ -323,77 +314,64 @@ const DeployOnce = () => {
 
           {/* ── RIGHT: The Solution ── */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="p-8 md:p-10 bg-white relative"
+            className="flex flex-col rounded-[2rem] border border-accent/20 bg-white shadow-[0_8px_40px_rgba(30,58,138,0.06)] overflow-hidden relative"
           >
-            {/* Subtle accent top line */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent/0 via-accent/40 to-accent/0 hidden lg:block" />
-
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                <Gem size={18} className="text-accent" />
+            {/* Subtle glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 blur-3xl rounded-full pointer-events-none" />
+            
+            {/* Text Section */}
+            <div className="bg-accent/[0.03] p-6 md:p-8 border-b border-accent/10 flex-1 relative z-10">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                  <Gem size={18} className="text-accent" />
+                </div>
+                <h3 className="text-xl font-black uppercase tracking-tight text-ink">
+                  The Solution
+                </h3>
               </div>
-              <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight">
-                The Solution
-              </h3>
+              <p className="text-sm md:text-base text-slate-600 leading-relaxed font-medium">
+                Nomyx created something better, a flexible platform to match the flexibility that financial institutions need. Nomyx Engine separates the asset state from the logic. You can upgrade compliance modules or yield calculators instantly without moving a single token.
+              </p>
             </div>
 
-            <p className="text-base text-ink-muted leading-relaxed mb-8">
-              Nomyx created something better, a flexible platform to match the
-              flexibility that financial institutions need. Nomyx Engine
-              separates the asset state from the logic. You can upgrade
-              compliance modules or yield calculators instantly without moving a
-              single token. Financial institutions depend on the flexibility of
-              their infrastructure, and now they have it: tokens that can grow
-              and evolve with the regulatory landscape with no extra cost and
-              only seconds of effort.
-            </p>
-
-            {/* Diamond proxy mock */}
-            <div className="border border-accent/20 bg-accent/[0.02] p-5">
-              <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-accent mb-5">
-                Diamond Proxy Upgradeable Smart Contracts
-              </div>
-
+            {/* Visual Box */}
+            <div className="p-6 md:p-8 bg-white relative z-10">
               {/* Mini proxy card */}
-              <div className="flex items-center gap-3 bg-white border border-accent/20 p-4 mb-5">
-                <div className="w-10 h-10 bg-accent/10 rounded flex items-center justify-center flex-shrink-0">
-                  <Gem size={16} className="text-accent" />
+              <div className="flex items-center gap-4 bg-accent/[0.02] border border-accent/20 rounded-2xl p-5 mb-6 shadow-sm">
+                <div className="w-12 h-12 bg-white border border-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                  <Gem size={20} className="text-accent" />
                 </div>
                 <div className="flex-1">
-                  <div className="flex gap-2 mb-1.5">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-accent mb-2">
+                    Diamond Proxy Upgradeable Smart Contracts
+                  </div>
+                  <div className="flex gap-2.5">
                     <div className="h-2 w-20 bg-accent/20 rounded-full" />
                     <div className="h-2 w-12 bg-accent/10 rounded-full" />
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="h-2 w-16 bg-accent/15 rounded-full" />
-                    <div className="h-2 w-10 bg-accent/10 rounded-full" />
                   </div>
                 </div>
                 <motion.div
                   animate={{ scale: [1, 1.15, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center"
+                  className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0"
                 >
-                  <CheckCircle2 size={14} className="text-emerald-500" />
+                  <CheckCircle2 size={18} className="text-emerald-500" />
                 </motion.div>
               </div>
 
               {/* Benefit badges */}
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 {[
                   "Keeps underlying data protected",
                   "Can be modified to match regulatory changes",
                 ].map((text) => (
-                  <div key={text} className="flex items-start gap-2.5">
-                    <CheckCircle2
-                      size={15}
-                      className="text-emerald-500 mt-0.5 flex-shrink-0"
-                    />
-                    <span className="text-sm text-ink leading-snug font-medium">
+                  <div key={text} className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm font-bold text-slate-700 leading-snug">
                       {text}
                     </span>
                   </div>

@@ -483,56 +483,69 @@ const ImpossibleTransfer = () => (
                unoptimized
              />
            </div>
-        </motion.div>
+        </motion.div>     
 
-        {/* 3-Column Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 max-w-5xl mx-auto px-4 md:px-0">
+        <div className="w-full">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center flex flex-col items-center"
+            className="text-center mb-10 md:mb-12"
           >
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-5">
-              <Check size={20} className="text-emerald-500" />
-            </div>
-            <h4 className="text-sm font-black uppercase tracking-tight mb-3 text-ink">Bilateral Verification</h4>
-            <p className="text-sm text-ink-muted leading-relaxed">
-              The engine checks credentials for both the sender and the receiver.
-            </p>
+            <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-ink-muted/70">
+              Why It Matters
+            </h3>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-center flex flex-col items-center"
-          >
-            <div className="w-12 h-12 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center mb-5">
-              <FileText size={20} className="text-sky-500" />
-            </div>
-            <h4 className="text-sm font-black uppercase tracking-tight mb-3 text-ink">Asset-Specific Rules</h4>
-            <p className="text-sm text-ink-muted leading-relaxed">
-              This transfer succeeded because both users met the specific &apos;US Accredited Investor&apos; rule required by this asset.
-            </p>
-          </motion.div>
+          {/* 3-Column Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 max-w-5xl mx-auto px-4 md:px-0">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center flex flex-col items-center"
+            >
+              <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-5">
+                <Check size={20} className="text-emerald-500" />
+              </div>
+              <h4 className="text-sm font-black uppercase tracking-tight mb-3 text-ink">Bilateral Verification</h4>
+              <p className="text-sm text-ink-muted leading-relaxed">
+                The engine checks credentials for both the sender and the receiver.
+              </p>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-center flex flex-col items-center"
-          >
-            <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-5">
-              <Database size={20} className="text-accent" />
-            </div>
-            <h4 className="text-sm font-black uppercase tracking-tight mb-3 text-ink">Atomic Settlement</h4>
-            <p className="text-sm text-ink-muted leading-relaxed">
-              If the rule passes, the ledger updates instantly.
-            </p>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-center flex flex-col items-center"
+            >
+              <div className="w-12 h-12 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center mb-5">
+                <FileText size={20} className="text-sky-500" />
+              </div>
+              <h4 className="text-sm font-black uppercase tracking-tight mb-3 text-ink">Asset-Specific Rules</h4>
+              <p className="text-sm text-ink-muted leading-relaxed">
+                This transfer succeeded because both users met the specific &apos;US Accredited Investor&apos; rule required by this asset.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-center flex flex-col items-center"
+            >
+              <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-5">
+                <Database size={20} className="text-accent" />
+              </div>
+              <h4 className="text-sm font-black uppercase tracking-tight mb-3 text-ink">Atomic Settlement</h4>
+              <p className="text-sm text-ink-muted leading-relaxed">
+                If the rule passes, the ledger updates instantly.
+              </p>
+            </motion.div>
+          </div>
         </div>
 
       </div>
