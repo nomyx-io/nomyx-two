@@ -838,30 +838,4 @@ const ApiFirst = () => {
   );
 };
 
-/* ── Final CTA ── */
-const EngineCTA = () => (
-  <section className="border-b border-border bg-slate-50/50 py-20 md:py-28">
-    <div className="custom-container text-center">
-      <motion.h2
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="section-heading mb-8 max-w-3xl mx-auto"
-      >
-        Start your issuance on future-proof infrastructure.
-      </motion.h2>
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.15 }}
-      >
-        <AnimatedButton 
-          text="Access Nomyx Engine" 
-          href="https://calendly.com/ivan-j-nomyx" 
-          variant="ink" 
-        />
-      </motion.div>
-    </div>
-  </section>
-);
+

@@ -435,54 +435,6 @@ const SecureAssetDistribution = () => (
   </section>
 );
 
-/* ── Final CTA ── */
-const GatewayCTA = () => (
-  <section className="pt-32 pb-40 bg-[#0A1128] relative overflow-hidden">
-    {/* Decorative background effects */}
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-accent/20 blur-[150px] rounded-full pointer-events-none" />
-    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent opacity-10" />
-
-    <div className="custom-container relative z-10">
-      <div className="text-center max-w-4xl mx-auto">
-        <motion.h2 
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="section-heading !text-white mb-8"
-        >
-          Your Ecosystem. <br className="hidden sm:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">Powered by Nomyx.</span>
-        </motion.h2>
-        
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="text-lg md:text-xl text-slate-400 leading-relaxed font-medium max-w-3xl mx-auto mb-12"
-        >
-          We provide the banking-grade rails. You provide the vision. Deliver a seamless digital experience that keeps your investors within your brand.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-        >
-          <AnimatedButton 
-            text="Deploy Your Branded Portal" 
-            href="https://calendly.com/ivan-j-nomyx" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            variant="white" 
-          />
-        </motion.div>
-      </div>
-    </div>
-  </section>
-);
-
 export default function NomyxGatewayPage() {
   return (
     <div className="min-h-screen bg-white font-sans text-ink">

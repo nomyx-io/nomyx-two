@@ -2,8 +2,7 @@
 
 import { motion } from "motion/react";
 import { Users } from "lucide-react";
-import { AnimatedButton } from "../AnimatedButton";
-import { fadeUp, forceHomeNavigation } from "../evergreen/shared";
+import { fadeUp, forceHomeNavigation, AnimatedButton } from "../evergreen/shared";
 
 const titleWords = ["Unlock", "Liquidity", "In", "Brick", "&", "Mortar."];
 
@@ -118,9 +117,7 @@ export const RealEstateHero = () => (
             <AnimatedButton
               href="https://calendly.com/ivan-j-nomyx"
               text="Tokenize Your Property"
-              bgColor="bg-ink"
-              hoverBgColor="hover:bg-accent"
-              textColor="text-white"
+              variant="ink"
               onClick={(event) => forceHomeNavigation(event, "https://calendly.com/ivan-j-nomyx")}
             />
           </motion.div>

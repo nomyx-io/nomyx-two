@@ -189,7 +189,13 @@ const DiamondHero = () => (
         <motion.p variants={fadeUp} className="mb-8 max-w-3xl text-lg leading-relaxed text-ink-muted md:text-xl">
           The immutability paradox is solved. Build on modular, upgradeable infrastructure that adapts to regulatory changes without costly migrations or token swaps.
         </motion.p>
-        
+        <motion.div variants={fadeUp}>
+          <AnimatedButton 
+            text="Consult With Our Solutions Architect" 
+            href="https://calendly.com/ivan-j-nomyx/30min" 
+            variant="ink" 
+          />
+        </motion.div>
       </motion.div>
       <DiamondArchitecture />
     </div>

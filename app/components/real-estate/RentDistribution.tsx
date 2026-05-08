@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { Banknote, Clock3 } from "lucide-react";
-import { fadeUp, HoverTextSwap } from "../evergreen/shared";
+import { fadeUp, AnimatedButton } from "../evergreen/shared";
 
 export const RentDistribution = () => (
   <section className="border-b border-border bg-slate-50/60 py-20 md:py-24">
@@ -60,14 +60,11 @@ export const RentDistribution = () => (
             <span className="font-bold text-ink-muted">Net Rental Income</span>
             <span className="font-black text-accent">$125,000</span>
           </div>
-          <motion.button
-            initial="rest"
-            whileHover="hover"
-            animate="rest"
-            className="mb-6 flex h-14 w-full items-center justify-center gap-3 bg-ink text-sm font-black uppercase tracking-[0.12em] text-white transition-colors hover:bg-accent"
-          >
-            <HoverTextSwap text="Distribute To Holders" />
-          </motion.button>
+          <AnimatedButton 
+            text="Distribute To Holders" 
+            variant="ink" 
+            className="mb-6 w-full h-14"
+          />
 
           <div className="mb-3 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-ink-muted">
             Distribution Results

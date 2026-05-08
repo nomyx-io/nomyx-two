@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { ArrowDown, ArrowRight, Landmark, Repeat2, Wallet } from "lucide-react";
-import { fadeUp, forceHomeNavigation, HoverTextSwap } from "../evergreen/shared";
+import { fadeUp, forceHomeNavigation, HoverTextSwap, AnimatedButton } from "../evergreen/shared";
 
 const titleWords = ["Syndicate", "Loans", "On-Chain.", "Service", "Off-Chain."];
 
@@ -119,17 +119,12 @@ export const PrivateCreditHero = () => (
         <motion.p variants={fadeUp} className="mb-8 max-w-3xl text-lg leading-relaxed text-ink-muted md:text-xl">
           The most efficient way to manage your LP capital stack. Aggregate liquidity on-chain, deploy fiat to borrowers, and automate yield distribution back to investors instantly.
         </motion.p>
-        <motion.a
+        <AnimatedButton 
+          text="Streamline LP Distributions"
           href="https://calendly.com/ivan-j-nomyx"
-          initial="rest"
-          whileHover="hover"
-          animate="rest"
+          variant="ink"
           onClick={(event) => forceHomeNavigation(event, "https://calendly.com/ivan-j-nomyx")}
-          className="inline-flex h-14 items-center gap-3 bg-ink px-8 text-xs font-black uppercase tracking-[0.14em] text-white transition-colors hover:bg-ink/90"
-        >
-          <HoverTextSwap text="Streamline LP Distributions" />
-          <ArrowRight size={16} />
-        </motion.a>
+        />
       </motion.div>
       <CreditArchitecture />
     </div>

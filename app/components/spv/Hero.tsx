@@ -2,8 +2,7 @@
 
 import { motion } from "motion/react";
 import { Check, FileCheck2, Users } from "lucide-react";
-import { AnimatedButton } from "../AnimatedButton";
-import { fadeUp, forceHomeNavigation } from "../evergreen/shared";
+import { fadeUp, forceHomeNavigation, AnimatedButton } from "../evergreen/shared";
 
 const titleWords = ["Spin Up", "Compliant", "SPVs in Hours,", "Not Weeks."];
 const DealFlowSvg = () => (
@@ -99,11 +98,9 @@ const FundingCard = () => (
     <AnimatedButton
       href="/#cta"
       text="Close Round & Mint Tokens"
-      bgColor="bg-ink"
-      hoverBgColor="hover:bg-accent"
-      textColor="text-white"
+      variant="ink"
       onClick={(event) => forceHomeNavigation(event, "/#cta")}
-      className="flex h-16 w-full justify-between text-sm tracking-[0.12em]"
+      className="h-16 w-full justify-between text-sm tracking-[0.12em]"
     />
   </motion.div>
 );
@@ -134,9 +131,7 @@ export const SpvHero = () => (
         <AnimatedButton
           href="https://calendly.com/ivan-j-nomyx"
           text="Start Your Syndication"
-          bgColor="bg-ink"
-          hoverBgColor="hover:bg-accent"
-          textColor="text-white"
+          variant="ink"
           onClick={(event) => forceHomeNavigation(event, "https://calendly.com/ivan-j-nomyx")}
         />
       </motion.div>

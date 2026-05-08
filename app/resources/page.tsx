@@ -269,52 +269,7 @@ const EbookFeature = () => (
   </section>
 );
 
-/* ── Final CTA ── */
-const ResourcesCTA = () => (
-  <section className="pt-32 pb-40 bg-[#0A1128] relative overflow-hidden">
-    {/* Decorative background effects */}
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-accent/20 blur-[120px] rounded-full pointer-events-none" />
-    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent opacity-10" />
 
-    <div className="custom-container relative z-10">
-      <div className="text-center max-w-3xl mx-auto">
-        <motion.h2 
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="section-heading !text-white mb-6"
-        >
-          Need a deeper dive?
-        </motion.h2>
-        
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="text-lg md:text-xl text-slate-400 leading-relaxed font-medium mb-10"
-        >
-          Schedule a personalized walkthrough with our technical team.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-        >
-          <AnimatedButton 
-            text="Schedule a Technical Demo" 
-            href="https://calendly.com/ivan-j-nomyx" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            variant="white" 
-          />
-        </motion.div>
-      </div>
-    </div>
-  </section>
-);
 
 export default function ResourcesPage() {
   return (
