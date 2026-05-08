@@ -173,7 +173,7 @@ const DiamondHero = () => (
         >
           EIP-2535 Architecture
         </motion.div>
-        <h1 className="text-display text-[clamp(48px,8.0vw,60px)] mb-6 mt-1">
+        <h1 className="text-display mb-6 mt-1">
           {titleWords.map((word, index) => (
             <motion.span
               key={word}

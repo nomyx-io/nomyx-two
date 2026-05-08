@@ -56,16 +56,26 @@
   .section-heading {
     @apply font-sans;
     color: #19233D;
-    font-size: 45px;
+    font-size: 28px;
     font-weight: 700;
-    line-height: 54px;
+    line-height: 1.2;
+
+    @media (min-width: 48rem) {
+      font-size: 45px;
+      line-height: 54px;
+    }
   }
 
   .text-display {
     @apply font-sans;
-    font-size: 60px;
+    font-size: 32px;
     font-weight: 500;
-    line-height: 69px;
+    line-height: 1.1;
+
+    @media (min-width: 48rem) {
+      font-size: 60px;
+      line-height: 69px;
+    }
   }
 
   .prgraphs{

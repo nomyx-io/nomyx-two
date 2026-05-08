@@ -8,7 +8,7 @@ const headlineWords = ["The", "Perpetual", "Fund.", "Automated."];
 
 const AnimatedHeadline = () => (
   <motion.h1
-    className="text-display text-[clamp(48px,8.0vw,60px)] mb-6 mt-1"
+    className="text-display mb-6 mt-1"
     aria-label="The Perpetual Fund. Automated."
   >
     {headlineWords.map((word, index) => (
@@ -115,7 +115,7 @@ const HeroConsole = () => (
         ["SETTLE", "T+0"],
       ].map(([label, value]) => (
         <div key={label} className="border-r border-border p-5 last:border-r-0">
-          <div className="mb-1 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
+          <div className="mb-1 font-mono uppercase tracking-[0.16em] text-ink-muted">
             {label}
           </div>
           <div className="text-2xl font-black text-ink">{value}</div>

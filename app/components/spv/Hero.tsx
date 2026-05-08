@@ -112,7 +112,7 @@ export const SpvHero = () => (
         <motion.div variants={fadeUp} className="mb-7 inline-flex border border-accent/30 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-accent">
           Solution: Deal-By-Deal Structuring
         </motion.div>
-        <motion.h1 className="text-display text-[clamp(48px,8.0vw,60px)] mb-6 mt-1">
+        <motion.h1 className="text-display mb-6 mt-1">
           {titleWords.map((word, index) => (
             <motion.span
               key={word}

@@ -36,7 +36,7 @@ const DevelopersHero = () => (
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-display text-[clamp(48px,8.0vw,60px)] mb-6 mt-1"
+            className="text-display mb-6 mt-1"
           >
             The Infrastructure Layer for Real-World Assets.
           </motion.h1>

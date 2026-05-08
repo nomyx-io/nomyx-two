@@ -10,7 +10,7 @@ import { AnimatedButton } from "@/app/components/evergreen/shared";
 const GatewayHero = () => (
   <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-white min-h-[85vh] flex items-center">
     {/* Subtle Background Glows */}
-    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[150px] pointer-events-none translate-x-1/3 -translate-y-1/4" />
+    <div className="absolute top-0 right-0 w-[400px] h-[400px] md:w-[800px] md:h-[800px] bg-accent/5 rounded-full blur-[150px] pointer-events-none translate-x-1/3 -translate-y-1/4" />
 
     <div className="custom-container relative z-10 w-full">
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 lg:gap-12 xl:gap-20 items-center">

@@ -154,7 +154,7 @@ const IdHero = () => (
     />
 
     {/* Radial glow */}
-    <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(30,58,138,0.03),transparent_70%)] pointer-events-none" />
+    <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[200px] md:w-[600px] md:h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(30,58,138,0.03),transparent_70%)] pointer-events-none" />
 
     <div className="custom-container relative z-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-10 items-center">

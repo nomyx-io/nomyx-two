@@ -87,7 +87,7 @@ export const RealEstateHero = () => (
             Solution: Real Estate
           </motion.div>
           
-          <motion.h1 className="text-display mb-8 text-[clamp(42px,6vw,64px)] leading-[1.05] tracking-tight text-ink">
+          <motion.h1 className="text-display mb-8 text-ink">
             {titleWords.map((word, index) => (
               <motion.span
                 key={`${word}-${index}`}

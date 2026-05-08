@@ -400,7 +400,7 @@ export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
             <img
               src="/nomyx-logo.png"
               alt="Nomyx"
-              className={`h-8 w-auto object-contain transition-all duration-300 ${!forceLightNav ? "brightness-0 invert" : ""}`}
+              className={`h-7 w-auto object-contain transition-all duration-300 ${!forceLightNav ? "brightness-0 invert" : ""}`}
             />
           </a>
           <button
@@ -518,8 +518,8 @@ const Hero = () => {
   return (
     <section className="relative overflow-hidden bg-hero-bg pt-44 pb-20 lg:pt-52 lg:pb-1">
       {/* Background Gradients */}
-      <div className="pointer-events-none absolute left-0 top-0 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-glow blur-[120px]" />
-      <div className="pointer-events-none absolute right-0 bottom-0 h-[800px] w-[800px] translate-x-1/3 translate-y-1/3 rounded-full bg-hero-glow blur-[120px]" />
+      <div className="pointer-events-none absolute left-0 top-0 h-[500px] w-[500px] md:h-[800px] md:w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-glow blur-[120px]" />
+      <div className="pointer-events-none absolute right-0 bottom-0 h-[500px] w-[500px] md:h-[800px] md:w-[800px] translate-x-1/3 translate-y-1/3 rounded-full bg-hero-glow blur-[120px]" />
 
       <div className="custom-container relative z-10">
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-[1.2fr_1fr]">
@@ -528,7 +528,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.15 }}
-              className="text-display mb-8 text-[48px] leading-[1.05] text-white md:text-[64px] lg:text-[72px]"
+              className="text-display mb-8 text-white"
             >
               The Agile
               <br />
@@ -719,7 +719,7 @@ export const RoleInfrastructure = () => {
             <div className="flex overflow-hidden rounded-xl border border-[#19233D] bg-transparent">
               <button
                 onClick={() => setActiveTab(0)}
-                className={`flex h-12 items-center px-10 text-lg font-semibold transition-all duration-300 ${
+                className={`flex h-12 items-center px-4 md:px-10 text-sm md:text-md font-semibold transition-all duration-300 ${
                   activeTab === 0
                     ? "bg-[#2060D4] text-white"
                     : "text-[#19233D] hover:bg-[#2060D4]/5"
@@ -729,7 +729,7 @@ export const RoleInfrastructure = () => {
               </button>
               <button
                 onClick={() => setActiveTab(1)}
-                className={`flex h-12 items-center px-10 text-md font-semibold transition-all duration-300 ${
+                className={`flex h-12 items-center px-4 md:px-10 text-sm md:text-md font-semibold transition-all duration-300 ${
                   activeTab === 1
                     ? "bg-[#2060D4] text-white"
                     : "text-[#19233D] hover:bg-[#2060D4]/5"
@@ -1216,7 +1216,7 @@ export const Footer = ({
       <div className="custom-container relative z-10">
         {/* CTA Content */}
         <div className="mb-32 text-center">
-          <h2 className="mb-6 text-[45px] font-bold tracking-tight text-[#19233D] md:text-[54px]">
+          <h2 className="section-heading mb-5">
             {ctaTitle}
           </h2>
           <p className="mx-auto mb-12 max-w-2xl text-[18px] text-[#42546E]">
@@ -1234,7 +1234,7 @@ export const Footer = ({
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-5">
           <Link href="/" className="mb-6 block">
-            <img src="/nomyx-logo.png" alt="Nomyx" className="h-12 w-auto" />
+            <img src="/nomyx-logo.png" alt="Nomyx" className="h-9 md:h-12 w-auto" />
           </Link>
           <p className="max-w-sm text-[15px] font-medium leading-relaxed text-[#42546E]">
             {pageContent.footer.description}
