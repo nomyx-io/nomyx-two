@@ -125,17 +125,16 @@ const NavBorderTrace = ({ active = false }: { active?: boolean }) => (
   </motion.div>
 );
 
-export const CustomCursor = ({
-  color = "#0A1128",
-  hoverBackgroundColor = "rgba(10, 17, 40, 0.05)",
-}: {
-  color?: string;
-  hoverBackgroundColor?: string;
-}) => {
+export const CustomCursor = ({ variant }: { variant?: "dark" | "light" }) => {
+  const pathname = usePathname();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 100);
+    window.addEventListener("scroll", handleScroll);
+    
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
     };
@@ -149,27 +148,36 @@ export const CustomCursor = ({
     window.addEventListener("mouseover", handleMouseOver);
 
     return () => {
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseover", handleMouseOver);
     };
   }, []);
 
+  const isHomeRoute = pathname === "/";
+  const effectiveVariant = variant || (isHomeRoute ? "dark" : "light");
+  const forceDark = effectiveVariant === "light" || isScrolled;
+
   return (
     <>
       <motion.div
-        className="fixed left-0 top-0 z-[9999] hidden h-1.5 w-1.5 rounded-full pointer-events-none md:block"
-        style={{ backgroundColor: color }}
+        className="fixed left-0 top-0 z-[9999] hidden h-1.5 w-1.5 rounded-full pointer-events-none md:block transition-colors duration-300"
+        style={{ backgroundColor: forceDark ? "#0A1128" : "#FFFFFF" }}
         animate={{ x: mousePos.x - 3, y: mousePos.y - 3 }}
         transition={{ type: "spring", damping: 30, stiffness: 250, mass: 0.5 }}
       />
       <motion.div
-        className="fixed left-0 top-0 z-[9998] hidden h-10 w-10 rounded-full border pointer-events-none md:block"
-        style={{ borderColor: `color-mix(in srgb, ${color} 24%, transparent)` }}
+        className="fixed left-0 top-0 z-[9998] hidden h-10 w-10 rounded-full border pointer-events-none md:block transition-colors duration-300"
+        style={{ 
+          borderColor: forceDark ? "rgba(10, 17, 40, 0.24)" : "rgba(255, 255, 255, 0.3)",
+          backgroundColor: isHovering 
+            ? (forceDark ? "rgba(10, 17, 40, 0.05)" : "rgba(255, 255, 255, 0.1)")
+            : "transparent"
+        }}
         animate={{
           x: mousePos.x - 20,
           y: mousePos.y - 20,
           scale: isHovering ? 1.5 : 1,
-          backgroundColor: isHovering ? hoverBackgroundColor : "transparent",
         }}
         transition={{ type: "spring", damping: 25, stiffness: 150, mass: 0.8 }}
       />
@@ -177,7 +185,7 @@ export const CustomCursor = ({
   );
 };
 
-export const Navbar = () => {
+export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -199,6 +207,9 @@ export const Navbar = () => {
   }, []);
 
   const isHomeRoute = pathname === "/";
+  const effectiveVariant = variant || (isHomeRoute ? "dark" : "light");
+  const forceLightNav = effectiveVariant === "light" || isScrolled;
+
   const isHrefActive = (href: string) => {
     if (href.startsWith("#")) {
       return isHomeRoute && activeHash === href;
@@ -220,16 +231,19 @@ export const Navbar = () => {
   return (
     <nav
       className={`fixed left-0 right-0 top-0 z-[200] flex h-20 items-center transition-all duration-300 ${
-        isScrolled
+        forceLightNav
           ? "border-b border-border bg-white/95 backdrop-blur-md"
-          : "bg-white/95"
-        // : "bg-transparent"
+          : "bg-transparent"
       }`}
     >
       <div className="custom-container w-full">
         <div className="hidden lg:grid grid-cols-[1fr_auto_1fr] items-center gap-4 xl:gap-8">
           <a href="/" className="flex items-center shrink-0">
-            <img src="/nomyx-logo.png" alt="Nomyx" className="h-8 xl:h-9 w-auto object-contain" />
+            <img
+              src="/nomyx-logo.png"
+              alt="Nomyx"
+              className={`h-8 xl:h-9 w-auto object-contain transition-all duration-300 ${!forceLightNav ? "brightness-0 invert" : ""}`}
+            />
           </a>
 
           <div className="flex items-center justify-center gap-1 xl:gap-3">
@@ -245,13 +259,15 @@ export const Navbar = () => {
                     key={item}
                     href={getNavHref(item)}
                     aria-current={isCurrent ? "page" : undefined}
-                    className={`label-mono group relative inline-flex h-10 items-center whitespace-nowrap rounded-[6px] px-2 xl:px-4 transition-colors ${
+                    className={`label-mono group relative inline-flex h-10 items-center whitespace-nowrap rounded-[6px] px-2 xl:px-4 transition-all duration-300 ${
                       isActive
-                        ? "bg-accent/5 text-accent"
-                        : "hover:text-accent"
+                        ? forceLightNav ? "bg-accent/5 text-accent" : "bg-white/10 !text-white"
+                        : forceLightNav 
+                          ? "text-ink-muted hover:text-accent hover:bg-accent/5" 
+                          : "!text-white hover:bg-white/10"
                     }`}
                   >
-                    <span className="text-[11px] xl:text-[12px]">{item}</span>
+                    <span className="">{item}</span>
                     <NavBorderTrace active={isActive} />
                   </a>
                 );
@@ -278,17 +294,19 @@ export const Navbar = () => {
                     type="button"
                     aria-expanded={isOpen}
                     aria-current={isCurrent ? "page" : undefined}
-                    className={`label-mono group relative inline-flex h-10 items-center gap-1 xl:gap-1.5 overflow-hidden whitespace-nowrap rounded-[6px] px-2 xl:px-4 transition-colors duration-200 ${
-                      isActive ? "bg-accent/5 text-accent" : "hover:text-accent"
+                    className={`label-mono group relative inline-flex h-10 items-center gap-1 xl:gap-1.5 overflow-hidden whitespace-nowrap rounded-[6px] px-2 xl:px-4 transition-all duration-300 ${
+                      isActive 
+                        ? forceLightNav ? "bg-accent/5 text-accent" : "bg-white/10 !text-white" 
+                        : forceLightNav ? "text-ink-muted hover:text-accent hover:bg-accent/5" : "!text-white hover:bg-white/10"
                     }`}
                   >
-                    <span className="text-[11px] xl:text-[12px]">{item}</span>
+                    <span>{item}</span>
                     <ChevronDown
                       size={12}
                       strokeWidth={2.4}
                       className={`transition-transform duration-200 ${
                         isOpen ? "rotate-180" : ""
-                      }`}
+                      } ${!forceLightNav ? "text-white" : ""}`}
                     />
                     <NavBorderTrace active={isActive} />
                   </button>
@@ -302,8 +320,12 @@ export const Navbar = () => {
                         transition={{ duration: 0.18, ease: "easeOut" }}
                         className="absolute left-1/2 top-full w-[380px] xl:w-[400px] -translate-x-1/2 pt-2"
                       >
-                        <div className="relative rounded-[6px] border border-border bg-white p-4 shadow-[0_22px_48px_rgba(10,17,40,0.14)]">
-                          <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
+                        <div className={`relative rounded-[12px] border p-4 shadow-[0_22px_48px_rgba(0,0,0,0.3)] backdrop-blur-xl ${
+                          forceLightNav 
+                            ? "border-border bg-white" 
+                            : "border-white/10 bg-[#1B243C]/95"
+                        }`}>
+                          <div className={`absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-${forceLightNav ? 'accent' : 'white/20'} to-transparent` } />
                           <div className="space-y-1">
                             {dropdown.map((dropdownItem) => {
                               const isDropdownItemActive = isHrefActive(
@@ -317,28 +339,36 @@ export const Navbar = () => {
                                   aria-current={
                                     isDropdownItemActive ? "page" : undefined
                                   }
-                                  className={`group block rounded-[6px] px-4 xl:px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-[0_12px_28px_rgba(10,17,40,0.08)] ${
+                                  className={`group block rounded-[8px] px-4 xl:px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 ${
+                                    forceLightNav 
+                                      ? "hover:bg-slate-50 hover:shadow-[0_12px_28px_rgba(10,17,40,0.08)]" 
+                                      : "hover:bg-white/5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.2)]"
+                                  } ${
                                     isDropdownItemActive
-                                      ? "border-l-2 border-accent bg-accent/5"
+                                      ? forceLightNav ? "border-l-2 border-accent bg-accent/5" : "border-l-2 border-white/40 bg-white/5"
                                       : "border-l-2 border-transparent"
                                   }`}
                                   onClick={() => setActiveDropdown(null)}
                                 >
                                   <span className="flex items-start justify-between gap-4">
                                     <span>
-                                      <span className="block text-sm font-black text-ink transition-colors group-hover:text-accent">
+                                      <span className={`block text-[15px] font-bold transition-colors ${
+                                        forceLightNav ? "text-ink group-hover:text-accent" : "text-white group-hover:text-white"
+                                      }`}>
                                         {dropdownItem.title}
                                       </span>
-                                      <span className="mt-1 block text-sm leading-relaxed text-ink-muted">
+                                      <span className={`mt-1 block text-sm leading-relaxed ${
+                                        forceLightNav ? "text-ink-muted" : "text-white/50"
+                                      }`}>
                                         {dropdownItem.description}
                                       </span>
                                     </span>
                                     <ArrowRight
                                       size={16}
-                                      className={`mt-1 shrink-0 transition-all duration-200 ${
+                                      className={`mt-1 shrink-0 transition-all duration-300 ${
                                         isDropdownItemActive
-                                          ? "translate-x-0 text-accent opacity-100"
-                                          : "translate-x-[-4px] text-accent opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+                                          ? `translate-x-0 ${forceLightNav ? 'text-accent' : 'text-white'} opacity-100`
+                                          : `translate-x-[-4px] ${forceLightNav ? 'text-accent' : 'text-white'} opacity-0 group-hover:translate-x-0 group-hover:opacity-100`
                                       }`}
                                     />
                                   </span>
@@ -356,10 +386,10 @@ export const Navbar = () => {
           </div>
 
           <div className="flex justify-end shrink-0">
-            <AnimatedButton 
-              text="Request Demo" 
-              href="https://calendly.com/ivan-j-nomyx" 
-              variant="ink" 
+            <AnimatedButton
+              text="Request Demo"
+              href="https://calendly.com/ivan-j-nomyx"
+              variant={isScrolled ? "accent" : "accent"}
               className="h-11 !px-7"
             />
           </div>
@@ -367,10 +397,14 @@ export const Navbar = () => {
 
         <div className="flex items-center justify-between lg:hidden">
           <a href="/" className="flex items-center shrink-0">
-            <img src="/nomyx-logo.png" alt="Nomyx" className="h-8 w-auto object-contain" />
+            <img
+              src="/nomyx-logo.png"
+              alt="Nomyx"
+              className={`h-8 w-auto object-contain transition-all duration-300 ${!forceLightNav ? "brightness-0 invert" : ""}`}
+            />
           </a>
           <button
-            className="text-ink p-2"
+            className={`p-2 transition-colors ${forceLightNav ? "text-ink" : "text-white"}`}
             aria-label="Toggle navigation"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -447,10 +481,10 @@ export const Navbar = () => {
                   </div>
                 );
               })}
-              <AnimatedButton 
-                text="Request Demo" 
-                href="#cta" 
-                variant="ink" 
+              <AnimatedButton
+                text="Request Demo"
+                href="#cta"
+                variant="ink"
                 className="h-11"
                 onClick={() => setIsMobileMenuOpen(false)}
               />
@@ -478,98 +512,39 @@ const DiamondVisual = ({ compact = false }: { compact?: boolean }) => (
   </div>
 );
 
-const DiamondArchitectureVisual = () => {
-  const [issuance, subscription, compliance, yieldLogic] =
-    pageContent.smartContracts.callouts;
 
-  return (
-    <div className="relative mx-auto w-full max-w-3xl overflow-visible rounded-none border border-border bg-white p-5 shadow-2xl sm:p-8 md:p-10">
-      <div className="relative aspect-[1.12/1] w-full overflow-visible rounded-none bg-ink">
-        <img
-          src="/diamond%20image.png"
-          alt="Diamond smart contract architecture"
-          draggable={false}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-
-        <div className="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-[52%]">
-          <div className="relative whitespace-pre-line rounded-[8px] bg-[#36aaa0] px-5 py-3 text-center text-sm font-black leading-tight text-white shadow-lg sm:text-base">
-            {issuance.replace(" (", "\n(")}
-            <span className="absolute left-1/2 top-full h-12 w-px -translate-x-1/2 bg-[#28bbb0]" />
-          </div>
-        </div>
-
-        <div className="absolute right-0 top-[18%] z-20 translate-x-[30%] max-lg:translate-x-[8%]">
-          <div className="relative whitespace-pre-line rounded-[8px] bg-[#168f85] px-5 py-3 text-center text-sm font-black leading-tight text-white shadow-lg sm:min-w-[220px] sm:text-base">
-            {subscription.replace(" (", "\n(")}
-            <span className="absolute right-full top-1/2 hidden h-px w-24 -translate-y-1/2 bg-[#28bbb0] sm:block" />
-          </div>
-        </div>
-
-        <div className="absolute left-0 top-[70%] z-20 -translate-x-[52%] max-lg:translate-x-[-8%]">
-          <div className="relative whitespace-pre-line rounded-[8px] bg-[#1b9c91] px-5 py-3 text-center text-sm font-black leading-tight text-white shadow-lg sm:min-w-[190px] sm:text-base">
-            {compliance.replace(" (", "\n(")}
-            <span className="absolute left-full top-1/2 hidden h-px w-16 -translate-y-1/2 bg-[#28bbb0] sm:block" />
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 left-[68%] z-20 translate-y-[50%] max-sm:left-1/2 max-sm:-translate-x-1/2">
-          <div className="relative whitespace-pre-line rounded-[8px] bg-[#36aaa0] px-5 py-3 text-center text-sm font-black leading-tight text-white shadow-lg sm:min-w-[190px] sm:text-base">
-            {yieldLogic.replace(" (", "\n(")}
-            <span className="absolute bottom-full left-1/2 h-12 w-px -translate-x-1/2 bg-[#28bbb0]" />
-          </div>
-        </div>
-
-        <div className="absolute left-1/2 top-[52%] z-20 -translate-x-1/2 -translate-y-1/2 whitespace-pre-line rounded-[8px] bg-accent px-5 py-3 text-center text-sm font-black leading-tight text-white shadow-lg sm:text-base">
-          {pageContent.smartContracts.core.replace(" (", "\n(")}
-        </div>
-      </div>
-
-      <div className="mt-16 grid grid-cols-1 gap-4 text-sm font-bold text-ink-muted sm:mt-14 sm:grid-cols-2">
-        <div className="flex items-center justify-center gap-3">
-          <span className="h-4 w-4 rounded-full bg-accent" />
-          {pageContent.smartContracts.legend[0]}
-        </div>
-        <div className="flex items-center justify-center gap-3">
-          <span className="h-4 w-4 rounded-full bg-[#159a90]" />
-          {pageContent.smartContracts.legend[1]}
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const Hero = () => {
-  const titleParts = pageContent.hero.title.split(pageContent.hero.accent);
-
   return (
-    <section className="pt-32 pb-8 md:pt-36 md:pb-12 border-b border-border">
-      <div className="custom-container">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-12 items-start">
-          <div>
+    <section className="relative overflow-hidden bg-hero-bg pt-44 pb-20 lg:pt-52 lg:pb-1">
+      {/* Background Gradients */}
+      <div className="pointer-events-none absolute left-0 top-0 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-glow blur-[120px]" />
+      <div className="pointer-events-none absolute right-0 bottom-0 h-[800px] w-[800px] translate-x-1/3 translate-y-1/3 rounded-full bg-hero-glow blur-[120px]" />
+
+      <div className="custom-container relative z-10">
+        <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-[1.2fr_1fr]">
+          <div className="max-w-3xl">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.15 }}
-              className="text-display text-[clamp(48px,8.0vw,60px)] mb-6 mt-1"
+              className="text-display mb-8 text-[48px] leading-[1.05] text-white md:text-[64px] lg:text-[72px]"
             >
-              The <span className="text-accent">Agile</span>
+              The Agile
               <br />
-              Infrastructure
+              Infrastructure For
               <br />
-              for Institutional
-              <br />
-              Capital
+              Institutional Capital
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-lg md:text-xl text-ink-muted leading-relaxed max-w-2xl mb-8"
+              className="prgraphs text-white mb-20 md:text-xl"
             >
               Tokenize Real-World Assets with upgradeable smart contracts.
-              Future-proof compliance, automated lifecycle management, and T+0
+              future-proof compliance, automated lifecycle management, and T+0
               settlement.
             </motion.p>
 
@@ -577,68 +552,41 @@ const Hero = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.45 }}
-              className="flex flex-wrap gap-3"
+              className="flex flex-wrap gap-4"
             >
-              <AnimatedButton 
-                text="Start Building" 
-                href="https://calendly.com/ivan-j-nomyx" 
-                variant="ink" 
-                className="min-w-[190px]"
+              <AnimatedButton
+                text="Start Building"
+                href="https://calendly.com/ivan-j-nomyx"
+                variant="accent"
+                className="min-w-[180px]"
               />
-              <AnimatedButton 
-                text="View Documentation" 
-                href="/developers" 
-                variant="white" 
-                className="min-w-[190px]"
+              <AnimatedButton
+                text="View Documentation"
+                href="/developers"
+                variant="outline"
+                className="min-w-[180px]"
               />
             </motion.div>
           </div>
 
-          <div className="border border-border bg-white divide-y divide-border">
-            {[
-              {
-                label: "Setup Time",
-                value: "Minutes",
-                sub: "Vs. months on legacy",
-                icon: <Clock3 size={24} className="text-ink" />,
-              },
-              {
-                label: "Settlement",
-                value: "T+0",
-                sub: "Atomic on-chain finality",
-                icon: <ArrowLeftRight size={24} className="text-ink" />,
-              },
-              {
-                label: "Compliance",
-                value: "Built-in",
-                sub: "Protocol-level enforcement",
-                icon: <ShieldCheck size={24} className="text-ink" />,
-              },
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.55 + i * 0.1 }}
-                className="p-7 md:p-8 flex items-center justify-between gap-4"
-              >
-                <div className="flex-1">
-                  <div className="text-xs uppercase tracking-[0.12em] text-ink-muted font-semibold mb-2">
-                    {stat.label}
-                  </div>
-                  <div className="text-4xl md:text-[42px] font-black tracking-tight text-ink mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-ink-muted uppercase tracking-[0.08em]">
-                    {stat.sub}
-                  </div>
-                </div>
-                <div className="w-14 h-14 border border-border flex items-center justify-center flex-shrink-0">
-                  {stat.icon}
-                </div>
-              </motion.div>
-            ))}
+          <div className="relative hidden lg:block">
+            <motion.img
+              src="/right-visual.png"
+              alt="Nomyx Platform"
+              draggable={false}
+              className="w-full h-auto object-contain"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+            />
           </div>
+        </div>
+      </div>
+      <div className="mt-20 lg:mt-32 pt-10 pb-10">
+        <div className="custom-container text-center">
+          <p className="prgraphs text-white">
+            {pageContent.partners.label}
+          </p>
         </div>
       </div>
     </section>
@@ -662,9 +610,9 @@ const SectionHeader = ({
         </span>
       </div>
     )}
-    <h2 className="section-heading mx-auto max-w-5xl">{title}</h2>
+    <h2 className="section-heading mx-auto">{title}</h2>
     {description && (
-      <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-ink-muted md:text-lg">
+      <p className="mx-auto prgraphs text-[#42546E] mt-5">
         {description}
       </p>
     )}
@@ -678,37 +626,32 @@ export const Partners = () => {
   ];
 
   return (
-    <section
-      id="partners"
-      className="border-b border-border bg-slate-50/60 py-10"
-    >
-      <div className="custom-container mb-7 text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.18em] text-ink-muted">
-          {pageContent.partners.label}
-        </p>
-      </div>
-
-      <div className="overflow-hidden border-y border-border">
+    <section id="partners" className="border-b border-border bg-white">
+      <div className="overflow-hidden border-y border-border/60">
         <motion.div
           className="flex w-max"
           animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 28, ease: "linear", repeat: Infinity }}
+          transition={{ duration: 40, ease: "linear", repeat: Infinity }}
         >
           {marqueePartners.map((partner, i) => (
             <div
               key={`${partner.name}-${i}`}
-              className="flex h-28 shrink-0 items-center justify-center border-r border-border bg-white px-8"
-              style={{ width: partner.width ? `${partner.width + 64}px` : "250px" }}
+              className="flex h-24 shrink-0 items-center justify-center border-r border-border/60 bg-white px-10"
+              style={{
+                width: partner.width ? `${partner.width + 80}px` : "260px",
+              }}
             >
               {"src" in partner ? (
                 <img
                   src={partner.src}
                   alt={partner.name}
-                  style={{ width: partner.width ? `${partner.width}px` : "160px" }}
-                  className="max-h-12 object-contain"
+                  style={{
+                    width: partner.width ? `${partner.width}px` : "160px",
+                  }}
+                  className="max-h-10 object-contain"
                 />
               ) : (
-                <span className="text-[24px] font-semibold tracking-tight text-ink/80">
+                <span className="text-[22px] font-bold tracking-tight text-ink/60 uppercase">
                   {partner.name}
                 </span>
               )}
@@ -728,9 +671,9 @@ export const ValueProp = () => (
     />
 
     <div className="custom-container pb-16 md:pb-20">
-      <div className="grid grid-cols-1 border border-border md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
         {pageContent.value.cards.map((card, i) => {
-          const Icon = iconMap[card.icon as keyof typeof iconMap];
+          const iconSrc = i === 0 ? "/Union.png" : i === 1 ? "/diamond.png" : "/connect.png";
           return (
             <motion.div
               key={card.title}
@@ -738,13 +681,15 @@ export const ValueProp = () => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="border-b border-border bg-white p-8 transition-colors hover:bg-slate-50 md:border-b-0 md:border-r md:p-9 last:md:border-r-0"
+              className="rounded-2xl bg-[#1B243C] p-10 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl"
             >
-              <Icon className="mb-6 text-accent" size={28} />
-              <h3 className="mb-4 text-2xl font-black uppercase tracking-tight text-ink md:text-3xl">
+              <div className="mb-8 h-12 w-12">
+                <img src={iconSrc} alt="" className="h-full w-auto object-contain" />
+              </div>
+              <h3 className="mb-5 font-semibold text-[25px] text-white">
                 {card.title}
               </h3>
-              <p className="text-base leading-relaxed text-ink-muted">
+              <p className="text-[15px] font-normal text-white">
                 {card.description}
               </p>
             </motion.div>
@@ -763,117 +708,126 @@ export const RoleInfrastructure = () => {
     : pageContent.roles.fundAdministrators;
 
   return (
-    <section id="platform" className="border-b border-border bg-slate-50/60">
-      <SectionHeader title={pageContent.roles.title} />
+    <section id="platform" className="bg-white py-10">
+      <div className="custom-container">
+        <div className="rounded-[40px] bg-[#D9EFFF] px-6 py-16 md:px-12 md:py-20 lg:py-24">
+          <h2 className="section-heading mx-auto text-center mb-10">
+            {pageContent.roles.title}
+          </h2>
 
-      <div className="custom-container pb-16 md:pb-20">
-        <div className="mb-10 flex justify-center">
-          <div className="inline-flex border border-border bg-white p-1">
-            {pageContent.roles.tabs.map((tab, i) => (
+          <div className="mb-14 flex justify-center">
+            <div className="flex overflow-hidden rounded-xl border border-[#19233D] bg-transparent">
               <button
-                key={tab}
-                onClick={() => setActiveTab(i)}
-                className={`h-10 px-4 text-xs font-bold uppercase tracking-[0.12em] transition-colors ${
-                  activeTab === i
-                    ? "bg-ink text-white"
-                    : "text-ink-muted hover:text-ink"
+                onClick={() => setActiveTab(0)}
+                className={`flex h-12 items-center px-10 text-lg font-semibold transition-all duration-300 ${
+                  activeTab === 0
+                    ? "bg-[#2060D4] text-white"
+                    : "text-[#19233D] hover:bg-[#2060D4]/5"
                 }`}
               >
-                {tab}
+                {pageContent.roles.tabs[0]}
               </button>
-            ))}
+              <button
+                onClick={() => setActiveTab(1)}
+                className={`flex h-12 items-center px-10 text-md font-semibold transition-all duration-300 ${
+                  activeTab === 1
+                    ? "bg-[#2060D4] text-white"
+                    : "text-[#19233D] hover:bg-[#2060D4]/5"
+                }`}
+              >
+                {pageContent.roles.tabs[1]}
+              </button>
+            </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.15fr_1fr]">
-          <div className="border border-border bg-white p-8 md:p-9">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.15fr_1fr]">
             <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
+              key={`main-${activeTab}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-2xl bg-white p-8 shadow-sm md:p-12"
             >
-              <h3 className="mb-7 text-3xl font-black uppercase tracking-tight">
+              <h3 className="mb-8 text-3xl font-bold text-[#19233D]">
                 {content.heading}
               </h3>
-              <div className="space-y-5">
+              <div className="space-y-6">
                 {content.bullets.map((item) => (
-                  <div key={item.title} className="flex items-start gap-3">
-                    <Check size={18} className="mt-1 shrink-0 text-accent" />
-                    <p className="text-base leading-relaxed text-ink-muted">
-                      <span className="font-bold text-ink">{item.title}</span>{" "}
+                  <div key={item.title} className="flex items-start gap-4">
+                    <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D9EFFF] text-[#2060D4]">
+                      <Check size={14} strokeWidth={3} />
+                    </div>
+                    <p className="text-[17px] leading-relaxed text-[#42546E]">
+                      <span className="font-bold text-[#19233D]">{item.title}:</span>{" "}
                       {item.text}
                     </p>
                   </div>
                 ))}
               </div>
             </motion.div>
-          </div>
 
-          <div className="border border-border bg-white p-8 shadow-xl md:p-9">
             <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
+              key={`wizard-${activeTab}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-2xl bg-white p-8 shadow-lg md:p-10"
             >
               {isAssetManager ? (
                 <>
-                  <div className="mb-6 flex items-center justify-between gap-4">
-                    <h3 className="text-2xl font-black uppercase tracking-tight">
+                  <div className="mb-8 flex items-center justify-between gap-4">
+                    <h3 className="text-xl font-bold text-[#19233D]">
                       {pageContent.roles.assetManagers.wizard.title}
                     </h3>
-                    <span className="text-xs font-bold uppercase tracking-[0.14em] text-ink-muted">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#42546E]/60">
                       {pageContent.roles.assetManagers.wizard.status}
                     </span>
                   </div>
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     {pageContent.roles.assetManagers.wizard.rows.map(
                       ([label, value]) => (
                         <div
                           key={label}
-                          className="flex items-center justify-between border-b border-border pb-4 text-sm"
+                          className="flex items-center justify-between border-b border-slate-100 pb-5 text-[15px]"
                         >
-                          <span className="font-bold uppercase tracking-[0.12em] text-ink-muted">
+                          <span className="font-medium text-[#42546E]">
                             {label}
                           </span>
-                          <span className="font-black text-ink">{value}</span>
+                          <span className="font-bold text-[#19233D]">{value}</span>
                         </div>
                       ),
                     )}
                   </div>
-                  <button className="mt-6 h-12 w-full bg-ink text-xs font-bold uppercase tracking-[0.14em] text-white">
+                  <button className="mt-10 h-14 w-full rounded-xl bg-[#2060D4] text-base font-bold text-white shadow-lg transition-all hover:bg-[#2060D4]/90 active:scale-[0.98]">
                     {pageContent.roles.assetManagers.wizard.button}
                   </button>
                 </>
               ) : (
                 <>
-                  <div className="mb-6 flex items-center justify-between gap-4">
-                    <h3 className="text-2xl font-black uppercase tracking-tight">
+                  <div className="mb-8 flex items-center justify-between gap-4">
+                    <h3 className="text-xl font-bold text-[#19233D]">
                       {pageContent.roles.fundAdministrators.log.title}
                     </h3>
                     <div className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-                      <span className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-600">
+                      <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600">
                         {pageContent.roles.fundAdministrators.log.status}
                       </span>
                     </div>
                   </div>
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     {pageContent.roles.fundAdministrators.log.rows.map(
                       ([fund, amount, status]) => (
                         <div
                           key={fund}
-                          className="flex items-center justify-between border-b border-border pb-4 text-sm"
+                          className="flex items-center justify-between border-b border-slate-100 pb-5 text-[15px]"
                         >
-                          <span className="font-bold uppercase tracking-[0.12em] text-ink-muted">
+                          <span className="font-medium text-[#42546E]">
                             {fund}
                           </span>
-                          <div className="flex items-center gap-4 md:gap-6">
-                            <span className="font-black text-ink">
+                          <div className="flex items-center gap-4">
+                            <span className="font-bold text-[#19233D]">
                               {amount}
                             </span>
-                            <span className="rounded-sm bg-emerald-50 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-emerald-600">
+                            <span className="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold text-emerald-600">
                               {status}
                             </span>
                           </div>
@@ -885,26 +839,30 @@ export const RoleInfrastructure = () => {
               )}
             </motion.div>
           </div>
-        </div>
 
-        <p className="my-12 text-center text-sm uppercase tracking-[0.16em] text-ink-muted">
-          {pageContent.roles.caption}
-        </p>
+          <div className="mt-16 text-center">
+            <p className="text-[15px] font-medium text-[#42546E]/70">
+              {pageContent.roles.caption}
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 border border-border md:grid-cols-3">
-          {pageContent.roles.assets.map((asset) => (
-            <div
-              key={asset.title}
-              className="border-b border-border bg-white p-7 md:border-b-0 md:border-r last:md:border-r-0"
-            >
-              <h3 className="mb-3 text-xl font-black uppercase tracking-tight">
-                {asset.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-ink-muted">
-                {asset.description}
-              </p>
-            </div>
-          ))}
+          <div className="mt-10 grid grid-cols-1 overflow-hidden rounded-2xl bg-white md:grid-cols-3">
+            {pageContent.roles.assets.map((asset, i) => (
+              <div
+                key={asset.title}
+                className={`p-8 md:p-10 ${
+                  i < 2 ? "border-b border-slate-100 md:border-b-0 md:border-r" : ""
+                }`}
+              >
+                <h3 className="mb-4 text-xl font-bold text-[#19233D]">
+                  {asset.title}
+                </h3>
+                <p className="text-[15px] leading-relaxed text-[#42546E]">
+                  {asset.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -912,43 +870,57 @@ export const RoleInfrastructure = () => {
 };
 
 export const SmartContracts = () => (
-  <section id="the-diamond-standard" className="border-b border-border">
-    <div className="custom-container py-16 md:py-20">
-      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-        <div className="lg:-ml-4">
-          <DiamondArchitectureVisual />
+  <section id="the-diamond-standard" className="border-b border-border bg-white">
+    <div className="custom-container py-20 md:py-32">
+      <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+        <div className="relative">
+          <motion.img
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            src="/core-storage.png"
+            draggable={false}
+            alt="Diamond smart contract architecture"
+            className="w-full h-auto object-contain"
+          />
         </div>
 
-        <div>
-          <div className="mb-5">
-            <span className="inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-[#1E3A8A]">
+        <div className="max-w-xl">
+          <div className="mb-8">
+            <span className="inline-flex rounded-md border border-[#1B243C] px-4 py-1.5 text-sm font-medium text-[#1B243C]">
               {pageContent.smartContracts.eyebrow}
             </span>
           </div>
-          <h2 className="section-heading mb-6">
+          
+          <h2 className="section-heading mb-8">
             {pageContent.smartContracts.title}
           </h2>
-          <p className="mb-8 text-lg leading-relaxed text-ink-muted">
+          
+          <p className="prgraphs mb-12 text-ink-muted">
             {pageContent.smartContracts.description}
           </p>
-          <div className="space-y-5">
+
+          <div className="mb-12 space-y-8">
             {pageContent.smartContracts.bullets.map((item) => (
-              <div key={item.title} className="flex items-start gap-3">
-                <CheckCircle2 size={20} className="mt-1 shrink-0 text-accent" />
-                <p className="text-base leading-relaxed text-ink-muted">
+              <div key={item.title} className="flex items-start gap-4">
+                <div className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-accent">
+                  <CheckCircle2 size={18} strokeWidth={2.5} />
+                </div>
+                <p className="text-[17px] leading-relaxed text-ink-muted">
                   <span className="font-bold text-ink">{item.title}</span>{" "}
                   {item.text}
                 </p>
               </div>
             ))}
           </div>
-          <a
+
+          <AnimatedButton
+            text={pageContent.smartContracts.cta}
             href="/developers"
-            className="mt-9 inline-flex h-12 items-center gap-3 border border-border bg-white px-6 text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-slate-50"
-          >
-            {pageContent.smartContracts.cta}
-            <ArrowRight size={16} />
-          </a>
+            variant="accent"
+            className="h-14 !px-10"
+          />
         </div>
       </div>
     </div>
@@ -956,44 +928,22 @@ export const SmartContracts = () => (
 );
 
 export const Developers = () => {
-  const terminalCode = `POST /api/v1/tokens/distribute-yield
-{
-  "token_id": "0x7a8f...",
-  "amount_usd": 250000,
-  "distribution_date": "2025-01-15",
-  "compliance_check": true
-}
-
-// Response
-{
-  "status": "success",
-  "tx_hash": "0x9b2c..."
-}`;
-
   return (
     <section
       id="developers"
-      className="relative overflow-hidden border-b border-border bg-[#0A0F1C] py-24 text-white md:py-32"
+      className="relative overflow-hidden bg-[#0A1128] py-20 md:py-32 text-white"
     >
-      {/* Blueprint Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.08)_0%,transparent_70%)]" />
+      {/* Background Glows */}
+      <div className="pointer-events-none absolute -right-1/5 -top-1/4 h-[600px] w-[600px] rounded-full bg-blue-600/40 blur-[120px]" />
+      <div className="pointer-events-none absolute -left-1/5 -bottom-1/4 h-[600px] w-[600px] rounded-full bg-blue-600/40 blur-[120px]" />
 
       <div className="custom-container relative z-10">
-        <div className="mb-20 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400"
-          >
-            <Code2 size={24} />
-          </motion.div>
+        <div className="mb-20 text-center max-w-4xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="section-heading mb-6 text-white"
+            className="section-heading mb-6 !text-white"
           >
             {pageContent.developers.title}
           </motion.h2>
@@ -1002,15 +952,15 @@ export const Developers = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-400 md:text-xl"
+            className="prgraphs text-white/70"
           >
             {pageContent.developers.description}
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12">
-          {/* Feature Nodes */}
-          <div className="order-2 space-y-6 lg:order-1 lg:col-span-4">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+          {/* Feature Cards */}
+          <div className="order-2 space-y-4 lg:order-1 lg:col-span-5">
             {pageContent.developers.bullets.map((bullet, i) => (
               <motion.div
                 key={i}
@@ -1018,39 +968,41 @@ export const Developers = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="group relative rounded-2xl border border-white/5 bg-white/[0.02] p-6 transition-all hover:border-blue-500/30 hover:bg-white/[0.04]"
+                className="group relative rounded-2xl bg-[#1B243C] p-6 transition-all hover:bg-[#232E4A]"
               >
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-blue-500/20 text-blue-400 transition-transform group-hover:scale-110">
-                    <TerminalSquare size={14} />
+                <div className="flex items-center gap-5">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400">
+                    <TerminalSquare size={18} />
                   </div>
-                  <p className="text-base font-medium leading-relaxed text-slate-300 transition-colors group-hover:text-white">
+                  <p className="text-[17px] font-medium leading-tight text-white/90">
                     {bullet}
                   </p>
                 </div>
               </motion.div>
             ))}
 
-            <motion.a
-              href="/developers"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="mt-8 inline-flex items-center gap-3 text-sm font-bold uppercase tracking-[0.14em] text-emerald-400 transition-colors hover:text-emerald-300"
-            >
-              Read the API Documentation
-              <ArrowRight size={16} />
-            </motion.a>
+            <div className="pt-6">
+              <motion.a
+                href="/developers"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-[#34D399] transition-all hover:gap-4"
+              >
+                {pageContent.developers.cta}
+                <ArrowRight size={16} />
+              </motion.a>
+            </div>
           </div>
 
-          {/* Large Interactive Terminal */}
-          <div className="order-1 lg:order-2 lg:col-span-8">
+          {/* Large Terminal */}
+          <div className="order-1 lg:order-2 lg:col-span-7">
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="relative rounded-2xl border border-white/10 bg-[#0D121F] p-1 shadow-2xl shadow-blue-500/5"
+              className="relative rounded-2xl border border-white/10 bg-[#0D121F] shadow-2xl"
             >
               {/* Terminal Header */}
               <div className="flex items-center justify-between border-b border-white/5 px-6 py-4">
@@ -1059,15 +1011,15 @@ export const Developers = () => {
                   <span className="h-3 w-3 rounded-full bg-[#FFBD2E]" />
                   <span className="h-3 w-3 rounded-full bg-[#27C93F]" />
                 </div>
-                <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500/50" />
+                <div className="flex items-center gap-2 text-[11px] font-medium text-slate-500 uppercase tracking-wider">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                   api/distribute-yield
                 </div>
               </div>
 
               {/* Terminal Content */}
-              <div className="p-6 font-mono text-[13px] leading-relaxed md:p-8 md:text-sm">
-                <pre className="overflow-x-auto text-slate-400">
+              <div className="p-6 font-mono text-[13px] leading-relaxed md:p-10 md:text-sm">
+                <pre className="overflow-x-auto">
                   <code className="block">
                     <span className="text-pink-400">POST</span>{" "}
                     <span className="text-emerald-400">
@@ -1101,9 +1053,6 @@ export const Developers = () => {
                   </code>
                 </pre>
               </div>
-
-              {/* Decorative Glow */}
-              <div className="absolute -bottom-10 -right-10 h-64 w-64 bg-blue-500/10 blur-[80px]" />
             </motion.div>
           </div>
         </div>
@@ -1113,55 +1062,53 @@ export const Developers = () => {
 };
 
 export const Security = () => (
-  <section id="resources" className="border-b border-border">
-    <SectionHeader
-      title={pageContent.security.title}
-      description={pageContent.security.description}
-    />
-    <div className="custom-container pb-16 md:pb-20">
-      <div className="grid grid-cols-1 border border-border md:grid-cols-3">
-        {pageContent.security.items.map((item) => {
-          const Icon = iconMap[item.icon as keyof typeof iconMap];
-          return (
-            <div
-              key={item.title}
-              className="flex flex-col items-center border-b border-border bg-white p-8 text-center md:border-b-0 md:border-r last:md:border-r-0"
-            >
-              <div className="mb-5 flex h-14 w-14 items-center justify-center border border-border">
-                <Icon size={22} className="text-accent" />
-              </div>
-              <h3 className="mb-2 text-xl font-black uppercase tracking-tight">
-                {item.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-ink-muted">
-                {item.description}
-              </p>
-            </div>
-          );
-        })}
+  <section id="resources" className="border-b border-border bg-white">
+    <div className="py-20 md:py-32">
+      <div className="custom-container mb-16 text-center">
+        <h2 className="section-heading mb-6">
+          {pageContent.security.title}
+        </h2>
+        <p className="prgraphs mx-auto max-w-3xl text-ink-muted">
+          {pageContent.security.description}
+        </p>
       </div>
-    </div>
-  </section>
-);
 
-export const CTA = () => (
-  <section
-    id="cta"
-    className="border-b border-border bg-slate-50/50 py-20 md:py-24"
-  >
-    <div className="custom-container text-center">
-      <h2 className="section-heading mb-8">{pageContent.cta.title}</h2>
-      <p className="mx-auto mb-12 max-w-3xl text-xl leading-relaxed text-ink-muted">
-        {pageContent.cta.description}
-      </p>
-      <AnimatedButton 
-        text={pageContent.cta.button}
-        href="https://calendly.com/ivan-j-nomyx"
-        target="_blank"
-        rel="noopener"
-        variant="ink"
-        className="min-w-[230px]"
-      />
+      <div className="custom-container">
+        <div className="rounded-3xl border border-border bg-white overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-3">
+            {pageContent.security.items.map((item, i) => {
+              const Icon = iconMap[item.icon as keyof typeof iconMap];
+              return (
+                <div
+                  key={item.title}
+                  className="relative flex flex-col items-center px-8 py-16 text-center"
+                >
+                  {/* Vertical Separator */}
+                  {i < 2 && (
+                    <div className="absolute right-0 top-4 bottom-4 hidden w-px bg-border md:block" />
+                  )}
+                  {/* Horizontal Separator for Mobile */}
+                  {i < 2 && (
+                    <div className="absolute bottom-0 left-12 right-12 h-px bg-border md:hidden" />
+                  )}
+
+                  <div className="mb-8 flex h-16 w-16 items-center justify-center text-[#2060D4]">
+                    <Icon size={56} strokeWidth={1.5} />
+                  </div>
+                  
+                  <h3 className="mb-4 text-[25px] font-bold uppercase tracking-tight text-[#19233D]">
+                    {item.title}
+                  </h3>
+                  
+                  <p className="text-[15px] leading-relaxed text-[#42546E]">
+                    {item.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 );
@@ -1242,46 +1189,87 @@ const FeaturedBlogs = ({ blogs }: { blogs: BlogPost[] }) => {
 };
 
 export const Footer = () => (
-  <footer className="bg-white py-14 md:py-16">
-    <div className="custom-container">
-      <div className="grid grid-cols-1 gap-10 border-b border-white/10 pb-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-4">
-          <Link href="/" className="mb-5 block">
-            <img src="/nomyx-logo.png" alt="Nomyx" className="h-10 w-auto" />
+  <footer className="relative w-full bg-white overflow-hidden">
+    <div className="relative w-full bg-[#F2F9FF] rounded-t-[60px] md:rounded-t-[100px] pt-20 pb-12 overflow-hidden">
+      {/* Background Decorative Logos */}
+      <img 
+        src="/footer-logo-left.png" 
+        alt="" 
+        className="absolute left-0 top-[20%] h-auto w-[20%] pointer-events-none opacity-60"
+      />
+      <img 
+        src="/footer-logo-right.png" 
+        alt="" 
+        className="absolute right-0 top-[10%] h-auto w-[20%] pointer-events-none opacity-60"
+      />
+
+      <div className="custom-container relative z-10">
+        {/* CTA Content */}
+        <div className="mb-32 text-center">
+          <h2 className="mb-6 text-[45px] font-bold tracking-tight text-[#19233D] md:text-[54px]">
+            {pageContent.cta.title}
+          </h2>
+          <p className="mx-auto mb-12 max-w-2xl text-[18px] text-[#42546E]">
+            {pageContent.cta.description}
+          </p>
+          <AnimatedButton
+            text={pageContent.cta.button}
+            href="https://calendly.com/ivan-j-nomyx"
+            variant="accent"
+            className="h-14 !px-10"
+          />
+        </div>
+
+      {/* Footer Content */}
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-5">
+          <Link href="/" className="mb-6 block">
+            <img src="/nomyx-logo.png" alt="Nomyx" className="h-12 w-auto" />
           </Link>
-          <p className="max-w-xs text-sm leading-relaxed ">
+          <p className="max-w-sm text-[15px] font-medium leading-relaxed text-[#42546E]">
             {pageContent.footer.description}
           </p>
         </div>
 
-        {pageContent.footer.columns.map((column) => (
-          <div key={column.title} className="lg:col-span-2">
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] ">
-              {column.title}
-            </h4>
-            <ul className="space-y-3 text-sm /65">
-              {column.links.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="transition-colors hover:text-accent">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:col-span-7">
+          {pageContent.footer.columns.map((column) => (
+            <div key={column.title}>
+              <h4 className="mb-6 text-[13px] font-bold uppercase tracking-[0.15em] text-[#19233D]">
+                {column.title}
+              </h4>
+              <ul className="space-y-4">
+                {column.links.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-[15px] font-medium text-[#42546E] transition-colors hover:text-accent"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="flex flex-col items-center justify-between gap-5 pt-8 lg:flex-row">
-        <div className="text-xs uppercase tracking-[0.12em] ">
+      {/* Bottom Bar */}
+      <div className="mt-32 flex flex-col items-center justify-between gap-8 border-t border-slate-200 pt-10 lg:flex-row">
+        <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#42546E]/60">
           {pageContent.footer.copyright}
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs ">
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-[13px] font-medium text-[#42546E]">
           {pageContent.footer.legal.map((link) => (
-            <Link key={link} href="/legal" className="transition-colors hover:text-accent">
+            <Link
+              key={link}
+              href="/legal"
+              className="transition-colors hover:text-accent"
+            >
               {link}
             </Link>
           ))}
+        </div>
         </div>
       </div>
     </div>
@@ -1306,11 +1294,9 @@ export default function Home({
         <SmartContracts />
         <Developers />
         <Security />
-        <CTA />
         <FeaturedBlogs blogs={featuredBlogs} />
+        <Footer />
       </main>
-
-      <Footer />
     </div>
   );
 }

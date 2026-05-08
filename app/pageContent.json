@@ -8,7 +8,7 @@
     "secondaryCta": "View Documentation"
   },
   "partners": {
-    "label": "SECURING THE NEXT GENERATION OF FINANCE WITH INDUSTRY LEADERS.",
+    "label": "Securing the next generation of finance with industry leaders.",
     "items": [
       { "name": "XDC", "src": "/XDC.svg", "width": 180 },
       { "name": "Mastercard Start Path", "src": "/mastercard.webp", "width": 200 },
@@ -22,7 +22,7 @@
     ]
   },
   "value": {
-    "title": "Beyond Tokenization. Intelligent Financial Infrastructure.",
+    "title": "Beyond Tokenization.\nIntelligent Financial Infrastructure.",
     "description": "Streamline the lifecycle of evergreen funds, SPVs, and yield-bearing assets with infrastructure built for institutional scale.",
     "cards": [
       {

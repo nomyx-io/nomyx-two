@@ -119,15 +119,17 @@ export const AnimatedButton = ({
   text: string;
   href?: string;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-  variant?: "white" | "ink";
+  variant?: "white" | "ink" | "accent" | "outline";
   target?: string;
   rel?: string;
   className?: string;
 }) => {
-  const baseStyles = "group/btn relative inline-flex h-14 items-center justify-center gap-3 px-10 text-xs font-black uppercase tracking-[0.14em] transition-all duration-300";
+  const baseStyles = "group/btn relative inline-flex items-center justify-center gap-3 px-8 text-[15px] font-medium rounded-xl transition-all duration-300";
   const variants = {
     white: "bg-white text-ink hover:bg-slate-50 border border-border",
-    ink: "bg-ink text-white hover:bg-ink/90",
+    ink: "bg-[#215EC7] text-white hover:bg-ink/90",
+    accent: "bg-[#215EC7] text-white hover:bg-[#2060D4]/90",
+    outline: "bg-transparent text-white border border-white hover:bg-white/5",
   };
 
   return (
