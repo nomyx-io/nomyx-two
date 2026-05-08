@@ -124,7 +124,7 @@ export const AnimatedButton = ({
   rel?: string;
   className?: string;
 }) => {
-  const baseStyles = "group/btn relative inline-flex items-center justify-center gap-3 px-8 text-[15px] font-medium rounded-xl transition-all duration-300";
+  const baseStyles = "group/btn relative inline-flex items-center justify-center gap-3 h-[52px] px-8 text-[15px] font-medium rounded-xl transition-all duration-300";
   const variants = {
     white: "bg-white text-ink hover:bg-slate-50 border border-border",
     ink: "bg-[#215EC7] text-white hover:bg-ink/90",
