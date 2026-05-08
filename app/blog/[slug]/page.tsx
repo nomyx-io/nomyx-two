@@ -41,7 +41,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   return (
     <div className="min-h-screen bg-white text-ink">
-      <CustomCursor color="#0A1128" hoverBackgroundColor="rgba(10,17,40,0.06)" />
+      <CustomCursor />
       <Navbar />
 
       <main className="relative mx-auto max-w-8xl overflow-visible bg-white pt-20">

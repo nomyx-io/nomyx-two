@@ -10,7 +10,7 @@ import { RealEstateFinalCTA } from "./real-estate/FinalCTA";
 export default function RealEstate() {
   return (
     <div className="min-h-screen bg-bg font-sans text-ink">
-      <CustomCursor color="#000000" hoverBackgroundColor="rgba(30, 58, 138, 0.08)" />
+      <CustomCursor />
       <Navbar />
 
       <main>

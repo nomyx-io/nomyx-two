@@ -531,7 +531,7 @@ const DiamondFinalCTA = () => (
 export default function DiamondStandard() {
   return (
     <div className="min-h-screen bg-bg font-sans text-ink">
-      <CustomCursor color="#000000" hoverBackgroundColor="rgba(34, 211, 238, 0.10)" />
+      <CustomCursor />
       <Navbar />
 
       <main>

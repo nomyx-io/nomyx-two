@@ -10,7 +10,7 @@ import { Servicer } from "./private-credit/Servicer";
 export default function PrivateCredit() {
   return (
     <div className="min-h-screen bg-bg font-sans text-ink">
-      <CustomCursor color="#1E3A8A" hoverBackgroundColor="rgba(30, 58, 138, 0.08)" />
+      <CustomCursor />
       <Navbar />
 
       <main>
