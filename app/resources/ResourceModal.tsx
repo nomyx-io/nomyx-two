@@ -29,7 +29,10 @@ export const ResourceModal = ({ isOpen, onClose, resourceTitle }: ResourceModalP
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          resourceTitle,
+        }),
       });
 
       if (!response.ok) {

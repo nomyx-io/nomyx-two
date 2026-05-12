@@ -15,7 +15,9 @@ import {
   Star,
   Trash2,
   Upload,
+  Users,
 } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 
 import RichTextEditor from "@/app/components/RichTextEditor";
@@ -357,14 +359,23 @@ export default function BlogCmsPage() {
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={startNew}
-            className="inline-flex h-12 items-center justify-center gap-2 bg-ink px-5 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_18px_36px_rgba(10,17,40,0.18)] transition-transform hover:-translate-y-0.5"
-          >
-            <Plus size={16} />
-            New Blog
-          </button>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/cms/leads"
+              className="inline-flex h-12 items-center justify-center gap-2 border border-border bg-white px-5 text-xs font-bold uppercase tracking-[0.16em] text-ink shadow-sm transition-transform hover:-translate-y-0.5"
+            >
+              <Users size={16} className="text-accent" />
+              View Resource Leads
+            </Link>
+            <button
+              type="button"
+              onClick={startNew}
+              className="inline-flex h-12 items-center justify-center gap-2 bg-ink px-5 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-[0_18px_36px_rgba(10,17,40,0.18)] transition-transform hover:-translate-y-0.5"
+            >
+              <Plus size={16} />
+              New Blog
+            </button>
+          </div>
         </div>
 
         <div className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">

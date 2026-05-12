@@ -1,18 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { saveLead } from "@/lib/leads";
 
 export async function POST(req: NextRequest) {
   try {
     // Parse the body to ensure form data was sent
     const body = await req.json();
-    const { fullName, email } = body;
+    const { fullName, email, company, resourceTitle } = body;
 
     if (!fullName || !email) {
       return NextResponse.json(
         { error: "Name and Email are required to access this resource." },
         { status: 400 }
       );
+    }
+
+    // Save the lead to the database
+    try {
+      await saveLead({ fullName, email, company, resourceTitle: resourceTitle || "Unknown" });
+    } catch (dbError) {
+      // We log the error but still allow the download to proceed
+      console.error("Failed to save lead:", dbError);
     }
 
     // Path to the PDF file
