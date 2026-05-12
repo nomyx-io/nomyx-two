@@ -2,7 +2,12 @@
 
 import { motion } from "motion/react";
 import { ArrowRight, Activity, Database, RefreshCw } from "lucide-react";
-import { fadeUp, forceHomeNavigation, HoverTextSwap, AnimatedButton } from "./shared";
+import {
+  fadeUp,
+  forceHomeNavigation,
+  HoverTextSwap,
+  AnimatedButton,
+} from "./shared";
 
 const headlineWords = ["The", "Perpetual", "Fund.", "Automated."];
 
@@ -17,7 +22,11 @@ const AnimatedHeadline = () => (
         className="mr-[0.18em] inline-block overflow-hidden align-bottom"
         initial={{ y: "100%", opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.65, delay: 0.18 + index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+        transition={{
+          duration: 0.65,
+          delay: 0.18 + index * 0.12,
+          ease: [0.22, 1, 0.36, 1],
+        }}
       >
         {word}
       </motion.span>
@@ -41,7 +50,13 @@ const FundLoop = () => (
     className="mx-auto w-full max-w-md"
   >
     <defs>
-      <linearGradient id="loopGradientEvergreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <linearGradient
+        id="loopGradientEvergreen"
+        x1="0%"
+        y1="0%"
+        x2="100%"
+        y2="100%"
+      >
         <stop offset="0%" stopColor="#0A1128" />
         <stop offset="50%" stopColor="#1E3A8A" />
         <stop offset="100%" stopColor="#0A1128" />
@@ -84,7 +99,15 @@ const FundLoop = () => (
       ["NAV Update", 270, 250],
       ["Redemption", 130, 250],
     ].map(([label, x, y]) => (
-      <text key={label} x={x} y={y} fill="#42546E" fontSize="12" fontWeight="700" textAnchor="middle">
+      <text
+        key={label}
+        x={x}
+        y={y}
+        fill="#42546E"
+        fontSize="12"
+        fontWeight="700"
+        textAnchor="middle"
+      >
         {label}
       </text>
     ))}
@@ -154,7 +177,11 @@ const HeroConsole = () => (
 export const EvergreenHero = () => (
   <section className="relative overflow-hidden border-b border-border bg-white text-ink">
     <div className="custom-container relative grid grid-cols-1 items-center gap-12 py-24 md:py-28 lg:grid-cols-[1.05fr_0.95fr]">
-      <motion.div initial="hidden" animate="show" transition={{ staggerChildren: 0.12 }}>
+      <motion.div
+        initial="hidden"
+        animate="show"
+        transition={{ staggerChildren: 0.12 }}
+      >
         <motion.div
           variants={fadeUp}
           className="mb-7 inline-flex border border-accent/30  px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-accent"
@@ -181,12 +208,17 @@ export const EvergreenHero = () => (
             ))}
         </motion.p>
         <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
-          <AnimatedButton 
+          <AnimatedButton
             text="Modernize Your Fund"
             href="https://calendly.com/ivan-j-nomyx/30min"
-            onClick={(event) => forceHomeNavigation(event, "https://calendly.com/ivan-j-nomyx/30min")}
+            onClick={(event) =>
+              forceHomeNavigation(
+                event,
+                "https://calendly.com/ivan-j-nomyx/30min",
+              )
+            }
           />
-          
+
           {/* <motion.a
             href="#live-operations"
             initial="rest"

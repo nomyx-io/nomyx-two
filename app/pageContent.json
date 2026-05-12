@@ -12,10 +12,12 @@
     "items": [
       { "name": "XDC", "src": "/XDC.svg", "width": 180 },
       { "name": "Mastercard Start Path", "src": "/mastercard.webp", "width": 200 },
-      { "name": "Plume" },
+      { "name": "Plume", "src": "/Plume.png", "width": 160 },
       { "name": "Stellar", "src": "/stellar.avif", "width": 140 },
       { "name": "Plug and Play", "src": "/plugandplay.png", "width": 120 },
-      { "name": "Dfns" },
+      { "name": "Dfns", "src": "/Dfns.png", "width": 100 },
+      { "name": "Ownera", "src": "/Ownera.png", "width": 160 },
+      { "name": "Tzero", "src": "/Tzero.png", "width": 140 },
       { "name": "Bridge", "src": "/bridge-CTOzOHvk.svg", "width": 150 },
       { "name": "Persona", "src": "/persona.png", "width": 120 },
       { "name": "Halborn", "src": "/halborn.png", "width": 180 }

@@ -134,7 +134,7 @@ export const CustomCursor = ({ variant }: { variant?: "dark" | "light" }) => {
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 100);
     window.addEventListener("scroll", handleScroll);
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
     };
@@ -168,11 +168,15 @@ export const CustomCursor = ({ variant }: { variant?: "dark" | "light" }) => {
       />
       <motion.div
         className="fixed left-0 top-0 z-[9998] hidden h-10 w-10 rounded-full border pointer-events-none md:block transition-colors duration-300"
-        style={{ 
-          borderColor: forceDark ? "rgba(10, 17, 40, 0.24)" : "rgba(255, 255, 255, 0.3)",
-          backgroundColor: isHovering 
-            ? (forceDark ? "rgba(10, 17, 40, 0.05)" : "rgba(255, 255, 255, 0.1)")
-            : "transparent"
+        style={{
+          borderColor: forceDark
+            ? "rgba(10, 17, 40, 0.24)"
+            : "rgba(255, 255, 255, 0.3)",
+          backgroundColor: isHovering
+            ? forceDark
+              ? "rgba(10, 17, 40, 0.05)"
+              : "rgba(255, 255, 255, 0.1)"
+            : "transparent",
         }}
         animate={{
           x: mousePos.x - 20,
@@ -230,7 +234,7 @@ export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
 
   return (
     <nav
-      className={`fixed left-0 right-0 top-0 z-[200] flex h-20 items-center transition-all duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-[200] flex h-20 py-13 items-center transition-all duration-300 ${
         forceLightNav
           ? "border-b border-border bg-white/95 backdrop-blur-md"
           : "bg-transparent"
@@ -261,9 +265,11 @@ export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
                     aria-current={isCurrent ? "page" : undefined}
                     className={`label-mono group relative inline-flex h-10 items-center whitespace-nowrap rounded-[6px] px-2 xl:px-4 transition-all duration-300 ${
                       isActive
-                        ? forceLightNav ? "bg-accent/5 text-accent" : "bg-white/10 !text-white"
-                        : forceLightNav 
-                          ? "text-ink-muted hover:text-accent hover:bg-accent/5" 
+                        ? forceLightNav
+                          ? "bg-accent/5 text-accent"
+                          : "bg-white/10 !text-white"
+                        : forceLightNav
+                          ? "text-ink-muted hover:text-accent hover:bg-accent/5"
                           : "!text-white hover:bg-white/10"
                     }`}
                   >
@@ -295,9 +301,13 @@ export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
                     aria-expanded={isOpen}
                     aria-current={isCurrent ? "page" : undefined}
                     className={`label-mono group relative inline-flex h-10 items-center gap-1 xl:gap-1.5 overflow-hidden whitespace-nowrap rounded-[6px] px-2 xl:px-4 transition-all duration-300 ${
-                      isActive 
-                        ? forceLightNav ? "bg-accent/5 text-accent" : "bg-white/10 !text-white" 
-                        : forceLightNav ? "text-ink-muted hover:text-accent hover:bg-accent/5" : "!text-white hover:bg-white/10"
+                      isActive
+                        ? forceLightNav
+                          ? "bg-accent/5 text-accent"
+                          : "bg-white/10 !text-white"
+                        : forceLightNav
+                          ? "text-ink-muted hover:text-accent hover:bg-accent/5"
+                          : "!text-white hover:bg-white/10"
                     }`}
                   >
                     <span>{item}</span>
@@ -320,12 +330,16 @@ export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
                         transition={{ duration: 0.18, ease: "easeOut" }}
                         className="absolute left-1/2 top-full w-[380px] xl:w-[400px] -translate-x-1/2 pt-2"
                       >
-                        <div className={`relative rounded-[12px] border p-4 shadow-[0_22px_48px_rgba(0,0,0,0.3)] backdrop-blur-xl ${
-                          forceLightNav 
-                            ? "border-border bg-white" 
-                            : "border-white/10 bg-[#1B243C]/95"
-                        }`}>
-                          <div className={`absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-${forceLightNav ? 'accent' : 'white/20'} to-transparent` } />
+                        <div
+                          className={`relative rounded-[12px] border p-4 shadow-[0_22px_48px_rgba(0,0,0,0.3)] backdrop-blur-xl ${
+                            forceLightNav
+                              ? "border-border bg-white"
+                              : "border-white/10 bg-[#1B243C]/95"
+                          }`}
+                        >
+                          <div
+                            className={`absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-${forceLightNav ? "accent" : "white/20"} to-transparent`}
+                          />
                           <div className="space-y-1">
                             {dropdown.map((dropdownItem) => {
                               const isDropdownItemActive = isHrefActive(
@@ -340,26 +354,36 @@ export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
                                     isDropdownItemActive ? "page" : undefined
                                   }
                                   className={`group block rounded-[8px] px-4 xl:px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 ${
-                                    forceLightNav 
-                                      ? "hover:bg-slate-50 hover:shadow-[0_12px_28px_rgba(10,17,40,0.08)]" 
+                                    forceLightNav
+                                      ? "hover:bg-slate-50 hover:shadow-[0_12px_28px_rgba(10,17,40,0.08)]"
                                       : "hover:bg-white/5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.2)]"
                                   } ${
                                     isDropdownItemActive
-                                      ? forceLightNav ? "border-l-2 border-accent bg-accent/5" : "border-l-2 border-white/40 bg-white/5"
+                                      ? forceLightNav
+                                        ? "border-l-2 border-accent bg-accent/5"
+                                        : "border-l-2 border-white/40 bg-white/5"
                                       : "border-l-2 border-transparent"
                                   }`}
                                   onClick={() => setActiveDropdown(null)}
                                 >
                                   <span className="flex items-start justify-between gap-4">
                                     <span>
-                                      <span className={`block text-[15px] font-bold transition-colors ${
-                                        forceLightNav ? "text-ink group-hover:text-accent" : "text-white group-hover:text-white"
-                                      }`}>
+                                      <span
+                                        className={`block text-[15px] font-bold transition-colors ${
+                                          forceLightNav
+                                            ? "text-ink group-hover:text-accent"
+                                            : "text-white group-hover:text-white"
+                                        }`}
+                                      >
                                         {dropdownItem.title}
                                       </span>
-                                      <span className={`mt-1 block text-sm leading-relaxed ${
-                                        forceLightNav ? "text-ink-muted" : "text-white/50"
-                                      }`}>
+                                      <span
+                                        className={`mt-1 block text-sm leading-relaxed ${
+                                          forceLightNav
+                                            ? "text-ink-muted"
+                                            : "text-white/50"
+                                        }`}
+                                      >
                                         {dropdownItem.description}
                                       </span>
                                     </span>
@@ -367,8 +391,8 @@ export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
                                       size={16}
                                       className={`mt-1 shrink-0 transition-all duration-300 ${
                                         isDropdownItemActive
-                                          ? `translate-x-0 ${forceLightNav ? 'text-accent' : 'text-white'} opacity-100`
-                                          : `translate-x-[-4px] ${forceLightNav ? 'text-accent' : 'text-white'} opacity-0 group-hover:translate-x-0 group-hover:opacity-100`
+                                          ? `translate-x-0 ${forceLightNav ? "text-accent" : "text-white"} opacity-100`
+                                          : `translate-x-[-4px] ${forceLightNav ? "text-accent" : "text-white"} opacity-0 group-hover:translate-x-0 group-hover:opacity-100`
                                       }`}
                                     />
                                   </span>
@@ -512,14 +536,12 @@ const DiamondVisual = ({ compact = false }: { compact?: boolean }) => (
   </div>
 );
 
-
-
 const Hero = () => {
   return (
     <section className="relative overflow-hidden bg-hero-bg pt-44 pb-20 lg:pt-52 lg:pb-1">
       {/* Background Gradients */}
-      <div className="pointer-events-none absolute left-0 top-0 h-[500px] w-[500px] md:h-[800px] md:w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-glow blur-[120px]" />
-      <div className="pointer-events-none absolute right-0 bottom-0 h-[500px] w-[500px] md:h-[800px] md:w-[800px] translate-x-1/3 translate-y-1/3 rounded-full bg-hero-glow blur-[120px]" />
+      <div className="pointer-events-none absolute -left-[500px] -top-[500px] h-[1000px] w-[1000px] rounded-full bg-hero-glow blur-[180px] opacity-60" />
+      <div className="pointer-events-none absolute -right-[500px] -bottom-[500px] h-[1000px] w-[1000px] rounded-full bg-hero-glow blur-[180px] opacity-60" />
 
       <div className="custom-container relative z-10">
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-[1.2fr_1fr]">
@@ -569,12 +591,12 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          <div className="relative hidden lg:block">
+          <div className="relative hidden lg:flex justify-end">
             <motion.img
               src="/right-visual.png"
               alt="Nomyx Platform"
               draggable={false}
-              className="w-full h-auto object-contain"
+              className="w-[550px] h-auto object-contain"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
@@ -582,11 +604,9 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="mt-20 lg:mt-32 pt-10 pb-10">
+      <div className="mt-8 lg:mt-15 pt-10 pb-10">
         <div className="custom-container text-center">
-          <p className="prgraphs text-white">
-            {pageContent.partners.label}
-          </p>
+          <p className="prgraphs text-white">{pageContent.partners.label}</p>
         </div>
       </div>
     </section>
@@ -612,9 +632,7 @@ const SectionHeader = ({
     )}
     <h2 className="section-heading mx-auto">{title}</h2>
     {description && (
-      <p className="mx-auto prgraphs text-[#42546E] mt-5">
-        {description}
-      </p>
+      <p className="mx-auto prgraphs text-[#42546E] mt-5">{description}</p>
     )}
   </div>
 );
@@ -641,7 +659,7 @@ export const Partners = () => {
                 width: partner.width ? `${partner.width + 80}px` : "260px",
               }}
             >
-              {"src" in partner ? (
+              {partner.src ? (
                 <img
                   src={partner.src}
                   alt={partner.name}
@@ -673,7 +691,8 @@ export const ValueProp = () => (
     <div className="custom-container pb-16 md:pb-20">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
         {pageContent.value.cards.map((card, i) => {
-          const iconSrc = i === 0 ? "/Union.png" : i === 1 ? "/diamond.png" : "/connect.png";
+          const iconSrc =
+            i === 0 ? "/Union.png" : i === 1 ? "/diamond.png" : "/connect.png";
           return (
             <motion.div
               key={card.title}
@@ -684,7 +703,11 @@ export const ValueProp = () => (
               className="rounded-2xl bg-[#1B243C] p-10 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl"
             >
               <div className="mb-8 h-12 w-12">
-                <img src={iconSrc} alt="" className="h-full w-auto object-contain" />
+                <img
+                  src={iconSrc}
+                  alt=""
+                  className="h-full w-auto object-contain"
+                />
               </div>
               <h3 className="mb-5 font-semibold text-[25px] text-white">
                 {card.title}
@@ -757,7 +780,9 @@ export const RoleInfrastructure = () => {
                       <Check size={14} strokeWidth={3} />
                     </div>
                     <p className="text-[17px] leading-relaxed text-[#42546E]">
-                      <span className="font-bold text-[#19233D]">{item.title}:</span>{" "}
+                      <span className="font-bold text-[#19233D]">
+                        {item.title}:
+                      </span>{" "}
                       {item.text}
                     </p>
                   </div>
@@ -791,7 +816,9 @@ export const RoleInfrastructure = () => {
                           <span className="font-medium text-[#42546E]">
                             {label}
                           </span>
-                          <span className="font-bold text-[#19233D]">{value}</span>
+                          <span className="font-bold text-[#19233D]">
+                            {value}
+                          </span>
                         </div>
                       ),
                     )}
@@ -851,7 +878,9 @@ export const RoleInfrastructure = () => {
               <div
                 key={asset.title}
                 className={`p-8 md:p-10 ${
-                  i < 2 ? "border-b border-slate-100 md:border-b-0 md:border-r" : ""
+                  i < 2
+                    ? "border-b border-slate-100 md:border-b-0 md:border-r"
+                    : ""
                 }`}
               >
                 <h3 className="mb-4 text-xl font-bold text-[#19233D]">
@@ -870,7 +899,10 @@ export const RoleInfrastructure = () => {
 };
 
 export const SmartContracts = () => (
-  <section id="the-diamond-standard" className="border-b border-border bg-white">
+  <section
+    id="the-diamond-standard"
+    className="border-b border-border bg-white"
+  >
     <div className="custom-container py-20 md:py-32">
       <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
         <div className="relative">
@@ -892,11 +924,11 @@ export const SmartContracts = () => (
               {pageContent.smartContracts.eyebrow}
             </span>
           </div>
-          
+
           <h2 className="section-heading mb-8">
             {pageContent.smartContracts.title}
           </h2>
-          
+
           <p className="prgraphs mb-12 text-ink-muted">
             {pageContent.smartContracts.description}
           </p>
@@ -1065,9 +1097,7 @@ export const Security = () => (
   <section id="resources" className="border-b border-border bg-white">
     <div className="py-20 md:py-32">
       <div className="custom-container mb-16 text-center">
-        <h2 className="section-heading mb-6">
-          {pageContent.security.title}
-        </h2>
+        <h2 className="section-heading mb-6">{pageContent.security.title}</h2>
         <p className="prgraphs mx-auto max-w-3xl text-ink-muted">
           {pageContent.security.description}
         </p>
@@ -1095,11 +1125,11 @@ export const Security = () => (
                   <div className="mb-8 flex h-16 w-16 items-center justify-center text-[#2060D4]">
                     <Icon size={56} strokeWidth={1.5} />
                   </div>
-                  
+
                   <h3 className="mb-4 text-[25px] font-bold uppercase tracking-tight text-[#19233D]">
                     {item.title}
                   </h3>
-                  
+
                   <p className="text-[15px] leading-relaxed text-[#42546E]">
                     {item.description}
                   </p>
@@ -1202,23 +1232,21 @@ export const Footer = ({
   <footer className="relative w-full bg-white overflow-hidden">
     <div className="relative w-full bg-[#F2F9FF] rounded-t-[60px] md:rounded-t-[100px] pt-20 pb-12 overflow-hidden">
       {/* Background Decorative Logos */}
-      <img 
-        src="/footer-logo-left.png" 
-        alt="" 
+      <img
+        src="/footer-logo-left.png"
+        alt=""
         className="absolute left-0 top-[20%] h-auto w-[20%] pointer-events-none opacity-60"
       />
-      <img 
-        src="/footer-logo-right.png" 
-        alt="" 
+      <img
+        src="/footer-logo-right.png"
+        alt=""
         className="absolute right-0 top-[10%] h-auto w-[20%] pointer-events-none opacity-60"
       />
 
       <div className="custom-container relative z-10">
         {/* CTA Content */}
         <div className="mb-32 text-center">
-          <h2 className="section-heading mb-5">
-            {ctaTitle}
-          </h2>
+          <h2 className="section-heading mb-5">{ctaTitle}</h2>
           <p className="mx-auto mb-12 max-w-2xl text-[18px] text-[#42546E]">
             {ctaDescription}
           </p>
@@ -1230,56 +1258,60 @@ export const Footer = ({
           />
         </div>
 
-      {/* Footer Content */}
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-5">
-          <Link href="/" className="mb-6 block">
-            <img src="/nomyx-logo.png" alt="Nomyx" className="h-9 md:h-12 w-auto" />
-          </Link>
-          <p className="max-w-sm text-[15px] font-medium leading-relaxed text-[#42546E]">
-            {pageContent.footer.description}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:col-span-7">
-          {pageContent.footer.columns.map((column) => (
-            <div key={column.title}>
-              <h4 className="mb-6 text-[13px] font-bold uppercase tracking-[0.15em] text-[#19233D]">
-                {column.title}
-              </h4>
-              <ul className="space-y-4">
-                {column.links.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-[15px] font-medium text-[#42546E] transition-colors hover:text-accent"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom Bar */}
-      <div className="mt-32 flex flex-col items-center justify-between gap-8 border-t border-slate-200 pt-10 lg:flex-row">
-        <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#42546E]/60">
-          {pageContent.footer.copyright}
-        </div>
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-[13px] font-medium text-[#42546E]">
-          {pageContent.footer.legal.map((link) => (
-            <Link
-              key={link}
-              href="/legal"
-              className="transition-colors hover:text-accent"
-            >
-              {link}
+        {/* Footer Content */}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-5">
+            <Link href="/" className="mb-6 block">
+              <img
+                src="/nomyx-logo.png"
+                alt="Nomyx"
+                className="h-9 md:h-12 w-auto"
+              />
             </Link>
-          ))}
+            <p className="max-w-sm text-[15px] font-medium leading-relaxed text-[#42546E]">
+              {pageContent.footer.description}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:col-span-7">
+            {pageContent.footer.columns.map((column) => (
+              <div key={column.title}>
+                <h4 className="mb-6 text-[13px] font-bold uppercase tracking-[0.15em] text-[#19233D]">
+                  {column.title}
+                </h4>
+                <ul className="space-y-4">
+                  {column.links.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.href}
+                        className="text-[15px] font-medium text-[#42546E] transition-colors hover:text-accent"
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* Bottom Bar */}
+        <div className="mt-32 flex flex-col items-center justify-between gap-8 border-t border-slate-200 pt-10 lg:flex-row">
+          <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#42546E]/60">
+            {pageContent.footer.copyright}
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-[13px] font-medium text-[#42546E]">
+            {pageContent.footer.legal.map((link) => (
+              <Link
+                key={link}
+                href="/legal"
+                className="transition-colors hover:text-accent"
+              >
+                {link}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>
