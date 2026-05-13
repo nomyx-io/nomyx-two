@@ -11,7 +11,7 @@ export default function Evergreen() {
   return (
     <div className="min-h-screen bg-bg font-sans text-ink">
       <CustomCursor />
-      <Navbar />
+      <Navbar variant="light" transparentInitially={true} hideBorder={true} />
 
       <main>
         <EvergreenHero />

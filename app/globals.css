@@ -50,7 +50,7 @@
   }
 
   .section-padding {
-    @apply py-16 md:py-20 lg:py-22;
+    @apply py-16 md:py-20 lg:py-18;
   }
 
   .section-heading {
@@ -64,6 +64,10 @@
       font-size: 45px;
       line-height: 54px;
     }
+  }
+
+  .eyebrow {
+    @apply inline-flex rounded-md border border-[#1B243C] px-4 py-1.5 mb-5 text-sm font-medium text-[#1B243C];
   }
 
   .text-display {

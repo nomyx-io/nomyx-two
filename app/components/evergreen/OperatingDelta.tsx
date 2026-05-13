@@ -19,7 +19,7 @@ const infrastructureItems = [
 ];
 
 export const OperatingDelta = () => (
-  <section className="border-b border-border bg-white py-20 md:py-24">
+  <section className="bg-white py-20 md:py-24">
     <div className="custom-container">
       <motion.div
         variants={fadeUp}
@@ -29,7 +29,7 @@ export const OperatingDelta = () => (
         transition={{ duration: 0.55 }}
         className="mx-auto max-w-4xl text-center"
       >
-        <h2 className="section-heading">Slash Administration Costs by 40%.</h2>
+        <h2 className="section-heading">Slash Administration Costs By 40%.</h2>
       </motion.div>
 
       <div className="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -39,33 +39,33 @@ export const OperatingDelta = () => (
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.55 }}
-          className="border border-border bg-white p-8"
+          className="rounded-[24px] bg-[#1B243C] p-8 md:p-10 shadow-xl"
         >
-          <div className="mb-6 flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center border border-border text-ink-muted">
-              <Clock3 size={22} />
+          <div className="mb-8 flex items-center gap-4">
+            <div className="flex h-10 w-10 items-center justify-center text-white">
+              <Clock3 size={28} strokeWidth={2} />
             </div>
-            <h3 className="text-3xl font-black tracking-tight text-ink">
+            <h3 className="text-[28px] font-semibold text-white">
               Traditional Admin
             </h3>
           </div>
-          <div className="space-y-5">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-6">
             {traditionalItems.map(([Icon, title, text]) => {
               const TypedIcon = Icon as typeof FileText;
 
               return (
                 <div key={title as string} className="flex gap-3">
-                  <TypedIcon className="mt-0.5 shrink-0 text-ink-muted" size={17} />
+                  <TypedIcon className="mt-1 shrink-0 text-white" size={18} />
                   <div>
-                    <div className="text-sm font-black text-ink">{title as string}</div>
-                    <p className="text-sm leading-relaxed text-ink-muted">{text as string}</p>
+                    <div className="text-[15px] font-semibold text-white mb-1">{title as string}</div>
+                    <p className="text-[13px] tracking-wider text-white">{text as string}</p>
                   </div>
                 </div>
               );
             })}
           </div>
-          <div className="mt-8 border-t border-border pt-5">
-            <span className="inline-flex border border-border px-4 py-1 text-xs font-bold text-ink-muted">
+          <div className="mt-10 border-t border-white/10 pt-7">
+            <span className="inline-flex rounded-lg border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-bold text-white/60">
               T+30 Days
             </span>
           </div>
@@ -77,29 +77,29 @@ export const OperatingDelta = () => (
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.55, delay: 0.1 }}
-          className="border border-border bg-white p-8"
+          className="rounded-[24px] bg-[#1B243C] p-8 md:p-10 shadow-xl"
         >
-          <div className="mb-6 flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center border border-border text-accent">
-              <Zap size={22} />
+          <div className="mb-8 flex items-center gap-4">
+            <div className="flex h-10 w-10 items-center justify-center text-white">
+              <Zap size={28} strokeWidth={1.5} />
             </div>
-            <h3 className="text-3xl font-black tracking-tight text-ink">
+            <h3 className="text-[28px] font-semibold text-white">
               Nomyx Infrastructure
             </h3>
           </div>
-          <div className="space-y-5">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-6">
             {infrastructureItems.map(([title, text]) => (
               <div key={title} className="flex gap-3">
-                <Check className="mt-0.5 shrink-0 text-accent" size={17} />
+                <Check className="mt-1 shrink-0 text-white" size={18} strokeWidth={3} />
                 <div>
-                  <div className="text-sm font-black text-ink">{title}</div>
-                  <p className="text-sm leading-relaxed text-ink-muted">{text}</p>
+                  <div className="text-[15px] font-bold text-white mb-1">{title}</div>
+                  <p className="text-[13px] leading-relaxed text-white/50">{text}</p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="mt-8 border-t border-border pt-5">
-            <span className="inline-flex border border-accent px-4 py-1 text-xs font-bold text-accent">
+          <div className="mt-10 border-t border-white/10 pt-7">
+            <span className="inline-flex rounded-lg bg-[#2060D4] px-4 py-1.5 text-xs font-bold text-white shadow-lg">
               Instant
             </span>
           </div>

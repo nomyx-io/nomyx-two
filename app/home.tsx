@@ -189,7 +189,15 @@ export const CustomCursor = ({ variant }: { variant?: "dark" | "light" }) => {
   );
 };
 
-export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
+export const Navbar = ({
+  variant,
+  hideBorder = false,
+  transparentInitially = false,
+}: {
+  variant?: "dark" | "light";
+  hideBorder?: boolean;
+  transparentInitially?: boolean;
+}) => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -214,6 +222,9 @@ export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
   const effectiveVariant = variant || (isHomeRoute ? "dark" : "light");
   const forceLightNav = effectiveVariant === "light" || isScrolled;
 
+  const showWhiteBg =
+    isScrolled || (effectiveVariant === "light" && !transparentInitially);
+
   const isHrefActive = (href: string) => {
     if (href.startsWith("#")) {
       return isHomeRoute && activeHash === href;
@@ -235,8 +246,8 @@ export const Navbar = ({ variant }: { variant?: "dark" | "light" }) => {
   return (
     <nav
       className={`fixed left-0 right-0 top-0 z-[200] flex h-20 py-13 items-center transition-all duration-300 ${
-        forceLightNav
-          ? "border-b border-border bg-white/95 backdrop-blur-md"
+        showWhiteBg
+          ? `${hideBorder ? "" : "border-b border-border"} bg-white/95 backdrop-blur-md`
           : "bg-transparent"
       }`}
     >
@@ -919,8 +930,8 @@ export const SmartContracts = () => (
         </div>
 
         <div className="max-w-xl">
-          <div className="mb-8">
-            <span className="inline-flex rounded-md border border-[#1B243C] px-4 py-1.5 text-sm font-medium text-[#1B243C]">
+          <div>
+            <span className="eyebrow">
               {pageContent.smartContracts.eyebrow}
             </span>
           </div>
