@@ -12,23 +12,21 @@ const steps = [
 ];
 
 export const YieldBridge = () => (
-  <section className="border-b border-border py-20 md:py-24">
+  <section className="py-20 md:py-24">
     <div className="custom-container">
-      <SectionIntro
-        // eyebrow="Yield Bridge"
-        title="Bridging Real World Yield To Digital Investors."
-        description="Keep your existing loan servicing partners. Upgrade your investor experience."
-      />
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.55 }}
+        className="mb-14 text-center"
+      >
+        <h2 className="section-heading mb-4">Bridging Real World Yield To Digital Investors.</h2>
+        <p className="text-[17px] text-ink-muted">Keep Your Existing Loan Servicing Partners. Upgrade Your Investor Experience.</p>
+      </motion.div>
 
-      <div className="relative mt-14 grid grid-cols-1 border border-border bg-white md:grid-cols-4">
-        <motion.div
-          className="absolute left-[12%] top-1/2 hidden h-px w-[76%] bg-accent/25 md:block"
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          style={{ transformOrigin: "left" }}
-        />
+      <div className="grid grid-cols-1 overflow-hidden rounded-2xl border border-[#0A112824] bg-white md:grid-cols-4">
         {steps.map(([Icon, step, title, text], index) => {
           const TypedIcon = Icon as typeof HandCoins;
           return (
@@ -39,18 +37,28 @@ export const YieldBridge = () => (
               whileInView="show"
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.55, delay: index * 0.08 }}
-              className="group relative border-b border-border bg-white p-7 text-center transition-colors hover:bg-slate-50 md:border-b-0 md:border-r last:md:border-r-0"
+              className="relative p-8 transition-colors hover:bg-slate-50/50"
             >
-              <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-accent px-4 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-white">
+              <div className="mb-6 text-[#2060D4]">
+                <TypedIcon size={50} strokeWidth={1.5} />
+              </div>
+              <div className="mb-3 text-[11px] font-bold uppercase tracking-widest">
                 {step as string}
               </div>
-              <div className="mx-auto mb-7 flex h-14 w-14 items-center justify-center border border-border text-accent transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-white">
-                <TypedIcon size={24} />
-              </div>
-              <h3 className="mb-4 text-xl font-black uppercase tracking-tight text-ink">
+              <h3 className="mb-4 text-[22px] font-bold tracking-tight text-ink">
                 {title as string}
               </h3>
-              <p className="text-sm leading-relaxed text-ink-muted">{text as string}</p>
+              <p className="text-[15px] leading-relaxed text-ink-muted">{text as string}</p>
+
+              {/* Floating separator for desktop */}
+              {index !== 3 && (
+                <div className="absolute right-0 top-1/2 hidden h-65 w-px -translate-y-1/2 bg-[#0A112824] md:block" />
+              )}
+              
+              {/* Horizontal separator for mobile */}
+              {index !== 3 && (
+                <div className="absolute bottom-0 left-1/2 h-px w-3/4 -translate-x-1/2 bg-[#0A112824] md:hidden" />
+              )}
             </motion.div>
           );
         })}
