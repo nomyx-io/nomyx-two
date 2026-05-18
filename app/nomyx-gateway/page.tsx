@@ -8,44 +8,43 @@ import { AnimatedButton } from "@/app/components/evergreen/shared";
 
 /* ── Gateway Hero Section ── */
 const GatewayHero = () => (
-  <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-white min-h-[85vh] flex items-center">
+  <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-[#F4F7FC] min-h-[85vh] flex items-center border-b border-border/40">
     {/* Subtle Background Glows */}
     <div className="absolute top-0 right-0 w-[400px] h-[400px] md:w-[800px] md:h-[800px] bg-accent/5 rounded-full blur-[150px] pointer-events-none translate-x-1/3 -translate-y-1/4" />
 
     <div className="custom-container relative z-10 w-full">
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 lg:gap-12 xl:gap-20 items-center">
-        
+
         {/* Left Side: Text Content */}
         <div className="text-left max-w-2xl mx-auto xl:mx-0">
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="section-heading mb-6"
-            style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)" }}
+            className="text-display font-bold md:font-black tracking-tight text-ink mb-6"
           >
             The Gateway: Your White-Label Liquidity Engine.
           </motion.h1>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-lg md:text-xl text-ink-muted leading-relaxed mb-10"
+            className="prgraphs text-ink-muted font-light mb-10 max-w-xl leading-relaxed"
           >
             Deploy a branded, compliant marketplace infrastructure. From primary issuance to secondary trading, manage the entire lifecycle of your digital assets in one platform.
           </motion.p>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-col sm:flex-row items-start justify-start gap-4"
           >
-            <AnimatedButton 
-              text="Launch Your Market" 
-              href="https://calendly.com/ivan-j-nomyx" 
-              variant="ink" 
+            <AnimatedButton
+              text="Launch Your Market"
+              href="https://calendly.com/ivan-j-nomyx"
+              variant="accent"
             />
           </motion.div>
         </div>
@@ -55,37 +54,35 @@ const GatewayHero = () => (
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative w-full max-w-2xl mx-auto xl:max-w-none"
+          className="relative w-full max-w-md mx-auto xl:max-w-none xl:mx-0 flex justify-center xl:justify-end"
         >
-          <div className="bg-[#0A1128] rounded-[2rem] p-8 md:p-10 border border-[#1a2340] shadow-[0_32px_80px_rgba(10,17,40,0.15)] overflow-hidden relative">
-            {/* Subtle internal glow */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-[100px] pointer-events-none" />
+          <div className="bg-white border border-[#0A11281A] rounded-[32px] p-8 md:p-10 shadow-[0_24px_60px_rgba(10,17,40,0.06)] relative flex flex-col items-center w-full max-w-[420px] select-none">
 
-            <h3 className="text-xs md:text-sm font-bold text-slate-500 uppercase tracking-[0.15em] mb-8 relative z-10">
+            <h3 className="text-xs md:text-sm font-semibold text-[#42546E] uppercase tracking-[0.12em] mb-6 text-center select-none relative z-10">
               Marketplace Admin View
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2 gap-6 relative z-10">
+            <div className="flex flex-col gap-5 w-full relative z-10">
               {/* Stat Card 1 */}
-              <div className="bg-[#121933]/80 backdrop-blur-md border border-[#1f2947] p-6 rounded-[1.5rem] flex flex-col hover:bg-[#121933] transition-colors">
-                <span className="text-xs font-semibold text-slate-400 mb-2">Total Volume</span>
-                <div className="text-3xl md:text-4xl font-black text-white tracking-tight mb-6">
+              <div className="bg-[#0A1128] border border-white/[0.05] p-6 rounded-[24px] flex flex-col justify-between min-h-[145px]">
+                <span className="text-xs font-semibold text-[#94A3B8] mb-2">Total Volume</span>
+                <div className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">
                   $127.5M
                 </div>
-                <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold text-emerald-400 bg-emerald-400/10 self-start px-3 py-1.5 rounded-full mt-auto border border-emerald-500/20">
-                  <TrendingUp size={14} strokeWidth={3} />
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-[#215EC7] bg-[#215EC7]/10 border border-[#215EC7]/10 self-start px-4 py-1.5 rounded-full">
+                  <TrendingUp size={14} strokeWidth={2.5} />
                   23.5% this month
                 </div>
               </div>
 
               {/* Stat Card 2 */}
-              <div className="bg-[#121933]/80 backdrop-blur-md border border-[#1f2947] p-6 rounded-[1.5rem] flex flex-col hover:bg-[#121933] transition-colors">
-                <span className="text-xs font-semibold text-slate-400 mb-2">Active Investors</span>
-                <div className="text-3xl md:text-4xl font-black text-white tracking-tight mb-6">
+              <div className="bg-[#0A1128] border border-white/[0.05] p-6 rounded-[24px] flex flex-col justify-between min-h-[145px]">
+                <span className="text-xs font-semibold text-[#94A3B8] mb-2">Active Investors</span>
+                <div className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">
                   2,847
                 </div>
-                <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold text-emerald-400 bg-emerald-400/10 self-start px-3 py-1.5 rounded-full mt-auto border border-emerald-500/20">
-                  <TrendingUp size={14} strokeWidth={3} />
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-[#215EC7] bg-[#215EC7]/10 border border-[#215EC7]/10 self-start px-4 py-1.5 rounded-full">
+                  <TrendingUp size={14} strokeWidth={2.5} />
                   158 new this week
                 </div>
               </div>
@@ -114,11 +111,11 @@ const primaryFeatures = [
 ];
 
 const PrimaryDistribution = () => (
-  <section className="section-padding bg-slate-50/50 border-y border-border overflow-hidden relative">
+  <section className="py-20 md:py-28 bg-white border-b border-border/40 overflow-hidden relative">
     <div className="custom-container relative z-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-        
-        {/* Left Side: Visual / GIF Showcase */}
+
+        {/* Left Side: Visual Showcase */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -126,17 +123,16 @@ const PrimaryDistribution = () => (
           transition={{ duration: 0.8 }}
           className="order-2 lg:order-1 relative w-full max-w-2xl mx-auto lg:max-w-none"
         >
-          <div className="relative w-full aspect-square md:aspect-[4/3] rounded-[2.5rem] bg-gradient-to-br from-blue-50 to-indigo-50/30 border border-blue-100/50 shadow-[0_20px_60px_rgba(37,99,235,0.05)] overflow-hidden flex items-center justify-center p-8 md:p-12">
-            <div className="absolute inset-0 bg-white/40 backdrop-blur-sm" />
-            
-            <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white shadow-sm border border-white/50 flex items-center justify-center p-6">
+          <div className="relative w-full aspect-square rounded-[2.5rem] bg-[#F4F7FC]/70 border border-[#0A11281A] overflow-hidden flex items-center justify-center p-8 md:p-10 select-none">
+            <div className="relative w-full h-full rounded-[20px] overflow-hidden bg-white border border-[#0A11281A] flex items-center justify-center p-8 shadow-sm">
               <div className="relative w-full h-full">
-                <Image 
-                  src="/primary-distribution-network.gif" 
-                  alt="Primary Distribution Network Visualization" 
+                <Image
+                  src="/primary-distribution-network.gif"
+                  alt="Primary Distribution Network"
                   fill
                   className="object-contain"
                   unoptimized
+                  draggable={false}
                 />
               </div>
             </div>
@@ -149,24 +145,24 @@ const PrimaryDistribution = () => (
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="section-heading mb-6 text-left"
+            className="text-display font-bold md:font-black tracking-tight text-ink mb-6 text-left"
           >
             Seamless Primary Distribution.
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-base md:text-lg text-ink-muted leading-relaxed mb-10"
+            className="prgraphs text-ink-muted font-light mb-10 max-w-xl leading-relaxed"
           >
             Streamline the capital formation process. The Gateway acts as your central hub, automating the distribution of assets from the issuer directly to verified investors.
           </motion.p>
 
           <div className="space-y-8">
             {primaryFeatures.map((feat, i) => (
-              <motion.div 
+              <motion.div
                 key={feat.title}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -174,14 +170,14 @@ const PrimaryDistribution = () => (
                 transition={{ delay: 0.2 + (i * 0.1) }}
                 className="flex gap-5"
               >
-                <div className="shrink-0 mt-1">
-                  <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                <div className="shrink-0 mt-0.5">
+                  <div className="w-9 h-9 rounded-full bg-[#215EC7]/10 border border-[#215EC7]/10 flex items-center justify-center">
+                    <div className="w-3 h-3 rounded-full bg-[#215EC7]" />
                   </div>
                 </div>
                 <div>
                   <h4 className="text-base font-bold text-ink mb-1.5">{feat.title}</h4>
-                  <p className="text-sm text-ink-muted leading-relaxed">
+                  <p className="text-sm text-slate-400 font-medium leading-relaxed">
                     {feat.desc}
                   </p>
                 </div>
@@ -200,12 +196,12 @@ const assetFeatures = [
   {
     title: "Seamless Onboarding",
     desc: "Satisfies KYC/AML requirements instantly. Simplify the registration process so users can join and trade quickly without friction.",
-    icon: UserCheck,
+    icon: Shield,
   },
   {
     title: "Secure Wallet Infrastructure",
     desc: "Top-tier security via Multi-Party Computation (MPC). Offer both custodial wallets for ease of use and non-custodial wallets for self-sovereignty.",
-    icon: Shield,
+    icon: UserCheck,
   },
   {
     title: "Automated Distributions",
@@ -215,53 +211,55 @@ const assetFeatures = [
 ];
 
 const AnyAssetOnePlatform = () => (
-  <section className="py-24 md:py-32 bg-white relative">
+  <section className="py-20 md:py-28 bg-[#FAFAFA] relative overflow-hidden">
     <div className="custom-container">
-      <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
-        
-        {/* Sticky Left Column */}
-        <div className="w-full lg:w-1/3 lg:sticky lg:top-32">
+      {/* Centered Title & Subtext */}
+      <div className="text-center mb-16 max-w-3xl mx-auto px-4 md:px-0">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-display font-bold md:font-black tracking-tight text-ink mb-6">
+            Any Asset. <span className="text-[#215EC7]">One Platform.</span>
+          </h2>
+          <p className="prgraphs text-ink-muted leading-relaxed font-light">
+            Whether you are managing real estate, equities, or alternative assets, the Gateway is asset-agnostic.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Centered Vertical Stack of Horizontal Cards */}
+      <div className="flex flex-col gap-6 max-w-5xl mx-auto px-4 md:px-0">
+        {assetFeatures.map((feat, i) => (
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            key={feat.title}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: i * 0.1 }}
+            className="bg-white border border-[#0A11281A] rounded-[24px] p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center hover:bg-[#F8FAFC]/50 hover:shadow-md transition-all duration-300 select-none group"
           >
-            <h2 className="section-heading mb-6 text-left">
-              Any Asset. <br className="hidden lg:block" />
-              <span className="text-accent">One Platform.</span>
-            </h2>
-            <p className="text-lg text-ink-muted leading-relaxed font-medium">
-              Whether you are managing real estate, equities, or alternative assets, the Gateway is asset-agnostic.
-            </p>
+            {/* Column 1: Standalone Icon with Right Divider */}
+            <div className="w-16 md:w-24 shrink-0 flex items-center justify-start md:justify-center pr-0 md:pr-6 pb-4 md:pb-0 border-b md:border-b-0 md:border-r border-[#0A11281A] self-stretch md:self-auto">
+              <feat.icon size={36} className="text-[#215EC7] shrink-0 animate-none" />
+            </div>
+
+            {/* Column 2: Title */}
+            <div className="w-full md:w-56 shrink-0 pl-0 md:pl-8 pt-4 md:pt-0 flex items-center">
+              <h3 className="text-lg md:text-xl font-bold text-ink leading-tight select-none">
+                {feat.title}
+              </h3>
+            </div>
+
+            {/* Column 3: Description */}
+            <div className="flex-1 pl-0 md:pl-8 pt-2 md:pt-0 flex items-center">
+              <p className="text-sm md:text-[15px] text-slate-400 font-medium leading-relaxed">
+                {feat.desc}
+              </p>
+            </div>
           </motion.div>
-        </div>
-
-        {/* Scrolling Right Column */}
-        <div className="w-full lg:w-2/3 flex flex-col gap-8 md:gap-10">
-          {assetFeatures.map((feat, i) => (
-            <motion.div
-              key={feat.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="bg-white border border-border rounded-[2rem] p-8 md:p-12 shadow-[0_8px_30px_rgba(10,17,40,0.04)] hover:shadow-[0_24px_60px_rgba(10,17,40,0.08)] transition-all duration-500 flex flex-col sm:flex-row gap-6 md:gap-8 items-start group"
-            >
-              <div className="w-16 h-16 shrink-0 rounded-2xl bg-accent/5 border border-accent/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-accent group-hover:border-accent transition-all duration-500">
-                <feat.icon size={28} className="text-accent group-hover:text-white transition-colors duration-500" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-black text-ink tracking-tight mb-4 group-hover:text-accent transition-colors duration-300">
-                  {feat.title}
-                </h3>
-                <p className="text-base md:text-lg text-ink-muted leading-relaxed font-medium">
-                  {feat.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
+        ))}
       </div>
     </div>
   </section>
@@ -269,27 +267,27 @@ const AnyAssetOnePlatform = () => (
 
 /* ── Effortless On/Off Ramps ── */
 const EffortlessRamps = () => (
-  <section className="section-padding bg-slate-50/50 border-t border-border overflow-hidden relative">
+  <section className="py-20 md:py-28 bg-white border-b border-border/40 overflow-hidden relative">
     <div className="custom-container relative z-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-        
+
         {/* Left Side: Text Content */}
         <div className="max-w-2xl mx-auto lg:mx-0">
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="section-heading mb-6 text-left"
+            className="text-display font-bold md:font-black tracking-tight text-ink mb-6 text-left"
           >
             Effortless On/Off Ramps.
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-base md:text-lg text-ink-muted leading-relaxed"
+            className="prgraphs text-ink-muted font-light max-w-xl leading-relaxed"
           >
             Bridge the gap between traditional banking and digital currency. The Gateway supports global traditional payment methods (ACH/Wire), allowing users to move funds in and out with minimal friction.
           </motion.p>
@@ -301,47 +299,47 @@ const EffortlessRamps = () => (
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="relative w-full max-w-[440px] mx-auto lg:ml-auto lg:mr-0"
+          className="relative w-full max-w-[440px] mx-auto lg:ml-auto lg:mr-0 select-none"
         >
           {/* Decorative Glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-accent/5 blur-[80px] rounded-full pointer-events-none" />
 
           {/* Transfer Mockup Card */}
-          <div className="relative bg-white rounded-3xl border border-border shadow-[0_32px_80px_rgba(10,17,40,0.06)] p-8">
+          <div className="relative bg-white border border-[#0A11281A] rounded-[32px] shadow-[0_24px_60px_rgba(10,17,40,0.06)] p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
+              <div className="w-8 h-8 rounded-lg bg-[#215EC7]/10 flex items-center justify-center text-[#215EC7]">
                 <CreditCard size={18} />
               </div>
-              <h3 className="text-base font-bold text-ink">Transfer In</h3>
+              <h3 className="text-base font-bold text-ink select-none">Transfer In</h3>
             </div>
 
-            <div className="h-px bg-slate-100 mb-6 w-full" />
+            <div className="h-px bg-slate-100/80 mb-6 w-full" />
 
             <div className="flex flex-col gap-4 relative">
               {/* Source */}
               <div>
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5 block ml-1">Source</label>
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-accent/30 transition-colors cursor-default">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5 block ml-1 select-none">Source</label>
+                <div className="bg-[#F8FAFC] border border-[#0A11281A] rounded-[20px] p-5 select-none">
                   <span className="text-[15px] font-semibold text-ink">ACH Push</span>
                 </div>
               </div>
 
               {/* Arrow Connector */}
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-[0_4px_16px_rgba(10,17,40,0.08)] flex items-center justify-center z-10 text-accent border border-slate-100">
-                <ArrowRight size={16} className="rotate-90 text-accent/70" />
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-sm border border-[#0A11281A] flex items-center justify-center z-10 text-[#215EC7]">
+                <ArrowRight size={16} className="rotate-90 text-[#215EC7]" />
               </div>
 
               {/* Destination */}
               <div className="mt-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5 block ml-1">Destination</label>
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-accent/30 transition-colors cursor-default">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5 block ml-1 select-none">Destination</label>
+                <div className="bg-[#F8FAFC] border border-[#0A11281A] rounded-[20px] p-5 select-none">
                   <span className="text-[15px] font-semibold text-ink">USDC</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-10 text-center">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <div className="mt-8 text-center">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest select-none">
                 Direct Fiat Integration
               </span>
             </div>
@@ -355,10 +353,10 @@ const EffortlessRamps = () => (
 
 /* ── Secure Asset Distribution & Trade ── */
 const SecureAssetDistribution = () => (
-  <section className="section-padding bg-slate-50/50 relative overflow-hidden">
+  <section className="py-20 md:py-28 bg-[#FAFAFA] relative overflow-hidden border-b border-border/40">
     <div className="custom-container relative z-10">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center">
-        
+
         {/* Left Side: Text */}
         <div className="lg:col-span-5 pr-0 lg:pr-8">
           <motion.div
@@ -370,30 +368,30 @@ const SecureAssetDistribution = () => (
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">Marketplace Live</span>
           </motion.div>
-          
+
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="section-heading mb-6 text-left"
+            className="text-display font-bold md:font-black tracking-tight text-ink mb-6 text-left"
           >
             Secure Asset Distribution & Trade.
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg text-ink-muted leading-relaxed font-medium"
+            className="prgraphs text-ink-muted font-light max-w-xl leading-relaxed"
           >
             Plug and play with a white-labeled exchange tailored to your specific needs. Expand asset liquidity to reach global markets while retaining complete control over the user experience.
           </motion.p>
         </div>
 
         {/* Right Side: Bento Box Data View */}
-        <div className="lg:col-span-7">
-          <motion.div 
+        <div className="lg:col-span-7 select-none">
+          <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -401,31 +399,28 @@ const SecureAssetDistribution = () => (
             className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6"
           >
             {/* TVL Block */}
-            <div className="sm:col-span-1 bg-white p-8 md:p-10 rounded-[2rem] shadow-[0_8px_30px_rgba(10,17,40,0.04)] border border-border flex flex-col justify-center min-h-[220px] hover:shadow-[0_20px_60px_rgba(10,17,40,0.08)] transition-all duration-500 hover:-translate-y-1">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Total Value Locked</span>
-              <span className="text-4xl lg:text-5xl font-black text-ink tracking-tight">$24.5M</span>
+            <div className="sm:col-span-1 bg-white p-8 md:p-10 rounded-[24px] shadow-sm border border-[#0A11281A] flex flex-col justify-center min-h-[175px] hover:shadow-md hover:bg-[#F8FAFC]/50 transition-all duration-300">
+              <span className="text-xs font-semibold text-slate-400 mb-4 uppercase tracking-wider select-none">Total Value Locked</span>
+              <span className="text-4xl lg:text-5xl font-bold text-ink tracking-tight select-none">$24.5M</span>
             </div>
 
             {/* Investors Block */}
-            <div className="sm:col-span-1 bg-white p-8 md:p-10 rounded-[2rem] shadow-[0_8px_30px_rgba(10,17,40,0.04)] border border-border flex flex-col justify-center min-h-[220px] hover:shadow-[0_20px_60px_rgba(10,17,40,0.08)] transition-all duration-500 hover:-translate-y-1">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Active Investors</span>
-              <span className="text-4xl lg:text-5xl font-black text-ink tracking-tight">1,247</span>
+            <div className="sm:col-span-1 bg-white p-8 md:p-10 rounded-[24px] shadow-sm border border-[#0A11281A] flex flex-col justify-center min-h-[175px] hover:shadow-md hover:bg-[#F8FAFC]/50 transition-all duration-300">
+              <span className="text-xs font-semibold text-slate-400 mb-4 uppercase tracking-wider select-none">Active Investors</span>
+              <span className="text-4xl lg:text-5xl font-bold text-ink tracking-tight select-none">1,247</span>
             </div>
 
             {/* CTA Block (Spans full width) */}
-            <div className="sm:col-span-2 bg-[#0F766E] p-8 md:p-10 rounded-[2rem] shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 relative overflow-hidden group">
-              {/* Background glow effect inside teal card */}
-              <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
+            <div className="sm:col-span-2 bg-[#0A1128] p-8 md:p-10 rounded-[24px] shadow-md border border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 relative overflow-hidden group hover:bg-[#131B32] transition-colors duration-300">
               <div className="relative z-10">
-                <h4 className="text-white font-bold text-xl md:text-2xl mb-2 tracking-tight">Marketplace Project View</h4>
-                <p className="text-[#99F6E4] text-xs font-bold uppercase tracking-widest opacity-90">Instant liquidity for your investors</p>
+                <h4 className="text-white font-bold text-xl md:text-2xl mb-2 tracking-tight select-none">Marketplace Project View</h4>
+                <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest select-none">Instant liquidity for your investors</p>
               </div>
-              
-              <AnimatedButton 
-                text="Swap Collateral" 
-                variant="white" 
-              />
+
+              <button className="bg-white hover:bg-slate-100 text-ink font-bold text-sm px-6 py-3 rounded-xl transition-all duration-300 flex items-center gap-2 select-none shrink-0 shadow-sm border border-slate-200">
+                <span>Swap Collateral</span>
+                <ArrowRight size={16} className="text-ink" />
+              </button>
             </div>
           </motion.div>
         </div>
@@ -439,7 +434,7 @@ export default function NomyxGatewayPage() {
   return (
     <div className="min-h-screen bg-white font-sans text-ink">
       <CustomCursor />
-      <Navbar />
+      <Navbar transparentInitially={true} hideBorder={true} />
 
       <main>
         <GatewayHero />
@@ -449,7 +444,7 @@ export default function NomyxGatewayPage() {
         <SecureAssetDistribution />
       </main>
 
-      <Footer 
+      <Footer
         ctaTitle="Your Ecosystem. Powered by Nomyx."
         ctaDescription="We provide the banking-grade rails. You provide the vision. Deliver a seamless digital experience that keeps your investors within your brand."
         ctaButtonText="Deploy Your Branded Portal"

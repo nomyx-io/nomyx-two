@@ -13,6 +13,7 @@ import {
   Copy,
   Download,
   CheckCircle2,
+  ArrowRight,
 } from "lucide-react";
 import Image from "next/image";
 import { CustomCursor, Navbar, Footer } from "@/app/home";
@@ -31,9 +32,9 @@ const ResourcesHero = () => (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center justify-center px-5 py-2 bg-emerald-50 border border-emerald-100 rounded-full mb-8 shadow-sm"
+          className="inline-flex items-center justify-center px-6 py-2 bg-[#0A1128] rounded-full mb-8 shadow-sm select-none"
         >
-          <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-widest text-center">
+          <span className="text-[10px] font-bold text-white uppercase tracking-widest text-center">
             Institutional Library
           </span>
         </motion.div>
@@ -42,18 +43,17 @@ const ResourcesHero = () => (
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="section-heading mb-6"
-          style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)" }}
+          className="text-display font-bold md:font-black tracking-tight text-ink mb-6 text-center leading-tight"
         >
           Insights, Documentation, <br className="hidden md:block" />
-          and Research.
+          And Research.
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-lg md:text-xl text-ink-muted leading-relaxed font-medium max-w-2xl mx-auto mb-10"
+          className="prgraphs text-ink-muted leading-relaxed font-light max-w-3xl mx-auto mb-10 text-center"
         >
           Explore our technical guides, strategic reports, and developer
           documentation to understand the infrastructure powering the next
@@ -70,7 +70,7 @@ const ResourcesHero = () => (
             href="https://nomyx-io.github.io/gemforce-docs/"
             target="_blank"
             rel="noopener noreferrer"
-            variant="ink"
+            variant="accent"
           />
         </motion.div>
       </div>
@@ -80,10 +80,7 @@ const ResourcesHero = () => (
 
 /* ── Build on Nomyx ── */
 const BuildOnNomyx = () => (
-  <section className="section-padding bg-slate-50 relative overflow-hidden">
-    {/* Subtle Grid Background Pattern */}
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
-
+  <section className="py-20 md:py-28 bg-[#FAFAFA] relative overflow-hidden border-b border-border/40">
     <div className="custom-container relative z-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         {/* Left: Text Content */}
@@ -92,7 +89,7 @@ const BuildOnNomyx = () => (
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="section-heading mb-6 text-left"
+            className="text-display font-bold md:font-black tracking-tight text-ink mb-6 text-left"
           >
             Build on Nomyx.
           </motion.h2>
@@ -102,7 +99,7 @@ const BuildOnNomyx = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg text-ink-muted leading-relaxed mb-10"
+            className="prgraphs text-ink-muted font-light leading-relaxed mb-10"
           >
             Access our comprehensive API references, SDKs, and smart contract
             architecture guides. Everything your engineering team needs to
@@ -120,7 +117,7 @@ const BuildOnNomyx = () => (
               href="https://nomyx-io.github.io/gemforce-docs/"
               target="_blank"
               rel="noopener noreferrer"
-              variant="ink"
+              variant="accent"
             />
           </motion.div>
         </div>
@@ -131,10 +128,11 @@ const BuildOnNomyx = () => (
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="relative w-full max-w-xl mx-auto lg:mr-0"
+          className="relative w-full max-w-xl mx-auto lg:mr-0 select-none"
         >
-          <div className="bg-[#0B1120] rounded-[2rem] shadow-[0_32px_80px_rgba(10,17,40,0.15)] border border-slate-800 overflow-hidden flex flex-col font-mono">
-            <div className="px-6 py-4 border-b border-slate-800/60 flex items-center gap-2 bg-[#0B1120]">
+          <div className="bg-[#0A1128] rounded-[24px] shadow-[0_24px_60px_rgba(10,17,40,0.06)] border border-white/5 overflow-hidden flex flex-col font-mono">
+            {/* Colored Windows dots */}
+            <div className="px-6 py-4 border-b border-white/5 flex items-center gap-2 bg-[#0A1128]">
               <div className="w-3 h-3 rounded-full bg-rose-500" />
               <div className="w-3 h-3 rounded-full bg-amber-500" />
               <div className="w-3 h-3 rounded-full bg-emerald-500" />
@@ -142,24 +140,24 @@ const BuildOnNomyx = () => (
 
             <div className="p-8 md:p-10 text-[14px] md:text-base leading-relaxed text-slate-300">
               <div className="flex items-center gap-3 text-emerald-400 mb-8">
-                <span className="text-xl">&gt;_</span>
+                <span className="text-xl font-bold">&gt;_</span>
               </div>
 
               <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-emerald-400">$</span>
-                  <span className="text-slate-200">npm install @nomyx/sdk</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-cyan-400 font-bold">$</span>
+                  <span className="text-white font-medium">npm install @nomyx/sdk</span>
                 </div>
 
-                <div className="text-slate-500">Installing dependencies...</div>
+                <div className="text-slate-500 text-sm">Installing dependencies...</div>
 
-                <div className="flex items-center gap-3 text-emerald-400/90">
-                  <CheckCircle size={16} />
+                <div className="flex items-center gap-3 text-emerald-400/90 font-medium">
+                  <CheckCircle2 size={16} className="text-emerald-400" />
                   <span>Smart contract interfaces</span>
                 </div>
 
-                <div className="flex items-center gap-3 text-emerald-400/90">
-                  <CheckCircle size={16} />
+                <div className="flex items-center gap-3 text-emerald-400/90 font-medium">
+                  <CheckCircle2 size={16} className="text-emerald-400" />
                   <span>Compliance modules</span>
                 </div>
 
@@ -174,7 +172,7 @@ const BuildOnNomyx = () => (
           </div>
 
           {/* Decorative Background Glow */}
-          <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-accent/10 blur-[100px] rounded-full pointer-events-none" />
+          <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-accent/5 blur-[100px] rounded-full pointer-events-none" />
         </motion.div>
       </div>
     </div>
@@ -183,9 +181,9 @@ const BuildOnNomyx = () => (
 
 /* ── Ebook Feature ── */
 const EbookFeature = ({ onDownloadClick }: { onDownloadClick: () => void }) => (
-  <section className="section-padding bg-white relative overflow-hidden">
+  <section className="py-20 md:py-28 bg-white relative overflow-hidden">
     <div className="custom-container relative z-10">
-      <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-12 lg:p-16 shadow-[0_8px_30px_rgba(10,17,40,0.04)] border border-border relative overflow-hidden">
+      <div className="bg-[#FAFAFA] rounded-[32px] p-8 md:p-12 lg:p-16 shadow-sm border border-[#0A11281A] relative overflow-hidden">
         {/* Decorative subtle glow */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[80px] pointer-events-none" />
 
@@ -196,12 +194,12 @@ const EbookFeature = ({ onDownloadClick }: { onDownloadClick: () => void }) => (
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative flex flex-col items-center justify-center"
+            className="relative flex flex-col items-center justify-center select-none"
           >
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="relative w-full max-w-[340px] aspect-[3/4]"
+              className="relative w-full max-w-[300px] aspect-[3/4]"
             >
               <Image
                 src="/ebook-cover.png"
@@ -216,7 +214,7 @@ const EbookFeature = ({ onDownloadClick }: { onDownloadClick: () => void }) => (
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
-              className="mt-8 text-sm font-bold text-slate-400 tracking-wide"
+              className="mt-8 text-xs font-bold text-slate-400 tracking-wider uppercase select-none"
             >
               Read by 500+ Asset Managers.
             </motion.p>
@@ -228,7 +226,7 @@ const EbookFeature = ({ onDownloadClick }: { onDownloadClick: () => void }) => (
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="section-heading mb-6 text-left"
+              className="text-display font-bold md:font-black tracking-tight text-ink mb-6 text-left"
             >
               Why Tokenize My Fund?
             </motion.h2>
@@ -238,11 +236,11 @@ const EbookFeature = ({ onDownloadClick }: { onDownloadClick: () => void }) => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-lg text-ink-muted leading-relaxed mb-8 font-medium"
+              className="prgraphs text-ink-muted font-light leading-relaxed mb-8"
             >
               Unlock the liquidity premium. Download our definitive guide on
               operational efficiency, secondary markets, and the shift to
-              'Institutional-Native' funds.
+              &apos;Institutional-Native&apos; funds.
             </motion.p>
 
             <motion.ul
@@ -260,13 +258,13 @@ const EbookFeature = ({ onDownloadClick }: { onDownloadClick: () => void }) => (
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-3 text-ink-muted font-medium"
+                  className="flex items-center gap-3 text-ink-muted font-medium select-none"
                 >
                   <CheckCircle2
                     size={20}
-                    className="text-emerald-500 shrink-0 mt-0.5"
+                    className="text-[#215EC7] bg-[#215EC7]/10 rounded-full p-0.5 shrink-0"
                   />
-                  <span>{item}</span>
+                  <span className="text-sm md:text-base text-[#42546E] font-medium">{item}</span>
                 </li>
               ))}
             </motion.ul>
@@ -283,7 +281,7 @@ const EbookFeature = ({ onDownloadClick }: { onDownloadClick: () => void }) => (
                   e.preventDefault();
                   onDownloadClick();
                 }}
-                variant="ink"
+                variant="accent"
               />
             </motion.div>
           </div>
@@ -299,7 +297,7 @@ export default function ResourcesPage() {
   return (
     <div className="min-h-screen bg-white font-sans text-ink">
       <CustomCursor />
-      <Navbar />
+      <Navbar transparentInitially={true} hideBorder={true} />
 
       <main>
         <ResourcesHero />

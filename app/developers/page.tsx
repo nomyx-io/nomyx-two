@@ -2,19 +2,29 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { ArrowUpRight, Terminal, CheckCircle2, Code, TerminalSquare, Zap, Code2, ArrowRight, ShieldCheck, Key, Network, Fingerprint, Github, MessageSquare, Layers} from "lucide-react";
+import { 
+  Terminal, 
+  CheckCircle2, 
+  TerminalSquare, 
+  Zap, 
+  Code2, 
+  ArrowRight, 
+  ShieldCheck, 
+  Key, 
+  Network, 
+  Fingerprint, 
+  Github, 
+  MessageSquare, 
+  Layers
+} from "lucide-react";
 import { CustomCursor, Navbar, Footer } from "@/app/home";
 import { AnimatedButton } from "@/app/components/evergreen/shared";
 
 /* ── Developers Hero Section ── */
 const DevelopersHero = () => (
   <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 bg-white overflow-hidden min-h-[90vh] flex items-center">
-    {/* Clean White Theme Background with Grid */}
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px]" />
-    
-    {/* Subtle Glows to make the dark terminal pop */}
-    <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-blue-100/50 blur-[100px] rounded-full pointer-events-none" />
-    <div className="absolute bottom-[10%] left-[20%] w-[400px] h-[400px] bg-emerald-50/50 blur-[100px] rounded-full pointer-events-none" />
+    {/* Clean Right Glow Background Gradient */}
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_30%,#D9EFFF_0%,transparent_50%),radial-gradient(circle_at_0%_40%,rgba(33,94,199,0.06),transparent_50%)] bg-white" />
 
     <div className="custom-container relative z-10 w-full">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
@@ -27,25 +37,29 @@ const DevelopersHero = () => (
             transition={{ duration: 0.5 }}
             className="mb-8"
           >
-            <span className="inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-[#1E3A8A]">
-              Nomyx API v2.0
-            </span>
+            <div className="inline-flex items-center justify-center px-4 py-1.5 bg-white border border-[#0A11281A] rounded-[8px] shadow-sm select-none">
+              <span className="text-[11px] font-semibold text-[#0A1128] tracking-normal text-center">
+                Nomyx API V2.0
+              </span>
+            </div>
           </motion.div>
           
           <motion.h1
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-display mb-6 mt-1"
+            className="text-display font-bold md:font-black tracking-tight text-ink mb-6 mt-1 leading-tight text-left"
           >
-            The Infrastructure Layer for Real-World Assets.
+            The Infrastructure <br className="hidden md:block" />
+            Layer For Real-World <br className="hidden md:block" />
+            Assets.
           </motion.h1>
           
           <motion.p
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg md:text-xl text-ink-muted leading-relaxed mb-10 font-medium"
+            className="prgraphs text-ink-muted leading-relaxed font-light text-left mb-10 max-w-xl"
           >
             Don't reinvent the wheel. Integrate banking-grade tokenization, identity, and compliance directly into your application with a few lines of code.
           </motion.p>
@@ -56,9 +70,9 @@ const DevelopersHero = () => (
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <AnimatedButton 
-              text="Read the Docs" 
+              text="Read The Docs" 
               href="https://nomyx-io.github.io/gemforce-docs/" 
-              variant="ink" 
+              variant="accent" 
             />
           </motion.div>
         </div>
@@ -72,26 +86,27 @@ const DevelopersHero = () => (
             className="relative transform-style-3d"
           >
             {/* Main Terminal Window */}
-            <div className="relative bg-[#0B1120] rounded-2xl shadow-[0_40px_100px_rgba(11,17,32,0.2)] overflow-hidden border border-slate-800">
+            <div className="relative bg-[#0A1128] rounded-[24px] shadow-[0_40px_100px_rgba(10,17,40,0.18)] overflow-hidden border border-[#ffffff0a]">
               
               {/* macOS Window Controls */}
-              <div className="px-5 py-4 flex items-center gap-2 border-b border-slate-800/60 bg-[#0B1120]">
+              <div className="px-5 py-4 flex items-center gap-2 border-b border-[#ffffff0a] bg-[#0A1128]">
                 <div className="w-3 h-3 rounded-full bg-rose-500" />
                 <div className="w-3 h-3 rounded-full bg-amber-500" />
                 <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                <div className="ml-4 text-xs font-mono text-slate-500 flex items-center gap-2">
-                  <Terminal size={12} /> ~/terminal
+                <div className="ml-4 text-xs font-mono text-slate-400 flex items-center gap-2">
+                  <Terminal size={12} /> ~ /terminal
                 </div>
               </div>
               
               {/* Code Content */}
-              <div className="p-6 md:p-8 font-mono text-[13px] md:text-sm leading-loose text-slate-300">
+              <div className="p-6 md:p-8 font-mono text-[13px] md:text-sm leading-relaxed text-slate-300">
                 {/* Request */}
                 <div className="mb-8">
                   <span className="text-emerald-400 mr-2">$</span>
-                  <span className="text-emerald-300">curl</span> https://api.nomyx.io/v2/assets/mint \<br/>
-                  &nbsp;&nbsp;<span className="text-sky-300">-H</span> <span className="text-amber-300">"Authorization: Bearer sk_live_..."</span> \<br/>
-                  &nbsp;&nbsp;<span className="text-sky-300">-d</span> <span className="text-amber-300">'{'{"amount": 1000000, "recipient": "0x..."}'}'</span>
+                  <span className="text-emerald-400 mr-2">curl</span>
+                  <span className="text-white">https://api.nomyx.io/v2/assets/mint \</span><br/>
+                  &nbsp;&nbsp;<span className="text-cyan-400">-H</span> <span className="text-amber-300">"Authorization: Bearer sk_live_..." \</span><br/>
+                  &nbsp;&nbsp;<span className="text-cyan-400">-d</span> <span className="text-amber-300">'{'{"amount": 1000000, "recipient": "0x..."}'}'</span>
                 </div>
 
                 {/* Response Block (Nested styling) */}
@@ -99,12 +114,12 @@ const DevelopersHero = () => (
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 1.2 }}
-                  className="bg-[#0f172a] rounded-xl p-5 border border-slate-700/50 shadow-inner"
+                  className="bg-[#0F172A]/70 rounded-[16px] p-5 border border-[#ffffff0a] shadow-inner"
                 >
                   <span className="text-slate-400">{'{'}</span><br/>
-                  &nbsp;&nbsp;<span className="text-sky-300">"status"</span>: <span className="text-emerald-300">"success"</span>,<br/>
-                  &nbsp;&nbsp;<span className="text-sky-300">"txHash"</span>: <span className="text-amber-300">"0x7f3b..."</span>,<br/>
-                  &nbsp;&nbsp;<span className="text-sky-300">"code"</span>: <span className="text-fuchsia-400">200</span><br/>
+                  &nbsp;&nbsp;<span className="text-cyan-400">"status"</span>: <span className="text-emerald-400">"success"</span>,<br/>
+                  &nbsp;&nbsp;<span className="text-cyan-400">"txHash"</span>: <span className="text-amber-300">"0x7f3b..."</span>,<br/>
+                  &nbsp;&nbsp;<span className="text-cyan-400">"code"</span>: <span className="text-fuchsia-400">200</span><br/>
                   <span className="text-slate-400">{'}'}</span>
                 </motion.div>
                 
@@ -117,18 +132,18 @@ const DevelopersHero = () => (
               </div>
             </div>
             
-            {/* Floating Decorative Elements (for 'different animation style') */}
+            {/* Floating Status Card */}
             <motion.div
-              animate={{ y: [0, -15, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-              className="absolute -bottom-8 -left-8 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 z-20"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              className="absolute -bottom-6 -left-8 bg-white p-4 rounded-[16px] shadow-lg border border-[#0A11281A] flex items-center gap-3 z-20 select-none"
             >
-              <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                <CheckCircle2 size={20} />
+              <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 shrink-0">
+                <CheckCircle2 size={18} className="text-white fill-emerald-500" />
               </div>
               <div>
-                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Status</div>
-                <div className="text-sm font-bold text-ink">API Online</div>
+                <div className="text-[10px] font-bold text-[#42546E] uppercase tracking-wider leading-none mb-1">Status</div>
+                <div className="text-sm font-bold text-[#0A1128]">API Online</div>
               </div>
             </motion.div>
             
@@ -140,40 +155,34 @@ const DevelopersHero = () => (
   </section>
 );
 
-/* ── Toolkit Section (Anti-Card Row Layout) ── */
+/* ── Toolkit Section ── */
 const ToolkitSection = () => {
   const features = [
     {
       icon: TerminalSquare,
       title: "GraphQL & REST",
-      description: "Query your asset data with precision. Our GraphQL API allows you to fetch complex ownership structures in a single request.",
-      color: "text-blue-500",
-      bg: "bg-blue-500/10"
+      description: "Query your asset data with precision. Our GraphQL API allows you to fetch complex ownership structures in a single request."
     },
     {
       icon: Zap,
       title: "Webhooks & Events",
-      description: "Real-time settlement. Subscribe to on-chain events like TransferSettled or ComplianceCheckFailed to update your internal UI instantly.",
-      color: "text-emerald-500",
-      bg: "bg-emerald-500/10"
+      description: "Real-time settlement. Subscribe to on-chain events like TransferSettled or ComplianceCheckFailed to update your internal UI instantly."
     },
     {
       icon: Code2,
       title: "Type-Safe SDKs",
-      description: "Ship faster with fully typed SDKs for TypeScript, Python, and Go.",
-      color: "text-fuchsia-500",
-      bg: "bg-fuchsia-500/10"
+      description: "Ship faster with fully typed SDKs for TypeScript, Python, and Go."
     }
   ];
 
   return (
-    <section className="section-padding bg-slate-50 relative overflow-hidden">
+    <section className="py-24 bg-white relative overflow-hidden border-t border-[#0A11281A]">
       <div className="custom-container max-w-5xl relative z-10">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="section-heading mb-20 md:mb-28 text-center"
+          className="text-display font-bold md:font-black tracking-tight text-ink mb-20 text-center"
         >
           A Complete Toolkit for <br className="hidden md:block"/> Fintech Engineering.
         </motion.h2>
@@ -186,43 +195,37 @@ const ToolkitSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="group relative flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-12 py-10 md:py-16 border-t border-slate-200 transition-colors cursor-pointer"
+              className="relative flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-12 py-12 border-t border-[#0A11281A] transition-colors"
             >
-              {/* Animated Hover Background */}
-              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-all duration-500 -z-10 rounded-3xl scale-95 group-hover:scale-100 shadow-[0_20px_40px_rgba(10,17,40,0.04)]" />
-              
-              <div className="flex items-center gap-6 md:gap-8 md:w-[45%] px-4 md:px-8">
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 ${item.bg} ${item.color} group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500`}>
-                  <item.icon size={32} strokeWidth={2} />
+              <div className="flex items-center gap-6 md:w-[45%]">
+                <div className="w-14 h-14 rounded-[16px] border border-[#0A11281A] flex items-center justify-center text-[#215EC7] bg-[#215EC7]/5 shrink-0">
+                  <item.icon size={26} strokeWidth={2} />
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-ink group-hover:translate-x-2 transition-transform duration-500">
+                <h3 className="text-2xl font-bold text-ink">
                   {item.title}
                 </h3>
               </div>
               
-              <div className="md:w-[55%] flex items-center justify-between gap-6 px-4 md:px-8">
-                <p className="text-lg text-ink-muted leading-relaxed font-medium">
+              <div className="md:w-[55%] text-left">
+                <p className="text-lg text-ink-muted leading-relaxed font-light">
                   {item.description}
                 </p>
-                <div className="hidden md:flex w-12 h-12 rounded-full bg-slate-100 items-center justify-center text-slate-400 group-hover:bg-accent group-hover:text-white transition-colors shrink-0 group-hover:-rotate-45 duration-500 shadow-sm">
-                  <ArrowRight size={20} />
-                </div>
               </div>
             </motion.div>
           ))}
-          <div className="border-t border-slate-200" />
+          <div className="border-t border-[#0A11281A]" />
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
 /* ── Sandbox Section ── */
 const SandboxSection = () => {
   const [isTestnet, setIsTestnet] = useState(true);
 
   return (
-    <section className="section-padding bg-white relative overflow-hidden">
+    <section className="py-24 bg-white relative overflow-hidden border-t border-[#0A11281A]">
       <div className="custom-container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           
@@ -233,20 +236,17 @@ const SandboxSection = () => {
             viewport={{ once: true }}
             className="relative mx-auto w-full max-w-md lg:max-w-lg"
           >
-            {/* Dynamic Background blur ring */}
-            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full blur-[100px] transition-colors duration-1000 pointer-events-none ${isTestnet ? 'bg-emerald-100/50' : 'bg-rose-100/50'}`} />
-
-            <div className="relative bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_24px_48px_rgba(10,17,40,0.08)] border border-slate-100 overflow-hidden">
-              <div className="flex items-center justify-between mb-10">
-                <h3 className="text-xl md:text-2xl font-black text-ink">Environment</h3>
+            <div className="relative bg-white rounded-[32px] p-8 md:p-10 shadow-[0_24px_48px_rgba(10,17,40,0.06)] border border-[#0A11281A] overflow-hidden">
+              <div className="flex items-center justify-between mb-10 select-none">
+                <h3 className="text-2xl font-black text-ink">Environment</h3>
                 
                 {/* Interactive Toggle */}
                 <div className="flex items-center gap-3">
-                  <span className={`text-xs font-bold transition-colors duration-500 ${!isTestnet ? 'text-ink' : 'text-slate-400'}`}>Mainnet</span>
+                  <span className={`text-[13px] font-semibold transition-colors duration-500 ${!isTestnet ? 'text-[#0A1128]' : 'text-slate-400'}`}>Mainnet</span>
                   
                   <button 
                     onClick={() => setIsTestnet(!isTestnet)}
-                    className={`relative w-14 h-7 rounded-full transition-colors duration-500 flex items-center px-1 shadow-inner focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent ${isTestnet ? 'bg-emerald-500' : 'bg-slate-800'}`}
+                    className={`relative w-14 h-7 rounded-full transition-colors duration-500 flex items-center px-1 shadow-inner focus:outline-none ${isTestnet ? 'bg-[#215EC7]' : 'bg-slate-300'}`}
                     aria-label="Toggle Environment"
                   >
                     <motion.div 
@@ -257,53 +257,52 @@ const SandboxSection = () => {
                     />
                   </button>
                   
-                  <span className={`text-xs font-bold transition-colors duration-500 ${isTestnet ? 'text-emerald-500' : 'text-slate-400'}`}>Testnet</span>
+                  <span className={`text-[13px] font-semibold transition-colors duration-500 ${isTestnet ? 'text-[#215EC7]' : 'text-slate-400'}`}>Testnet</span>
                 </div>
               </div>
 
               {/* Data Rows */}
-              <div className="space-y-3">
-                <motion.div 
-                  layout
-                  className={`flex items-center justify-between p-4 md:p-5 rounded-xl transition-colors duration-500 ${isTestnet ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'}`}
+              <div className="space-y-3 select-none">
+                <div 
+                  className={`flex items-center justify-between p-4 md:p-5 rounded-[12px] transition-all duration-500 ${isTestnet ? 'bg-[#F0F4FC] border border-[#215EC7]/20 text-[#215EC7]' : 'bg-slate-50 border border-slate-200 text-slate-700'}`}
                 >
                   <span className="text-sm font-bold">Mode</span>
                   <motion.span 
                     key={isTestnet ? 'test' : 'prod'}
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-xs font-black tracking-widest uppercase"
+                    className="text-xs font-extrabold tracking-wider uppercase"
                   >
                     {isTestnet ? 'TESTNET' : 'PRODUCTION'}
                   </motion.span>
-                </motion.div>
+                </div>
 
-                <div className="flex items-center justify-between p-4 md:p-5 rounded-xl bg-slate-50 text-ink">
-                  <span className="text-sm font-bold">Network</span>
+                <div className="flex items-center justify-between p-4 md:p-5 rounded-[12px] bg-white border border-slate-100 text-ink">
+                  <span className="text-sm font-medium text-slate-500">Network</span>
                   <motion.span 
                     key={isTestnet ? 'sep' : 'eth'}
                     initial={{ opacity: 0, x: -5 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="text-sm font-mono font-bold text-slate-500"
+                    className="text-sm font-mono font-semibold text-slate-500"
                   >
                     {isTestnet ? 'Sepolia' : 'Ethereum'}
                   </motion.span>
                 </div>
 
-                <div className="flex items-center justify-between p-4 md:p-5 rounded-xl bg-slate-50 text-ink">
-                  <span className="text-sm font-bold">Gas Cost</span>
+                <div className="flex items-center justify-between p-4 md:p-5 rounded-[12px] bg-white border border-slate-100 text-ink">
+                  <span className="text-sm font-medium text-slate-500">Gas Cost</span>
                   <motion.span 
                     key={isTestnet ? 'gas-free' : 'gas-paid'}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className={`text-sm font-mono font-bold transition-colors duration-500 ${isTestnet ? 'text-emerald-500' : 'text-rose-500'}`}
+                    className={`text-sm font-mono font-bold ${isTestnet ? 'text-[#215EC7]' : 'text-slate-700'}`}
                   >
                     {isTestnet ? '$0.00' : '$14.25'}
                   </motion.span>
                 </div>
               </div>
 
-              <p className="text-center text-[13px] font-medium text-slate-400 mt-8 italic">
+              <p className="text-center text-[12px] font-medium text-slate-400 mt-8 italic select-none">
                 Switch environments with a single config change.
               </p>
             </div>
@@ -315,7 +314,7 @@ const SandboxSection = () => {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="section-heading mb-6"
+              className="text-display font-bold md:font-black tracking-tight text-ink mb-6 text-left"
             >
               Build Without Spending Real Money.
             </motion.h2>
@@ -325,7 +324,7 @@ const SandboxSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-lg md:text-xl text-ink-muted leading-relaxed font-medium"
+              className="prgraphs text-ink-muted leading-relaxed font-light text-left max-w-xl"
             >
               Develop in a safe, mirrored environment. Our Sandbox mimics mainnet conditions (including gas and block times) but uses testnet currency, so you can stress-test your application cost-free.
             </motion.p>
@@ -335,7 +334,7 @@ const SandboxSection = () => {
       </div>
     </section>
   );
-}
+};
 
 /* ── Security Section ── */
 const SecuritySection = () => {
@@ -347,48 +346,52 @@ const SecuritySection = () => {
   ];
 
   return (
-    <section className="section-padding bg-slate-50 relative overflow-hidden border-t border-slate-200">
+    <section className="py-24 bg-white relative overflow-hidden border-t border-[#0A11281A]">
       <div className="custom-container relative z-10">
         
-        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-24">
+        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm"
+            className="w-12 h-12 bg-white border border-[#D0E2FF]/80 rounded-[12px] flex items-center justify-center mx-auto mb-6 shadow-[0_2px_8px_rgba(33,94,199,0.05)]"
           >
-            <ShieldCheck size={32} />
+            <ShieldCheck size={22} className="text-[#215EC7]" />
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="section-heading"
+            className="text-[32px] md:text-[44px] font-bold md:font-black tracking-tight text-[#0A1128] leading-[1.15]"
           >
-            Enterprise Security Standards.
+            Enterprise Security <br /> Standards.
           </motion.h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {securityFeatures.map((feat, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="bg-white p-9 rounded-2xl border border-slate-200 transition-all duration-300 group hover:border-ink hover:shadow-[0_30px_60px_rgba(10,17,40,0.06)] cursor-default"
-            >
-              <div className="w-14 h-14 rounded-xl bg-slate-50 flex items-center justify-center mb-8 transition-all duration-300 group-hover:bg-ink group-hover:text-white text-slate-400">
-                <feat.icon size={26} />
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="border border-[#E2E8F0] rounded-[24px] bg-white overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.015)]"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-[#E2E8F0]">
+            {securityFeatures.map((feat, i) => (
+              <div 
+                key={i}
+                className="p-8 md:p-10 flex flex-col justify-between min-h-[220px] lg:min-h-[260px] bg-white transition-colors duration-300 hover:bg-slate-50/30 cursor-default select-none"
+              >
+                <div>
+                  <feat.icon size={28} strokeWidth={1.8} className="text-[#215EC7]" />
+                </div>
+                
+                <p className="font-bold text-[#0A1128] text-base leading-snug tracking-tight">
+                  {feat.text}
+                </p>
               </div>
-              
-              <p className="font-bold text-ink text-lg leading-relaxed">
-                {feat.text}
-              </p>
-            </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </motion.div>
         
       </div>
     </section>
@@ -398,29 +401,28 @@ const SecuritySection = () => {
 /* ── Community CTA ── */
 const CommunityCTA = () => {
   const platforms = [
-    { name: "GitHub", icon: Github, hoverClass: "hover:bg-[#24292F] hover:border-[#24292F]" },
-    { name: "Discord", icon: MessageSquare, hoverClass: "hover:bg-[#5865F2] hover:border-[#5865F2]" },
-    { name: "Stack Overflow", icon: Layers, hoverClass: "hover:bg-[#F58025] hover:border-[#F58025]" },
+    { name: "GitHub", icon: Github },
+    { name: "Discord", icon: MessageSquare },
+    { name: "Stack Overflow", icon: Layers },
   ];
 
   return (
-    <section className="pt-32 pb-40 bg-[#0A1128] relative overflow-hidden text-center">
+    <section className="pt-24 pb-32 bg-[#0A1128] relative overflow-hidden text-center border-t border-[#ffffff0a]">
       {/* Immersive Dark Background Effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-500/10 blur-[150px] pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-500/5 blur-[150px] pointer-events-none" />
       
       <div className="custom-container relative z-10">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="section-heading text-white! mb-16"
+          className="text-[32px] md:text-[44px] font-bold md:font-black tracking-tight text-white mb-12"
         >
           Join the Builders.
         </motion.h2>
         
-        {/* Interactive Floating Platform Tiles */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 mb-16">
+        {/* Interactive Platform Tiles */}
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-12">
           {platforms.map((plat, i) => (
             <motion.a 
               key={i}
@@ -429,22 +431,23 @@ const CommunityCTA = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className={`flex items-center gap-3 md:gap-4 px-6 md:px-10 py-4 md:py-5 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-lg md:text-xl transition-all duration-300 ${plat.hoverClass} shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)] hover:-translate-y-2 group`}
+              className="flex items-center gap-3 px-8 py-4 rounded-[14px] bg-[#131B35]/50 border border-[#22305C]/60 text-white font-semibold text-base transition-all duration-300 hover:bg-[#1E294A] hover:border-[#3B4E85] hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] hover:-translate-y-0.5 group"
             >
-              <plat.icon size={28} className="text-slate-400 group-hover:text-white transition-colors" />
-              {plat.name}
+              <plat.icon size={20} className="text-white/80 group-hover:text-white transition-colors" />
+              <span>{plat.name}</span>
             </motion.a>
           ))}
         </div>
         
+        {/* Bottom Alert Pill */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="inline-flex items-center justify-center px-6 py-3 bg-white/5 rounded-full border border-white/10"
+          className="inline-flex items-center justify-center px-6 py-2.5 bg-[#131B35]/30 border border-[#22305C]/40 rounded-full"
         >
-          <p className="text-sm md:text-base text-slate-300 font-medium">
+          <p className="text-sm text-slate-300 font-medium select-none">
             <span className="text-emerald-400 font-bold mr-2">✓</span>
             Direct access to our solution engineers. We debug with you.
           </p>
@@ -454,13 +457,11 @@ const CommunityCTA = () => {
   );
 };
 
-
-
 export default function DevelopersPage() {
   return (
     <div className="min-h-screen bg-white font-sans text-ink">
       <CustomCursor />
-      <Navbar />
+      <Navbar transparentInitially={true} hideBorder={true} />
 
       <main>
         <DevelopersHero />
