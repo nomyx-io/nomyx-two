@@ -332,13 +332,13 @@ const UpgradeFlow = () => {
               <span className="text-xl font-extrabold text-ink">Result</span>
             </div>
 
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 w-full pt-4">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-8 w-full pt-4">
               {[
                 "Token address remains the same.",
                 "User balances are untouched.",
                 "The logic is updated.",
               ].map((result, rIdx) => (
-                <div key={rIdx} className="flex items-center gap-3 md:whitespace-nowrap">
+                <div key={rIdx} className="flex items-center gap-1 md:whitespace-nowrap">
                   <CheckCircle2 size={20} className="text-white fill-[#215EC7] shrink-0" />
                   <span className="text-base font-bold text-ink">{result}</span>
                 </div>
