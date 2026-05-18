@@ -153,9 +153,9 @@ const DiamondHero = () => (
       <motion.div initial="hidden" animate="show" transition={{ staggerChildren: 0.1 }} className="text-left">
         <motion.div
           variants={fadeUp}
-          className="mb-7 inline-flex items-center justify-center px-5 py-2 bg-white border border-[#0A11281A] rounded-full shadow-sm select-none"
+          className="mb-7"
         >
-          <span className="text-[10px] font-bold text-[#42546E] uppercase tracking-widest text-center">
+          <span className="eyebrow px-5 py-2.5 rounded-full border border-ink/10 bg-white/50 inline-block">
             EIP-2535 Architecture
           </span>
         </motion.div>
@@ -170,10 +170,10 @@ const DiamondHero = () => (
         </motion.p>
 
         <motion.div variants={fadeUp}>
-          <AnimatedButton 
-            text="Consult With Our Solutions Architect" 
-            href="https://calendly.com/ivan-j-nomyx/30min" 
-            variant="accent" 
+          <AnimatedButton
+            text="Consult With Our Solutions Architect"
+            href="https://calendly.com/ivan-j-nomyx/30min"
+            variant="accent"
           />
         </motion.div>
       </motion.div>
@@ -287,11 +287,9 @@ const UpgradeFlow = () => {
           transition={{ duration: 0.55 }}
           className="mx-auto max-w-4xl text-center mb-14"
         >
-          <div className="mb-6 inline-flex items-center justify-center px-4 py-1.5 bg-white border border-[#0A11281A] rounded-[8px] shadow-sm select-none">
-            <span className="text-[11px] font-semibold text-[#0A1128] tracking-normal text-center">
-              Upgrade Path
-            </span>
-          </div>
+          <span className="eyebrow px-5 py-2.5 rounded-full border border-ink/10 bg-white/50 inline-block">
+            Upgrade Path
+          </span>
           <h2 className="text-display font-bold md:font-black tracking-tight text-ink mb-4 mt-1 text-center leading-tight">
             How An Upgrade Works.
           </h2>
@@ -408,7 +406,7 @@ const LogicSeparation = () => (
             <span className="text-slate-400">new</span>{" "}
             <span className="text-fuchsia-400 font-bold">IDiamondCut.FacetCut[]</span>(1);
           </div>
-          
+
           <div className="mt-4">
             <span className="text-white">cut</span>[0] ={" "}
             <span className="text-fuchsia-400 font-bold">IDiamondCut.FacetCut</span>({'{'}
@@ -426,7 +424,7 @@ const LogicSeparation = () => (
             <span className="text-white font-medium">selectors</span>
           </div>
           <div className="pl-2">{'}'});</div>
-          
+
           <div className="mt-4 text-slate-500">// Execute upgrade</div>
           <div>
             <span className="text-emerald-400">diamond</span>.
@@ -438,7 +436,7 @@ const LogicSeparation = () => (
           </div>
           <div className="pl-4 text-white">&quot;&quot;</div>
           <div>);</div>
-          
+
           <div className="mt-6 text-emerald-400 font-bold flex items-center gap-2 select-none">
             <span>~ reserved, logic updated ✔</span>
           </div>
@@ -496,7 +494,7 @@ export default function DiamondStandard() {
         <Complexity />
       </main>
 
-      <Footer 
+      <Footer
         ctaTitle="Do Not Let Your Code Rot."
         ctaDescription="Build on modular, upgradeable infrastructure that adapts to regulatory changes. Join the asset managers moving billions on-chain with Nomyx."
         ctaButtonText="Consult With Our Solutions Architect"

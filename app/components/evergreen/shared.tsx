@@ -33,7 +33,7 @@ export const SectionIntro = ({
     className="mx-auto max-w-4xl text-center"
   >
     {eyebrow && (
-      <div className="mb-5 inline-flex border-2 border-accent px-5 py-2.5 text-sm font-bold uppercase tracking-[0.12em] text-accent">
+      <div className="eyebrow px-5 py-2.5 rounded-full border border-ink/10 bg-white/50 inline-block">
         {eyebrow}
       </div>
     )}
@@ -48,9 +48,8 @@ export const SectionIntro = ({
 
 export const AnimatedGrid = ({ dark = false }: { dark?: boolean }) => (
   <div
-    className={`pointer-events-none absolute inset-0 ${
-      dark ? "opacity-[0.09]" : "opacity-[0.045]"
-    } [background-image:linear-gradient(rgba(255,255,255,0.75)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.75)_1px,transparent_1px)] [background-size:56px_56px]`}
+    className={`pointer-events-none absolute inset-0 ${dark ? "opacity-[0.09]" : "opacity-[0.045]"
+      } [background-image:linear-gradient(rgba(255,255,255,0.75)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.75)_1px,transparent_1px)] [background-size:56px_56px]`}
   />
 );
 
@@ -144,9 +143,9 @@ export const AnimatedButton = ({
       className={`${baseStyles} ${variants[variant]} ${className}`}
     >
       <HoverTextSwap text={text} />
-      <ArrowRight 
-        size={16} 
-        className="transition-transform duration-300 group-hover/btn:translate-x-1" 
+      <ArrowRight
+        size={16}
+        className="transition-transform duration-300 group-hover/btn:translate-x-1"
       />
     </motion.a>
   );
