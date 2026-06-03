@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { CalendarDays, ChevronRight, Clock3, ListTree } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock3, Star } from "lucide-react";
 
 import { CustomCursor, Footer, Navbar } from "@/app/home";
 import { getPublishedBlogBySlug, plainTextFromHtml } from "@/lib/blogs";
-import { AnimatedButton } from "@/app/components/evergreen/shared";
 import { enhanceBlogHtml } from "@/lib/blog-content";
+import BlogTableOfContents from "./BlogTableOfContents";
 
 type BlogDetailPageProps = {
   params: Promise<{
@@ -19,7 +19,7 @@ function formatDate(value: string | null) {
   }
 
   return new Intl.DateTimeFormat("en-US", {
-    month: "short",
+    month: "long",
     day: "numeric",
     year: "numeric",
   }).format(new Date(value));
@@ -34,123 +34,79 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   }
 
   const { content, headings } = enhanceBlogHtml(blog.content_html);
+  const tableHeadings = headings.filter((heading) => heading.level === 2);
   const plainText = plainTextFromHtml(blog.content_html);
   const wordCount = plainText.split(/\s+/).filter(Boolean).length;
   const readTime = Math.max(1, Math.ceil(wordCount / 220));
-  const briefText = blog.excerpt || plainText.slice(0, 180);
 
   return (
     <div className="min-h-screen bg-white text-ink">
       <CustomCursor />
-      <Navbar />
+      <Navbar variant="light" transparentInitially={true} hideBorder={true} />
 
-      <main className="relative mx-auto max-w-8xl overflow-visible bg-white pt-20">
-        <div className="pointer-events-none absolute inset-x-0 top-20 h-[440px] border-b border-border bg-white">
-          <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#0A1128_1px,transparent_1px),linear-gradient(90deg,#0A1128_1px,transparent_1px)] [background-size:56px_56px]" />
-        </div>
-
-        <article className="relative py-8 md:py-12 lg:py-14">
+      <main className="bg-white">
+        <section className="pt-32 pb-20 md:pt-40 md:pb-28">
           <div className="custom-container">
-            <div className="max-w-8xl mx-auto">
-              <div className="app-reveal mb-8">
-                <AnimatedButton 
-                  text="Back to Blog" 
-                  href="/blog" 
-                  variant="ink" 
-                  className="h-10 !px-6"
-                />
-              </div>
+            <Link
+              href="/blog"
+              className="mb-10 inline-flex h-11 items-center justify-center gap-2 rounded-[6px] border border-ink/10 bg-white px-5 text-sm font-bold text-ink shadow-sm transition-colors hover:border-accent hover:text-accent"
+            >
+              <ArrowLeft size={16} />
+              Back to Blog
+            </Link>
 
-              <div className="grid gap-7 lg:grid-cols-[270px_minmax(0,1fr)] lg:items-start">
-                <aside className="app-reveal lg:sticky lg:top-28 lg:self-start">
-                  <div className="relative overflow-hidden border border-border bg-white text-ink shadow-[0_18px_48px_rgba(10,17,40,0.06)]">
-                    <span className="app-border-orbit pointer-events-none absolute -right-8 top-8 h-20 w-20 border border-ink/10" />
-                    <span className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-ink/25 to-transparent" />
-                    <div className="relative border-b border-border px-5 py-4">
-                      <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-accent">
-                        <ListTree size={15} />
-                        Table Of Contents
-                      </p>
-                    </div>
+            <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start xl:gap-16">
+              <article className="min-w-0">
+                <h1 className="max-w-4xl text-[clamp(34px,4vw,52px)] font-bold leading-[1.08] text-ink md:font-black">
+                  {blog.title}
+                </h1>
 
-                    <div className="relative px-5 py-5">
-                      {headings.length > 0 ? (
-                        <nav className="space-y-1">
-                          {headings.map((heading) => (
-                            <a
-                              key={heading.id}
-                              href={`#${heading.id}`}
-                              className={`block border-l-2 border-border py-2 pr-2 text-sm leading-relaxed text-ink-muted transition-all duration-200 hover:border-ink hover:text-ink ${
-                                heading.level === 3 ? "pl-5" : "pl-3"
-                              }`}
-                            >
-                              {heading.text}
-                            </a>
-                          ))}
-                        </nav>
-                      ) : (
-                        <p className="text-sm leading-relaxed text-ink-muted">{briefText}</p>
-                      )}
+                <div className="mt-6 flex flex-wrap items-center gap-3 text-[12px] font-bold uppercase tracking-[0.15em] text-[#42546E]">
+                  <span className="inline-flex h-9 items-center gap-2 rounded-full border border-border bg-white px-4 shadow-sm">
+                    <CalendarDays size={14} className="text-accent" />
+                    {formatDate(blog.published_at)}
+                  </span>
+                  <span className="inline-flex h-9 items-center gap-2 rounded-full border border-border bg-white px-4 shadow-sm">
+                    <Clock3 size={14} className="text-accent" />
+                    {readTime} min read
+                  </span>
+                  {blog.featured && (
+                    <span className="inline-flex h-9 items-center gap-2 rounded-full bg-ink px-4 text-white shadow-sm">
+                      <Star size={14} />
+                      Featured
+                    </span>
+                  )}
+                </div>
 
-                      <div className="mt-6 grid gap-3 border-t border-border pt-5 text-[10px] font-bold uppercase tracking-[0.14em] text-ink-muted">
-                        <div className="flex items-center justify-between gap-3">
-                          <span>Published</span>
-                          <span className="text-ink">{formatDate(blog.published_at)}</span>
-                        </div>
-                        <div className="flex items-center justify-between gap-3">
-                          <span>Read Time</span>
-                          <span className="text-ink">{readTime} Min</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </aside>
-
-                <section className="min-w-0">
-                  <div className="app-reveal border border-border bg-white p-6 shadow-[0_22px_70px_rgba(10,17,40,0.08)] sm:p-8 lg:p-10">
-                    <div className="mb-5 flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted">
-                      <span className="inline-flex h-9 items-center gap-2 border border-border bg-white px-3">
-                        <CalendarDays size={14} className="text-accent" />
-                        {formatDate(blog.published_at)}
-                      </span>
-                      <span className="inline-flex h-9 items-center gap-2 border border-border bg-white px-3">
-                        <Clock3 size={14} className="text-accent" />
-                        {readTime} min read
-                      </span>
-                      {blog.featured && (
-                        <span className="inline-flex h-9 items-center border border-ink bg-ink px-3 text-white">
-                          Featured
-                        </span>
-                      )}
-                    </div>
-
-                    <h1 className="max-w-5xl text-[clamp(34px,5vw,60px)] font-black uppercase leading-[0.95] tracking-tight">
-                      {blog.title}
-                    </h1>
-
-                    {blog.cover_image_url && (
-                      <div className="mt-8 overflow-hidden border border-border bg-ink shadow-[0_18px_54px_rgba(10,17,40,0.10)]">
-                        <img
-                          src={blog.cover_image_url}
-                          alt={blog.title}
-                          className="aspect-[16/8.7] w-full object-cover"
-                        />
-                      </div>
-                    )}
-
-                    <div
-                      className="mt-8 min-w-0 text-[16px] leading-8 text-ink md:text-[17px] [&_a]:font-semibold [&_a]:text-accent [&_blockquote]:my-8 [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:bg-slate-50 [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:italic [&_h2]:scroll-mt-28 [&_h2]:mt-12 [&_h2]:mb-5 [&_h2]:text-2xl [&_h2]:font-black [&_h2]:uppercase [&_h2]:tracking-tight md:[&_h2]:text-3xl [&_h3]:scroll-mt-28 [&_h3]:mt-9 [&_h3]:mb-4 [&_h3]:text-xl [&_h3]:font-black [&_h3]:uppercase [&_img]:border [&_img]:border-border [&_li]:ml-6 [&_li]:mb-2 [&_li]:list-disc [&_ol]:mb-6 [&_ol]:pl-6 [&_p]:mb-6 [&_ul]:mb-6"
-                      dangerouslySetInnerHTML={{ __html: content }}
+                {blog.cover_image_url && (
+                  <figure className="mt-10 overflow-hidden rounded-2xl border border-border bg-white shadow-[0_24px_70px_rgba(10,17,40,0.10)]">
+                    <img
+                      src={blog.cover_image_url}
+                      alt={blog.title}
+                      className="aspect-[16/9] max-h-[500px] w-full object-cover"
                     />
-                  </div>
-                </section>
-              </div>
+                  </figure>
+                )}
+
+                <div
+                  className="mt-14 text-[17px] font-normal leading-[31px] text-[#42546E] md:text-[18px] md:leading-[32px] [&_a]:font-semibold [&_a]:text-accent [&_blockquote]:my-10 [&_blockquote]:rounded-2xl [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:bg-[#F2F9FF] [&_blockquote]:px-6 [&_blockquote]:py-5 [&_blockquote]:font-medium [&_blockquote]:italic [&_figure]:my-12 [&_figure]:w-full [&_figcaption]:mt-3 [&_figcaption]:text-sm [&_figcaption]:font-medium [&_figcaption]:text-ink-muted [&_h2]:scroll-mt-28 [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:text-[32px] [&_h2]:font-bold [&_h2]:leading-[1.2] [&_h2]:text-[#19233D] md:[&_h2]:text-[45px] md:[&_h2]:leading-[54px] [&_h3]:scroll-mt-28 [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:text-[26px] [&_h3]:font-bold [&_h3]:leading-tight [&_h3]:text-[#19233D] [&_img]:h-auto [&_img]:w-full [&_img]:max-w-full [&_img]:rounded-2xl [&_img]:border [&_img]:border-border [&_li]:mb-3 [&_li]:ml-6 [&_li]:list-disc [&_ol]:mb-7 [&_ol]:pl-6 [&_p]:mb-7 [&_strong]:font-bold [&_strong]:text-ink [&_ul]:mb-7 [&_ul]:pl-1"
+                  dangerouslySetInnerHTML={{ __html: content }}
+                />
+              </article>
+
+              <aside className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
+                <BlogTableOfContents
+                  headings={tableHeadings}
+                  readTime={readTime}
+                  wordCount={wordCount}
+                />
+              </aside>
             </div>
           </div>
-        </article>
+        </section>
       </main>
 
-      <Footer 
+      <Footer
         ctaTitle="Ready to modernize your fund?"
         ctaDescription="Schedule a personalized walkthrough with our technical team to see how Nomyx can streamline your infrastructure."
         ctaButtonText="Schedule a Technical Demo"

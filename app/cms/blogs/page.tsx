@@ -4,11 +4,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Calendar,
   CheckCircle2,
+  Clock3,
   Eye,
   EyeOff,
   FilePenLine,
+  ImageIcon,
   LayoutTemplate,
   Plus,
+  Search,
   Radio,
   Save,
   Sparkles,
@@ -69,12 +72,27 @@ function formatStatus(status: BlogStatus) {
   return "Draft";
 }
 
+function plainTextFromHtml(html: string) {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function countInlineImages(html: string) {
+  return (html.match(/<img\b/gi) || []).length;
+}
+
 export default function BlogCmsPage() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const initializedRealtime = useRef(false);
   const previewUrl = useMemo(() => {
     if (!form.imageFile) {
@@ -88,6 +106,33 @@ export default function BlogCmsPage() {
     () => blogs.find((blog) => blog.id === form.id) ?? null,
     [blogs, form.id]
   );
+
+  const filteredBlogs = useMemo(() => {
+    const query = searchTerm.trim().toLowerCase();
+
+    if (!query) {
+      return blogs;
+    }
+
+    return blogs.filter((blog) => {
+      return (
+        blog.title.toLowerCase().includes(query) ||
+        blog.status.toLowerCase().includes(query) ||
+        (blog.excerpt || "").toLowerCase().includes(query)
+      );
+    });
+  }, [blogs, searchTerm]);
+
+  const contentStats = useMemo(() => {
+    const wordCount = plainTextFromHtml(form.contentHtml).split(/\s+/).filter(Boolean).length;
+    const readTime = Math.max(1, Math.ceil(wordCount / 220));
+
+    return {
+      images: countInlineImages(form.contentHtml),
+      readTime,
+      words: wordCount,
+    };
+  }, [form.contentHtml]);
 
   const stats = useMemo(() => {
     return blogs.reduce(
@@ -345,18 +390,18 @@ export default function BlogCmsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(191,219,254,0.32),transparent_28%),linear-gradient(180deg,#f8fafc_0%,#eef2ff_24%,#f8fafc_100%)] text-ink">
+    <div className="min-h-screen app-grid-bg text-ink">
       <div className="custom-container py-12 md:py-14">
-        <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-accent">
+            <p className="mb-4 inline-flex rounded-[6px] border border-[#1B243C] px-4 py-1.5 text-sm font-medium text-[#1B243C]">
               Publishing Panel
             </p>
-            <h1 className="text-[clamp(40px,6vw,64px)] font-black uppercase tracking-[-0.04em] leading-[0.92]">
+            <h1 className="text-[clamp(36px,5vw,58px)] font-medium tracking-[-0.03em] leading-[1.02] text-[#19233D]">
               Editorial Control Center
             </h1>
-            <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink-muted md:text-lg">
-              Manage article creation, scheduling, featuring, and visibility from one workspace. Published posts appear on the public blog automatically, and featured posts flow into the homepage spotlight.
+            <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-[#42546E]">
+              Draft, publish, feature, and compose rich articles with cover imagery and inline visuals from one focused editorial workspace.
             </p>
           </div>
 
@@ -392,30 +437,30 @@ export default function BlogCmsPage() {
             return (
               <div
                 key={item.label}
-                className="border border-border bg-white px-5 py-5 shadow-[0_16px_48px_rgba(10,17,40,0.06)]"
+                className="rounded-[10px] border border-border bg-white/85 px-5 py-5 shadow-[0_16px_48px_rgba(10,17,40,0.05)] backdrop-blur"
               >
                 <div className="mb-4 flex items-center justify-between">
                   <span className="text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
                     {item.label}
                   </span>
-                  <div className="flex h-10 w-10 items-center justify-center border border-border bg-slate-50">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[8px] border border-border bg-[#F2F9FF]">
                     <Icon size={18} className="text-accent" />
                   </div>
                 </div>
-                <div className="text-4xl font-black tracking-tight">{item.value}</div>
+                <div className="text-4xl font-semibold tracking-tight">{item.value}</div>
               </div>
             );
           })}
         </div>
 
-        <div className="grid gap-8 xl:grid-cols-[360px_minmax(0,1fr)]">
-          <aside className="overflow-hidden border border-border bg-white shadow-[0_24px_64px_rgba(10,17,40,0.08)]">
-            <div className="border-b border-border bg-[linear-gradient(180deg,rgba(248,250,252,0.96),rgba(255,255,255,0.96))] px-5 py-4">
+        <div className="grid gap-8 xl:grid-cols-[350px_minmax(0,1fr)]">
+          <aside className="overflow-hidden rounded-[12px] border border-border bg-white/92 shadow-[0_24px_64px_rgba(10,17,40,0.07)] backdrop-blur">
+            <div className="border-b border-border bg-[#F8FBFF] px-5 py-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <h2 className="text-sm font-black uppercase tracking-[0.16em]">All Blogs</h2>
+                  <h2 className="text-sm font-bold uppercase tracking-[0.16em]">Library</h2>
                   <p className="mt-1 text-sm text-ink-muted">
-                    Live list with realtime Supabase updates.
+                    Search drafts, hidden posts, and published articles.
                   </p>
                 </div>
                 <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-emerald-700">
@@ -423,15 +468,24 @@ export default function BlogCmsPage() {
                   Live
                 </span>
               </div>
+              <div className="relative mt-4">
+                <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" />
+                <input
+                  value={searchTerm}
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                  placeholder="Search posts..."
+                  className="h-11 w-full rounded-[8px] border border-border bg-white pl-10 pr-3 text-sm font-medium outline-none transition-colors focus:border-accent"
+                />
+              </div>
             </div>
 
             {loading ? (
               <div className="px-5 py-6 text-sm text-ink-muted">Loading blogs...</div>
-            ) : blogs.length === 0 ? (
-              <div className="px-5 py-6 text-sm text-ink-muted">No blogs yet.</div>
+            ) : filteredBlogs.length === 0 ? (
+              <div className="px-5 py-6 text-sm text-ink-muted">No matching blogs.</div>
             ) : (
-              <div className="max-h-[780px] overflow-y-auto bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]">
-                {blogs.map((blog) => {
+              <div className="max-h-[820px] overflow-y-auto bg-white">
+                {filteredBlogs.map((blog) => {
                   const active = blog.id === selectedBlog?.id;
 
                   return (
@@ -439,12 +493,12 @@ export default function BlogCmsPage() {
                       key={blog.id}
                       type="button"
                       onClick={() => selectBlog(blog)}
-                      className={`block w-full border-b border-border px-5 py-4 text-left transition-all hover:bg-slate-50 ${
-                        active ? "bg-slate-50 shadow-[inset_3px_0_0_0_#1E3A8A]" : "bg-white"
+                      className={`block w-full border-b border-border px-5 py-4 text-left transition-colors hover:bg-[#F8FBFF] ${
+                        active ? "bg-[#F2F9FF] shadow-[inset_3px_0_0_0_#215EC7]" : "bg-white"
                       }`}
                     >
                       <div className="mb-3 flex items-start justify-between gap-3">
-                        <span className="line-clamp-2 text-base font-black uppercase tracking-tight">
+                        <span className="line-clamp-2 text-base font-bold tracking-tight text-[#19233D]">
                           {blog.title}
                         </span>
                         {blog.featured && <Star size={16} className="shrink-0 text-accent" />}
@@ -473,23 +527,31 @@ export default function BlogCmsPage() {
             )}
           </aside>
 
-          <section className="overflow-hidden border border-border bg-white shadow-[0_24px_64px_rgba(10,17,40,0.08)]">
-            <div className="border-b border-border bg-[linear-gradient(180deg,rgba(248,250,252,0.96),rgba(255,255,255,0.96))] px-6 py-5">
+          <section className="overflow-hidden rounded-[12px] border border-border bg-white/95 shadow-[0_24px_64px_rgba(10,17,40,0.08)] backdrop-blur">
+            <div className="border-b border-border bg-[#F8FBFF] px-6 py-5">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h2 className="text-sm font-black uppercase tracking-[0.16em]">
+                  <h2 className="text-sm font-bold uppercase tracking-[0.16em]">
                     {form.id ? "Edit Blog" : "Create Blog"}
                   </h2>
                   <p className="mt-1 text-sm text-ink-muted">
-                    Fixed publishing structure: heading, publishing date, image, then content.
+                    Compose articles with a cover image, inline images, headings, lists, quotes, and links.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center gap-2 border border-border px-3 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-muted">
+                  <span className="inline-flex items-center gap-2 rounded-[6px] border border-border bg-white px-3 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-muted">
                     Status: {formatStatus(form.status)}
                   </span>
+                  <span className="inline-flex items-center gap-2 rounded-[6px] border border-border bg-white px-3 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-muted">
+                    <Clock3 size={13} className="text-accent" />
+                    {contentStats.readTime} Min
+                  </span>
+                  <span className="inline-flex items-center gap-2 rounded-[6px] border border-border bg-white px-3 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-muted">
+                    <ImageIcon size={13} className="text-accent" />
+                    {contentStats.images} Inline
+                  </span>
                   {form.featured && (
-                    <span className="inline-flex items-center gap-2 border border-accent bg-accent/5 px-3 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-accent">
+                    <span className="inline-flex items-center gap-2 rounded-[6px] border border-accent bg-accent/5 px-3 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-accent">
                       <Star size={13} />
                       Featured
                     </span>
@@ -498,31 +560,29 @@ export default function BlogCmsPage() {
               </div>
             </div>
 
-            <div className="space-y-8 px-6 py-6 md:px-8 md:py-8">
+            <div className="space-y-6 px-5 py-5 md:px-7 md:py-7">
               {error && (
-                <div className="border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                <div className="rounded-[8px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                   {error}
                 </div>
               )}
 
-              <div>
-                <div className="rounded-[28px] border border-border bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_18px_48px_rgba(10,17,40,0.05)]">
+              <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_260px]">
+                <div className="rounded-[10px] border border-border bg-white p-5 shadow-[0_14px_40px_rgba(10,17,40,0.04)]">
                   <label className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
-                    1. Heading
+                    Article Title
                   </label>
                   <input
                     value={form.title}
                     onChange={(event) => setForm((current) => ({ ...current, title: event.target.value }))}
                     placeholder="Enter the blog title"
-                    className="h-14 w-full border border-border bg-white px-4 text-base outline-none transition-colors focus:border-accent"
+                    className="h-14 w-full rounded-[8px] border border-border bg-white px-4 text-base font-medium outline-none transition-colors focus:border-accent"
                   />
                 </div>
-              </div>
 
-              <div>
-                <div className="rounded-[28px] border border-border bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_18px_48px_rgba(10,17,40,0.05)]">
+                <div className="rounded-[10px] border border-border bg-white p-5 shadow-[0_14px_40px_rgba(10,17,40,0.04)]">
                   <label className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
-                    2. Publishing Date
+                    Publishing Date
                   </label>
                   <div className="relative">
                     <Calendar size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-muted" />
@@ -532,25 +592,25 @@ export default function BlogCmsPage() {
                       onChange={(event) =>
                         setForm((current) => ({ ...current, publishedAt: event.target.value }))
                       }
-                      className="h-14 w-full border border-border bg-white pl-12 pr-4 text-base outline-none transition-colors focus:border-accent"
+                      className="h-14 w-full rounded-[8px] border border-border bg-white pl-12 pr-4 text-base font-medium outline-none transition-colors focus:border-accent"
                     />
                   </div>
                 </div>
               </div>
 
-              <div>
-                <div className="rounded-[28px] border border-border bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_18px_48px_rgba(10,17,40,0.05)]">
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
-                    3. Blog Image
-                  </label>
-                  <label className="flex min-h-56 cursor-pointer flex-col items-center justify-center gap-3 border border-dashed border-border bg-slate-50 px-6 py-8 text-center transition-colors hover:border-accent hover:bg-white">
-                    <Upload size={22} className="text-accent" />
-                    <span className="text-sm font-bold uppercase tracking-[0.14em] text-ink">
-                      Upload Cover Image
-                    </span>
-                    <span className="text-sm text-ink-muted">
-                      Choose a strong visual for the article header.
-                    </span>
+              <div className="rounded-[10px] border border-border bg-white p-5 shadow-[0_14px_40px_rgba(10,17,40,0.04)]">
+                <div className="mb-4 flex flex-col gap-1 md:flex-row md:items-end md:justify-between">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
+                      Cover Image
+                    </label>
+                    <p className="mt-1 text-sm text-ink-muted">
+                      Used for the blog card and article hero.
+                    </p>
+                  </div>
+                  <label className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-[6px] bg-ink px-4 text-xs font-bold uppercase tracking-[0.14em] text-white transition-transform hover:-translate-y-0.5">
+                    <Upload size={15} />
+                    Upload Cover
                     <input
                       type="file"
                       accept="image/*"
@@ -564,14 +624,16 @@ export default function BlogCmsPage() {
                       }
                     />
                   </label>
+                </div>
+
                   {previewUrl && (
-                    <div className="mt-4 overflow-hidden border border-border bg-white p-4">
+                    <div className="overflow-hidden rounded-[8px] border border-border bg-white">
                       <img
                         src={previewUrl}
                         alt="Blog cover preview"
-                        className="h-64 w-full object-cover"
+                        className="aspect-[16/7] w-full object-cover"
                       />
-                      <div className="mt-3 flex justify-between gap-3">
+                      <div className="flex justify-between gap-3 px-4 py-3">
                         <span className="text-sm text-ink-muted">
                           Cover preview
                         </span>
@@ -592,25 +654,54 @@ export default function BlogCmsPage() {
                       </div>
                     </div>
                   )}
-                </div>
+                  {!previewUrl && (
+                    <label className="flex min-h-48 cursor-pointer flex-col items-center justify-center gap-3 rounded-[8px] border border-dashed border-border bg-[#F8FBFF] px-6 py-8 text-center transition-colors hover:border-accent hover:bg-white">
+                      <ImageIcon size={24} className="text-accent" />
+                      <span className="text-sm font-bold uppercase tracking-[0.14em] text-ink">
+                        Add a cover image
+                      </span>
+                      <span className="max-w-md text-sm text-ink-muted">
+                        Inline images are added from the editor toolbar below.
+                      </span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(event) =>
+                          setForm((current) => ({
+                            ...current,
+                            imageFile: event.target.files?.[0] ?? null,
+                            removeImage: false,
+                          }))
+                        }
+                      />
+                    </label>
+                  )}
               </div>
 
-              <div>
-                <div className="rounded-[28px] border border-border bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_18px_48px_rgba(10,17,40,0.05)]">
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
-                    4. Content
-                  </label>
-                  <p className="mb-4 text-sm text-ink-muted">
-                    Use `H2` and `H3` headings to generate the article table of contents automatically.
-                  </p>
-                  <RichTextEditor
-                    value={form.contentHtml}
-                    onChange={(contentHtml) => setForm((current) => ({ ...current, contentHtml }))}
-                  />
+              <div className="rounded-[10px] border border-border bg-white p-5 shadow-[0_14px_40px_rgba(10,17,40,0.04)]">
+                <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
+                      Article Body
+                    </label>
+                    <p className="mt-1 text-sm text-ink-muted">
+                      Use H2/H3 headings for the public table of contents. Use the Image toolbar action to place visuals between paragraphs.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-muted">
+                    <span className="rounded-[6px] bg-[#F2F9FF] px-3 py-2">{contentStats.words} Words</span>
+                    <span className="rounded-[6px] bg-[#F2F9FF] px-3 py-2">{contentStats.images} Images</span>
+                  </div>
                 </div>
+                <RichTextEditor
+                  value={form.contentHtml}
+                  imageUploadTitle={form.title || "blog-content"}
+                  onChange={(contentHtml) => setForm((current) => ({ ...current, contentHtml }))}
+                />
               </div>
 
-              <div className="sticky bottom-4 z-20 rounded-[28px] border border-border bg-white/95 px-5 py-5 shadow-[0_24px_72px_rgba(10,17,40,0.12)] backdrop-blur-md">
+              <div className="sticky bottom-4 z-20 rounded-[10px] border border-border bg-white/95 px-5 py-5 shadow-[0_24px_72px_rgba(10,17,40,0.12)] backdrop-blur-md">
                 <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
                   <label className="flex items-center gap-4">
                     <span className="text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
@@ -637,7 +728,7 @@ export default function BlogCmsPage() {
                       type="button"
                       onClick={() => persist("draft")}
                       disabled={saving}
-                      className="inline-flex h-11 items-center justify-center gap-2 border border-border px-4 text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-[6px] border border-border px-4 text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       <Save size={15} />
                       Save Draft
@@ -646,7 +737,7 @@ export default function BlogCmsPage() {
                       type="button"
                       onClick={() => persist("published")}
                       disabled={saving}
-                      className="inline-flex h-11 items-center justify-center gap-2 bg-accent px-4 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_32px_rgba(30,58,138,0.28)] transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-[6px] bg-accent px-4 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_32px_rgba(30,58,138,0.28)] transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       <Eye size={15} />
                       {form.status === "published" ? "Update & Publish" : "Publish"}
@@ -656,7 +747,7 @@ export default function BlogCmsPage() {
                         type="button"
                         onClick={toggleHiddenState}
                         disabled={saving}
-                        className="inline-flex h-11 items-center justify-center gap-2 border border-border px-4 text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="inline-flex h-11 items-center justify-center gap-2 rounded-[6px] border border-border px-4 text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         {form.status === "hidden" ? <Eye size={15} /> : <EyeOff size={15} />}
                         {form.status === "hidden" ? "Unhide" : "Hide"}
@@ -667,7 +758,7 @@ export default function BlogCmsPage() {
                         type="button"
                         onClick={deleteCurrentBlog}
                         disabled={saving}
-                        className="inline-flex h-11 items-center justify-center gap-2 bg-red-700 px-4 text-xs font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="inline-flex h-11 items-center justify-center gap-2 rounded-[6px] bg-red-700 px-4 text-xs font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         <Trash2 size={15} />
                         Delete
@@ -678,21 +769,21 @@ export default function BlogCmsPage() {
               </div>
 
               <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">
-                <div className="border border-border bg-slate-50 px-5 py-4">
+                <div className="rounded-[10px] border border-border bg-[#F8FBFF] px-5 py-4">
                   <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
-                    Structure
+                    Composition
                   </p>
                   <div className="flex flex-wrap gap-3 text-sm text-ink-muted">
                     <span className="inline-flex items-center gap-2">
-                      <FilePenLine size={14} /> Heading
+                      <FilePenLine size={14} /> Title
                     </span>
-                    <span>2. Publishing Date</span>
-                    <span>3. Blog Image</span>
-                    <span>4. Content</span>
+                    <span>Cover Image</span>
+                    <span>Inline Images</span>
+                    <span>Rich Body</span>
                   </div>
                 </div>
 
-                <div className="border border-border bg-white px-5 py-4">
+                <div className="rounded-[10px] border border-border bg-white px-5 py-4">
                   <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
                     Visibility
                   </p>
