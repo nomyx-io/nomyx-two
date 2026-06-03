@@ -8,12 +8,16 @@ create table if not exists public.blog_posts (
   cover_image_url text,
   cover_image_path text,
   content_html text not null,
+  faqs jsonb not null default '[]'::jsonb,
   excerpt text,
   featured boolean not null default false,
   status text not null default 'draft' check (status in ('draft', 'published', 'hidden')),
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
+
+alter table public.blog_posts
+  add column if not exists faqs jsonb not null default '[]'::jsonb;
 
 create index if not exists blog_posts_status_published_at_idx
   on public.blog_posts (status, published_at desc, created_at desc);

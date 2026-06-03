@@ -4,6 +4,7 @@ import {
   deleteBlog,
   deleteImage,
   getBlogById,
+  normalizeBlogFaqs,
   normalizePublishedAt,
   updateBlog,
   uploadImage,
@@ -34,6 +35,7 @@ export async function PATCH(request: Request, context: Context) {
     const title = String(formData.get("title") || existing.title).trim();
     const publishedAtInput = String(formData.get("publishedAt") || existing.published_at || "").trim();
     const contentHtml = String(formData.get("contentHtml") || existing.content_html).trim();
+    const faqs = normalizeBlogFaqs(String(formData.get("faqs") || JSON.stringify(existing.faqs || [])));
     const featured = String(formData.get("featured") || String(existing.featured)) === "true";
     const status = String(formData.get("status") || existing.status) as BlogStatus;
     const removeImage = String(formData.get("removeImage") || "false") === "true";
@@ -62,6 +64,7 @@ export async function PATCH(request: Request, context: Context) {
       title,
       publishedAt: normalizePublishedAt(publishedAtInput || null, status),
       contentHtml,
+      faqs,
       featured,
       status,
       coverImageUrl,

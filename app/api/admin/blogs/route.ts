@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import {
   createBlog,
   getAllBlogsForAdmin,
+  normalizeBlogFaqs,
   normalizePublishedAt,
   uploadImage,
   type BlogStatus,
@@ -33,6 +34,7 @@ export async function POST(request: Request) {
     const title = String(formData.get("title") || "").trim();
     const publishedAtInput = String(formData.get("publishedAt") || "").trim();
     const contentHtml = String(formData.get("contentHtml") || "").trim();
+    const faqs = normalizeBlogFaqs(String(formData.get("faqs") || "[]"));
     const featured = String(formData.get("featured") || "false") === "true";
     const status = String(formData.get("status") || "draft") as BlogStatus;
     const imageFile = formData.get("image");
@@ -58,6 +60,7 @@ export async function POST(request: Request) {
       title,
       publishedAt: normalizePublishedAt(publishedAtInput || null, status),
       contentHtml,
+      faqs,
       featured,
       status,
       coverImageUrl,

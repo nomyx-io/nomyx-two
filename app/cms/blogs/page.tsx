@@ -8,6 +8,7 @@ import {
   Eye,
   EyeOff,
   FilePenLine,
+  HelpCircle,
   ImageIcon,
   LayoutTemplate,
   Plus,
@@ -19,6 +20,7 @@ import {
   Trash2,
   Upload,
   Users,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -26,13 +28,14 @@ import { toast } from "sonner";
 import CmsLogoutButton from "@/app/cms/CmsLogoutButton";
 import RichTextEditor from "@/app/components/RichTextEditor";
 import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
-import type { BlogPost, BlogStatus } from "@/lib/blogs";
+import type { BlogFaq, BlogPost, BlogStatus } from "@/lib/blogs";
 
 type FormState = {
   id: string | null;
   title: string;
   publishedAt: string;
   contentHtml: string;
+  faqs: BlogFaq[];
   featured: boolean;
   status: BlogStatus;
   imageFile: File | null;
@@ -45,6 +48,7 @@ const emptyForm: FormState = {
   title: "",
   publishedAt: "",
   contentHtml: "<p></p>",
+  faqs: [],
   featured: false,
   status: "draft",
   imageFile: null,
@@ -84,6 +88,15 @@ function plainTextFromHtml(html: string) {
 
 function countInlineImages(html: string) {
   return (html.match(/<img\b/gi) || []).length;
+}
+
+function cleanFaqs(faqs: BlogFaq[]) {
+  return faqs
+    .map((faq) => ({
+      question: faq.question.trim(),
+      answer: faq.answer.trim(),
+    }))
+    .filter((faq) => faq.question && faq.answer);
 }
 
 export default function BlogCmsPage() {
@@ -133,6 +146,8 @@ export default function BlogCmsPage() {
       words: wordCount,
     };
   }, [form.contentHtml]);
+
+  const completeFaqs = useMemo(() => cleanFaqs(form.faqs), [form.faqs]);
 
   const stats = useMemo(() => {
     return blogs.reduce(
@@ -185,6 +200,7 @@ export default function BlogCmsPage() {
       title: blog.title,
       publishedAt: toDateInput(blog.published_at),
       contentHtml: blog.content_html,
+      faqs: blog.faqs || [],
       featured: blog.featured,
       status: blog.status,
       existingImageUrl: blog.cover_image_url,
@@ -284,6 +300,7 @@ export default function BlogCmsPage() {
       title: blog.title,
       publishedAt: toDateInput(blog.published_at),
       contentHtml: blog.content_html,
+      faqs: blog.faqs || [],
       featured: blog.featured,
       status: blog.status,
       imageFile: null,
@@ -301,6 +318,7 @@ export default function BlogCmsPage() {
       formData.set("title", form.title);
       formData.set("publishedAt", form.publishedAt);
       formData.set("contentHtml", form.contentHtml);
+      formData.set("faqs", JSON.stringify(cleanFaqs(form.faqs)));
       formData.set("featured", String(form.featured));
       formData.set("status", nextStatus);
       formData.set("removeImage", String(form.removeImage));
@@ -351,6 +369,29 @@ export default function BlogCmsPage() {
     }
 
     await persist(form.status === "hidden" ? "published" : "hidden");
+  };
+
+  const addFaq = () => {
+    setForm((current) => ({
+      ...current,
+      faqs: [...current.faqs, { question: "", answer: "" }],
+    }));
+  };
+
+  const updateFaq = (index: number, field: keyof BlogFaq, value: string) => {
+    setForm((current) => ({
+      ...current,
+      faqs: current.faqs.map((faq, faqIndex) =>
+        faqIndex === index ? { ...faq, [field]: value } : faq
+      ),
+    }));
+  };
+
+  const removeFaq = (index: number) => {
+    setForm((current) => ({
+      ...current,
+      faqs: current.faqs.filter((_, faqIndex) => faqIndex !== index),
+    }));
   };
 
   const deleteCurrentBlog = async () => {
@@ -550,6 +591,10 @@ export default function BlogCmsPage() {
                     <ImageIcon size={13} className="text-accent" />
                     {contentStats.images} Inline
                   </span>
+                  <span className="inline-flex items-center gap-2 rounded-[6px] border border-border bg-white px-3 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-muted">
+                    <HelpCircle size={13} className="text-accent" />
+                    {completeFaqs.length} FAQs
+                  </span>
                   {form.featured && (
                     <span className="inline-flex items-center gap-2 rounded-[6px] border border-accent bg-accent/5 px-3 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-accent">
                       <Star size={13} />
@@ -699,6 +744,87 @@ export default function BlogCmsPage() {
                   imageUploadTitle={form.title || "blog-content"}
                   onChange={(contentHtml) => setForm((current) => ({ ...current, contentHtml }))}
                 />
+              </div>
+
+              <div className="rounded-[10px] border border-border bg-white p-5 shadow-[0_14px_40px_rgba(10,17,40,0.04)]">
+                <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">
+                      FAQs
+                    </label>
+                    <p className="mt-1 text-sm text-ink-muted">
+                      Add optional questions and answers that appear at the end of the public blog.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={addFaq}
+                    className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-ink px-4 text-xs font-bold uppercase tracking-[0.14em] text-white transition-transform hover:-translate-y-0.5"
+                  >
+                    <Plus size={15} />
+                    Add FAQ
+                  </button>
+                </div>
+
+                {form.faqs.length === 0 ? (
+                  <div className="rounded-[8px] border border-dashed border-border bg-[#F8FBFF] px-5 py-8 text-center">
+                    <HelpCircle size={24} className="mx-auto mb-3 text-accent" />
+                    <p className="text-sm font-bold uppercase tracking-[0.14em] text-ink">
+                      No FAQs added
+                    </p>
+                    <p className="mt-2 text-sm text-ink-muted">
+                      Use FAQs for short objections, definitions, and end-of-article context.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {form.faqs.map((faq, index) => (
+                      <div
+                        key={index}
+                        className="rounded-[8px] border border-border bg-[#F8FBFF] p-4"
+                      >
+                        <div className="mb-3 flex items-center justify-between gap-3">
+                          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-ink-muted">
+                            FAQ {index + 1}
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => removeFaq(index)}
+                            className="inline-flex h-8 w-8 items-center justify-center rounded-[6px] text-red-700 transition-colors hover:bg-red-50"
+                            aria-label={`Remove FAQ ${index + 1}`}
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+
+                        <label className="mb-3 block">
+                          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-ink-muted">
+                            Question
+                          </span>
+                          <input
+                            value={faq.question}
+                            onChange={(event) => updateFaq(index, "question", event.target.value)}
+                            placeholder="What should readers know?"
+                            className="h-12 w-full rounded-[8px] border border-border bg-white px-4 text-sm font-medium outline-none transition-colors focus:border-accent"
+                          />
+                        </label>
+
+                        <label className="block">
+                          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-ink-muted">
+                            Answer
+                          </span>
+                          <textarea
+                            value={faq.answer}
+                            onChange={(event) => updateFaq(index, "answer", event.target.value)}
+                            placeholder="Write a concise answer."
+                            rows={4}
+                            className="w-full resize-y rounded-[8px] border border-border bg-white px-4 py-3 text-sm leading-relaxed outline-none transition-colors focus:border-accent"
+                          />
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="sticky bottom-4 z-20 rounded-[10px] border border-border bg-white/95 px-5 py-5 shadow-[0_24px_72px_rgba(10,17,40,0.12)] backdrop-blur-md">

@@ -1,5 +1,10 @@
 export type BlogStatus = "draft" | "published" | "hidden";
 
+export type BlogFaq = {
+  answer: string;
+  question: string;
+};
+
 export type BlogPost = {
   id: string;
   title: string;
@@ -8,6 +13,7 @@ export type BlogPost = {
   cover_image_url: string | null;
   cover_image_path: string | null;
   content_html: string;
+  faqs: BlogFaq[];
   featured: boolean;
   status: BlogStatus;
   excerpt: string | null;
@@ -141,13 +147,47 @@ export function buildExcerpt(html: string, maxLength = 180) {
   return `${plainText.slice(0, maxLength).trimEnd()}...`;
 }
 
+export function normalizeBlogFaqs(value: unknown): BlogFaq[] {
+  let items: unknown = value;
+
+  if (typeof value === "string") {
+    try {
+      items = JSON.parse(value);
+    } catch {
+      return [];
+    }
+  }
+
+  if (!Array.isArray(items)) {
+    return [];
+  }
+
+  return items
+    .map((item) => {
+      if (!item || typeof item !== "object") {
+        return null;
+      }
+
+      const record = item as Record<string, unknown>;
+      const question = typeof record.question === "string" ? record.question.trim() : "";
+      const answer = typeof record.answer === "string" ? record.answer.trim() : "";
+
+      if (!question || !answer) {
+        return null;
+      }
+
+      return { question, answer };
+    })
+    .filter((item): item is BlogFaq => Boolean(item));
+}
+
 export async function getPublishedBlogs() {
   if (!hasPublicSupabaseConfig()) {
     return [];
   }
 
   const query = buildQuery({
-    select: "id,title,slug,published_at,cover_image_url,content_html,featured,excerpt",
+    select: "id,title,slug,published_at,cover_image_url,content_html,faqs,featured,excerpt",
     status: "eq.published",
     order: "published_at.desc,created_at.desc",
   });
@@ -161,7 +201,7 @@ export async function getFeaturedBlogs(limit = 3) {
   }
 
   const query = buildQuery({
-    select: "id,title,slug,published_at,cover_image_url,content_html,featured,excerpt",
+    select: "id,title,slug,published_at,cover_image_url,content_html,faqs,featured,excerpt",
     status: "eq.published",
     featured: "eq.true",
     order: "published_at.desc,created_at.desc",
@@ -178,7 +218,7 @@ export async function getPublishedBlogBySlug(slug: string) {
 
   const query = buildQuery({
     select:
-      "id,title,slug,published_at,cover_image_url,content_html,featured,excerpt,created_at,updated_at",
+      "id,title,slug,published_at,cover_image_url,content_html,faqs,featured,excerpt,created_at,updated_at",
     slug: `eq.${slug}`,
     status: "eq.published",
     limit: 1,
@@ -258,6 +298,7 @@ export async function createBlog(input: {
   title: string;
   publishedAt: string | null;
   contentHtml: string;
+  faqs: BlogFaq[];
   featured: boolean;
   status: BlogStatus;
   coverImageUrl: string | null;
@@ -270,6 +311,7 @@ export async function createBlog(input: {
     slug,
     published_at: input.publishedAt,
     content_html: input.contentHtml,
+    faqs: normalizeBlogFaqs(input.faqs),
     featured: input.featured,
     status: input.status,
     cover_image_url: input.coverImageUrl,
@@ -298,6 +340,7 @@ export async function updateBlog(
     title: string;
     publishedAt: string | null;
     contentHtml: string;
+    faqs: BlogFaq[];
     featured: boolean;
     status: BlogStatus;
     coverImageUrl: string | null;
@@ -325,6 +368,7 @@ export async function updateBlog(
         slug,
         published_at: input.publishedAt,
         content_html: input.contentHtml,
+        faqs: normalizeBlogFaqs(input.faqs),
         featured: input.featured,
         status: input.status,
         cover_image_url: input.coverImageUrl,

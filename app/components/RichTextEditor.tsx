@@ -7,6 +7,7 @@ import {
   Heading3,
   ImagePlus,
   Italic,
+  ListChecks,
   Link2,
   List,
   ListOrdered,
@@ -129,6 +130,12 @@ export default function RichTextEditor({
     editorRef.current?.focus();
   };
 
+  const insertCalloutList = () => {
+    insertHtml(
+      `<div class="blog-callout-list"><ul><li>Validator accountability</li><li>Transaction finality</li><li>Economic alignment</li></ul></div><p><br></p>`
+    );
+  };
+
   const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files?.[0];
     event.target.value = "";
@@ -224,6 +231,15 @@ export default function RichTextEditor({
         </button>
         <button
           type="button"
+          onClick={insertCalloutList}
+          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] border border-transparent bg-transparent px-2.5 text-[11px] font-bold uppercase tracking-[0.1em] text-ink-muted transition-colors hover:border-border hover:bg-white hover:text-accent"
+          title="Insert callout list"
+        >
+          <ListChecks size={14} />
+          Callout List
+        </button>
+        <button
+          type="button"
           onClick={() => {
             rememberSelection();
             fileInputRef.current?.click();
@@ -257,7 +273,7 @@ export default function RichTextEditor({
         onBlur={rememberSelection}
         onKeyUp={rememberSelection}
         onMouseUp={rememberSelection}
-        className="min-h-[520px] bg-white px-6 py-6 text-[17px] leading-8 text-ink outline-none [&_.blog-content-image]:my-8 [&_.blog-content-image_img]:h-auto [&_.blog-content-image_img]:max-w-full [&_.blog-content-image_img]:rounded-[8px] [&_.blog-content-image_img]:border [&_.blog-content-image_img]:border-border [&_a]:font-semibold [&_a]:text-accent [&_a]:underline [&_blockquote]:my-6 [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:bg-slate-50 [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:italic [&_h2]:mb-3 [&_h2]:mt-9 [&_h2]:text-3xl [&_h2]:font-black [&_h3]:mb-3 [&_h3]:mt-7 [&_h3]:text-2xl [&_h3]:font-bold [&_img]:h-auto [&_img]:max-w-full [&_li]:ml-5 [&_li]:mb-2 [&_li]:list-disc [&_ol]:mb-5 [&_ol]:pl-5 [&_p]:mb-4 [&_ul]:mb-5"
+        className="min-h-[520px] bg-white px-6 py-6 text-[17px] leading-8 text-ink outline-none [&_.blog-callout-list]:my-7 [&_.blog-callout-list]:rounded-[12px] [&_.blog-callout-list]:border [&_.blog-callout-list]:border-accent/15 [&_.blog-callout-list]:bg-[#F2F9FF] [&_.blog-callout-list]:px-6 [&_.blog-callout-list]:py-5 [&_.blog-callout-list]:shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] [&_.blog-callout-list_li]:mb-2 [&_.blog-callout-list_li]:ml-5 [&_.blog-callout-list_li]:list-disc [&_.blog-callout-list_li]:font-semibold [&_.blog-callout-list_li]:text-ink [&_.blog-callout-list_ul]:mb-0 [&_.blog-content-image]:my-8 [&_.blog-content-image_img]:h-auto [&_.blog-content-image_img]:max-w-full [&_.blog-content-image_img]:rounded-[8px] [&_.blog-content-image_img]:border [&_.blog-content-image_img]:border-border [&_a]:font-semibold [&_a]:text-accent [&_a]:underline [&_blockquote]:my-6 [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:bg-slate-50 [&_blockquote]:px-5 [&_blockquote]:py-4 [&_blockquote]:italic [&_h2]:mb-3 [&_h2]:mt-9 [&_h2]:text-3xl [&_h2]:font-black [&_h3]:mb-3 [&_h3]:mt-7 [&_h3]:text-2xl [&_h3]:font-bold [&_img]:h-auto [&_img]:max-w-full [&_li]:ml-5 [&_li]:mb-2 [&_li]:list-disc [&_ol]:mb-5 [&_ol]:pl-5 [&_p]:mb-4 [&_ul]:mb-5"
       />
     </div>
   );

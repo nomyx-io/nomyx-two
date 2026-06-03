@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, Clock3, Star } from "lucide-react";
+import { ArrowLeft, CalendarDays, ChevronDown, Clock3, Star } from "lucide-react";
 
 import { CustomCursor, Footer, Navbar } from "@/app/home";
 import { getPublishedBlogBySlug, plainTextFromHtml } from "@/lib/blogs";
@@ -34,7 +34,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   }
 
   const { content, headings } = enhanceBlogHtml(blog.content_html);
-  const tableHeadings = headings.filter((heading) => heading.level === 2);
+  const faqs = blog.faqs || [];
+  const tableHeadings = [
+    ...headings.filter((heading) => heading.level === 2),
+    ...(faqs.length > 0 ? [{ id: "faqs", level: 2 as const, text: "FAQ's" }] : []),
+  ];
   const plainText = plainTextFromHtml(blog.content_html);
   const wordCount = plainText.split(/\s+/).filter(Boolean).length;
   const readTime = Math.max(1, Math.ceil(wordCount / 220));
@@ -89,9 +93,37 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 )}
 
                 <div
-                  className="mt-14 text-[17px] font-normal leading-[31px] text-[#42546E] md:text-[18px] md:leading-[32px] [&_a]:font-semibold [&_a]:text-accent [&_blockquote]:my-10 [&_blockquote]:rounded-2xl [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:bg-[#F2F9FF] [&_blockquote]:px-6 [&_blockquote]:py-5 [&_blockquote]:font-medium [&_blockquote]:italic [&_figure]:my-12 [&_figure]:w-full [&_figcaption]:mt-3 [&_figcaption]:text-sm [&_figcaption]:font-medium [&_figcaption]:text-ink-muted [&_h2]:scroll-mt-28 [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:text-[32px] [&_h2]:font-bold [&_h2]:leading-[1.2] [&_h2]:text-[#19233D] md:[&_h2]:text-[45px] md:[&_h2]:leading-[54px] [&_h3]:scroll-mt-28 [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:text-[26px] [&_h3]:font-bold [&_h3]:leading-tight [&_h3]:text-[#19233D] [&_img]:h-auto [&_img]:w-full [&_img]:max-w-full [&_img]:rounded-2xl [&_img]:border [&_img]:border-border [&_li]:mb-3 [&_li]:ml-6 [&_li]:list-disc [&_ol]:mb-7 [&_ol]:pl-6 [&_p]:mb-7 [&_strong]:font-bold [&_strong]:text-ink [&_ul]:mb-7 [&_ul]:pl-1"
+                  className="mt-14 text-[17px] font-normal leading-[31px] text-[#42546E] md:text-[18px] md:leading-[32px] [&_.blog-callout-list]:my-10 [&_.blog-callout-list]:rounded-2xl [&_.blog-callout-list]:border [&_.blog-callout-list]:border-accent/15 [&_.blog-callout-list]:bg-[#F2F9FF] [&_.blog-callout-list]:px-6 [&_.blog-callout-list]:py-5 [&_.blog-callout-list]:shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] md:[&_.blog-callout-list]:px-8 md:[&_.blog-callout-list]:py-6 [&_.blog-callout-list_li]:mb-2 [&_.blog-callout-list_li]:ml-6 [&_.blog-callout-list_li]:list-disc [&_.blog-callout-list_li]:font-semibold [&_.blog-callout-list_li]:text-ink [&_.blog-callout-list_ul]:mb-0 [&_.blog-callout-list_ul]:pl-0 [&_a]:font-semibold [&_a]:text-accent [&_blockquote]:my-10 [&_blockquote]:rounded-2xl [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:bg-[#F2F9FF] [&_blockquote]:px-6 [&_blockquote]:py-5 [&_blockquote]:font-medium [&_blockquote]:italic [&_figure]:my-12 [&_figure]:w-full [&_figcaption]:mt-3 [&_figcaption]:text-sm [&_figcaption]:font-medium [&_figcaption]:text-ink-muted [&_h2]:scroll-mt-28 [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:text-[28px] [&_h2]:font-bold [&_h2]:leading-[1.2] [&_h2]:text-[#19233D] md:[&_h2]:text-[38px] md:[&_h2]:leading-[46px] [&_h3]:scroll-mt-28 [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:text-[26px] [&_h3]:font-bold [&_h3]:leading-tight [&_h3]:text-[#19233D] [&_img]:h-auto [&_img]:w-full [&_img]:max-w-full [&_img]:rounded-2xl [&_img]:border [&_img]:border-border [&_li]:mb-3 [&_li]:ml-6 [&_li]:list-disc [&_ol]:mb-7 [&_ol]:pl-6 [&_p]:mb-7 [&_strong]:font-bold [&_strong]:text-ink [&_ul]:mb-7 [&_ul]:pl-1"
                   dangerouslySetInnerHTML={{ __html: content }}
                 />
+
+                {faqs.length > 0 && (
+                  <section id="faqs" className="mt-20 scroll-mt-28">
+                    <h2 className="mb-8 text-[28px] font-bold leading-[1.2] text-[#19233D] md:text-[38px] md:leading-[46px]">
+                      FAQ&apos;s
+                    </h2>
+
+                    <div className="space-y-3">
+                      {faqs.map((faq, index) => (
+                        <details
+                          key={`${faq.question}-${index}`}
+                          className="group rounded-2xl border border-border bg-[#F8FBFF] px-5 py-4 transition-colors open:bg-white md:px-7 md:py-5"
+                        >
+                          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-[17px] font-bold leading-snug text-ink marker:hidden md:text-[18px] [&::-webkit-details-marker]:hidden">
+                            {faq.question}
+                            <ChevronDown
+                              size={20}
+                              className="shrink-0 text-accent transition-transform group-open:rotate-180"
+                            />
+                          </summary>
+                          <p className="mt-4 max-w-4xl text-[16px] font-normal leading-8 text-[#42546E] md:text-[17px]">
+                            {faq.answer}
+                          </p>
+                        </details>
+                      ))}
+                    </div>
+                  </section>
+                )}
               </article>
 
               <aside className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
