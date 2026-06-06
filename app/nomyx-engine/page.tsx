@@ -58,12 +58,12 @@ const EngineVisual = () => {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.35 }}
-      className="w-full max-w-[580px] mx-auto lg:ml-auto lg:mr-0"
+      className="w-full max-w-145 mx-auto lg:ml-auto lg:mr-0"
     >
       <div className="relative rounded-[40px] border border-[#0A112808] bg-white p-10 shadow-[0_32px_84px_rgba(10,17,40,0.06)] md:p-12">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between px-2">
-          <span className="text-[13px] font-extrabold uppercase tracking-[0.16em] text-[#42546E]">
+          <span className="text-[13px] font-extrabold uppercase tracking-[0.16em] text-ink-muted">
             Asset Lifecycle Dashboard
           </span>
           <div className="flex items-center gap-2 text-[13px] font-extrabold uppercase tracking-[0.12em] text-[#10B981]">
@@ -73,7 +73,7 @@ const EngineVisual = () => {
         </div>
 
         {/* Timeline Visual — 380×360 coordinate space, 1:1 scale */}
-        <div className="relative mx-auto w-full max-w-[380px]" style={{ aspectRatio: "380 / 400" }}>
+        <div className="relative mx-auto w-full max-w-95" style={{ aspectRatio: "380 / 400" }}>
           {/* Path SVG — aligned to top */}
           <svg
             className="absolute top-0 left-0 w-full pointer-events-none"
@@ -124,7 +124,7 @@ const EngineVisual = () => {
                         : "0 2px 8px rgba(10,17,40,0.04)",
                     }}
                     transition={{ duration: 0.5 }}
-                    className="flex h-[72px] w-[72px] items-center justify-center rounded-full"
+                    className="flex h-18 w-18 items-center justify-center rounded-full"
                   >
                     <Icon size={26} strokeWidth={1.8} className={isReached ? "text-white" : "text-[#94A3B8]"} />
                   </motion.div>
@@ -132,7 +132,7 @@ const EngineVisual = () => {
 
                 {/* Label + date — sits below circle, clear of the path */}
                 <div className="mt-3 text-center whitespace-nowrap">
-                  <p className={`text-[15px] font-black tracking-tight leading-tight ${isReached ? "text-[#0A1128]" : "text-[#94A3B8]"}`}>
+                  <p className={`text-[15px] font-black tracking-tight leading-tight ${isReached ? "text-ink" : "text-[#94A3B8]"}`}>
                     {stage.label}
                   </p>
                   <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#B0BAC9]">
@@ -238,7 +238,7 @@ const DeployOnce = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col rounded-[2rem] border border-slate-200 bg-white shadow-sm overflow-hidden"
+            className="flex flex-col rounded-4xl border border-slate-200 bg-white shadow-sm overflow-hidden"
           >
             {/* Text Section */}
             <div className="bg-slate-50 p-6 md:p-8 border-b border-slate-100 flex-1">
@@ -263,7 +263,7 @@ const DeployOnce = () => {
             <div className="p-6 md:p-8 bg-white">
               {/* Mini contract card */}
               <div className="flex items-center gap-4 bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6 shadow-sm">
-                <div className="w-12 h-12 bg-white border border-slate-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                <div className="w-12 h-12 bg-white border border-slate-100 rounded-xl flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                   <Lock size={20} className="text-slate-400" />
                 </div>
                 <div className="flex-1">
@@ -275,7 +275,7 @@ const DeployOnce = () => {
                     <div className="h-2 w-12 bg-slate-200 rounded-full" />
                   </div>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
                   <XCircle size={18} className="text-red-500" />
                 </div>
               </div>
@@ -290,7 +290,7 @@ const DeployOnce = () => {
                   <div key={text} className="flex items-start gap-3">
                     <XCircle
                       size={18}
-                      className="text-red-400 flex-shrink-0 mt-0.5"
+                      className="text-red-400 shrink-0 mt-0.5"
                     />
                     <span className="text-sm font-medium text-slate-600 leading-snug">
                       {text}
@@ -307,13 +307,13 @@ const DeployOnce = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="flex flex-col rounded-[2rem] border border-accent/20 bg-white shadow-[0_8px_40px_rgba(30,58,138,0.06)] overflow-hidden relative"
+            className="flex flex-col rounded-4xl border border-accent/20 bg-white shadow-[0_8px_40px_rgba(30,58,138,0.06)] overflow-hidden relative"
           >
             {/* Subtle glow */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 blur-3xl rounded-full pointer-events-none" />
 
             {/* Text Section */}
-            <div className="bg-accent/[0.03] p-6 md:p-8 border-b border-accent/10 flex-1 relative z-10">
+            <div className="bg-accent/3 p-6 md:p-8 border-b border-accent/10 flex-1 relative z-10">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
                   <Gem size={18} className="text-accent" />
@@ -334,8 +334,8 @@ const DeployOnce = () => {
             {/* Visual Box */}
             <div className="p-6 md:p-8 bg-white relative z-10">
               {/* Mini proxy card */}
-              <div className="flex items-center gap-4 bg-accent/[0.02] border border-accent/20 rounded-2xl p-5 mb-6 shadow-sm">
-                <div className="w-12 h-12 bg-white border border-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+              <div className="flex items-center gap-4 bg-accent/2 border border-accent/20 rounded-2xl p-5 mb-6 shadow-sm">
+                <div className="w-12 h-12 bg-white border border-accent/10 rounded-xl flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                   <Gem size={20} className="text-accent" />
                 </div>
                 <div className="flex-1">
@@ -350,7 +350,7 @@ const DeployOnce = () => {
                 <motion.div
                   animate={{ scale: [1, 1.15, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0"
+                  className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0"
                 >
                   <CheckCircle2 size={18} className="text-emerald-500" />
                 </motion.div>
@@ -365,7 +365,7 @@ const DeployOnce = () => {
                   <div key={text} className="flex items-start gap-3">
                     <CheckCircle2
                       size={18}
-                      className="text-emerald-500 flex-shrink-0 mt-0.5"
+                      className="text-emerald-500 shrink-0 mt-0.5"
                     />
                     <span className="text-sm font-bold text-slate-700 leading-snug">
                       {text}
@@ -428,7 +428,7 @@ const AssetLifecycle = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border border-border rounded-[24px] overflow-hidden bg-white"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border border-border rounded-3xl overflow-hidden bg-white"
       >
         {lifecycleCards.map((card, i) => {
           const Icon = card.icon;
@@ -528,7 +528,7 @@ const LifecycleLoop = () => {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7, delay: 0.2 }}
-      className="w-full max-w-[440px] mx-auto lg:ml-auto lg:mr-0"
+      className="w-full max-w-110 mx-auto lg:ml-auto lg:mr-0"
     >
       <div className="relative">
         {/* Connector lines through the center gap */}
@@ -588,7 +588,7 @@ const LifecycleLoop = () => {
                   />
                 </motion.div>
                 <span
-                  className="text-xs font-bold uppercase tracking-[0.1em] transition-colors duration-300"
+                  className="text-xs font-bold uppercase tracking-widest transition-colors duration-300"
                   style={{ color: isActive ? "#0A1128" : "#94A3B8" }}
                 >
                   {node.label}
@@ -631,7 +631,7 @@ const FundLifecycle = () => (
                 transition={{ duration: 0.4, delay: 0.1 + i * 0.08 }}
                 className="flex items-start gap-3.5"
               >
-                <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center shrink-0 mt-0.5">
                   <CheckCircle2 size={14} className="text-white" />
                 </div>
                 <div>
@@ -722,7 +722,7 @@ const ApiFirst = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className={`border border-white/10 bg-white/[0.03] flex flex-col ${
+            className={`border border-white/10 bg-white/3 flex flex-col ${
               activeTab !== "nocode" ? "hidden lg:flex" : "flex"
             }`}
           >
@@ -740,7 +740,7 @@ const ApiFirst = () => {
                 <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-white/40 mb-2">
                   Action Type
                 </label>
-                <div className="border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-white">
+                <div className="border border-white/10 bg-white/4 px-4 py-3 text-sm font-semibold text-white">
                   Set Interest Rate
                 </div>
               </div>
@@ -749,11 +749,11 @@ const ApiFirst = () => {
                 <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-white/40 mb-2">
                   New Rate (%)
                 </label>
-                <div className="flex items-center border border-white/10 bg-white/[0.04] px-4 py-3">
+                <div className="flex items-center border border-white/10 bg-white/4 px-4 py-3">
                   <span className="text-sm font-semibold text-white flex-1">
                     5.00
                   </span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-white/30">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
                     Annual
                   </span>
                 </div>
@@ -781,7 +781,7 @@ const ApiFirst = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className={`border border-white/10 bg-white/[0.03] flex flex-col ${
+            className={`border border-white/10 bg-white/3 flex flex-col ${
               activeTab !== "graphql" ? "hidden lg:flex" : "flex"
             }`}
           >
