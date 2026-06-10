@@ -13,6 +13,7 @@ import {
   $isTextNode,
   TextFormatType,
   ElementFormatType,
+  $getRoot,
 } from 'lexical';
 import { TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { $wrapNodes } from '@lexical/selection';
@@ -282,20 +283,21 @@ export function ToolbarPlugin({ imageUploadTitle = "blog-content" }: { imageUplo
     formData.append("title", imageUploadTitle);
 
     try {
-      const uploadRes = await fetch("/api/admin/blogs/upload", {
+      const uploadRes = await fetch("/api/admin/blogs/images", {
         method: "POST",
         body: formData,
       });
 
       if (!uploadRes.ok) throw new Error("Upload failed");
-      const { url } = await uploadRes.json();
+      const { image } = await uploadRes.json();
       
       editor.update(() => {
-        const imageNode = $createImageNode({ src: url, altText: imageFile.name });
+        const imageNode = $createImageNode({ src: image.url, altText: imageFile.name });
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
           selection.insertNodes([imageNode]);
-          $createParagraphNode().select();
+        } else {
+          $getRoot().append(imageNode);
         }
       });
       toast.success("Image uploaded");
