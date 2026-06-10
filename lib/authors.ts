@@ -6,6 +6,8 @@ export type Author = {
   designation: string | null;
   cover_image_url: string | null;
   cover_image_path: string | null;
+  meta_description: string | null;
+  page_title: string | null;
   created_at: string;
   updated_at: string;
   blog_count?: number; // Added for CMS delete modal
@@ -110,7 +112,7 @@ export function slugify(value: string) {
 
 export async function getAllAuthorsForAdmin() {
   const query = buildQuery({
-    select: "id,name,slug,bio_html,designation,cover_image_url,cover_image_path",
+    select: "id,name,slug,bio_html,designation,cover_image_url,cover_image_path,meta_description,page_title",
     order: "name.asc",
   });
 
@@ -172,12 +174,15 @@ async function ensureUniqueSlug(name: string, excludeId?: string): Promise<strin
 
 export async function createAuthor(input: {
   name: string;
+  slug?: string;
   bioHtml: string | null;
   designation: string | null;
   coverImageUrl: string | null;
   coverImagePath: string | null;
+  metaDescription?: string | null;
+  pageTitle?: string | null;
 }) {
-  const slug = await ensureUniqueSlug(input.name);
+  const slug = input.slug ? await ensureUniqueSlug(input.slug) : await ensureUniqueSlug(input.name);
 
   const rows = await supabaseRequest<Author[]>(
     "/rest/v1/authors",
@@ -193,6 +198,8 @@ export async function createAuthor(input: {
         designation: input.designation,
         cover_image_url: input.coverImageUrl,
         cover_image_path: input.coverImagePath,
+        meta_description: input.metaDescription || null,
+        page_title: input.pageTitle || null,
       }),
     },
     { admin: true }
@@ -205,10 +212,13 @@ export async function updateAuthor(
   id: string,
   input: {
     name: string;
+    slug?: string;
     bioHtml: string | null;
     designation: string | null;
     coverImageUrl: string | null;
     coverImagePath: string | null;
+    metaDescription?: string | null;
+    pageTitle?: string | null;
   }
 ) {
   const existing = await getAuthorById(id);
@@ -217,7 +227,7 @@ export async function updateAuthor(
     throw new Error("Author not found");
   }
 
-  const slug = existing.name === input.name ? existing.slug : await ensureUniqueSlug(input.name, id);
+  const slug = input.slug ? (existing.slug === input.slug ? existing.slug : await ensureUniqueSlug(input.slug, id)) : (existing.name === input.name ? existing.slug : await ensureUniqueSlug(input.name, id));
   const query = buildQuery({ id: `eq.${id}` });
   
   const rows = await supabaseRequest<Author[]>(
@@ -234,6 +244,8 @@ export async function updateAuthor(
         designation: input.designation,
         cover_image_url: input.coverImageUrl,
         cover_image_path: input.coverImagePath,
+        meta_description: input.metaDescription || null,
+        page_title: input.pageTitle || null,
       }),
     },
     { admin: true }

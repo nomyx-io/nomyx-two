@@ -33,6 +33,9 @@ export async function PATCH(request: Request, context: Context) {
 
     const formData = await request.formData();
     const title = String(formData.get("title") || existing.title).trim();
+    const slug = String(formData.get("slug") || existing.slug).trim();
+    const pageTitle = formData.has("pageTitle") ? String(formData.get("pageTitle") || "").trim() || null : existing.page_title;
+    const excerpt = String(formData.get("excerpt") || existing.excerpt || "").trim();
     const authorId = formData.has("authorId") ? (String(formData.get("authorId") || "").trim() || null) : existing.author_id;
     const publishedAtInput = String(formData.get("publishedAt") || existing.published_at || "").trim();
     const contentHtml = String(formData.get("contentHtml") || existing.content_html).trim();
@@ -63,6 +66,8 @@ export async function PATCH(request: Request, context: Context) {
 
     const blog = await updateBlog(id, {
       title,
+      slug,
+      excerpt,
       authorId,
       publishedAt: normalizePublishedAt(publishedAtInput || null, status),
       contentHtml,
@@ -71,6 +76,7 @@ export async function PATCH(request: Request, context: Context) {
       status,
       coverImageUrl,
       coverImagePath,
+      pageTitle,
     });
 
     return NextResponse.json({ blog });

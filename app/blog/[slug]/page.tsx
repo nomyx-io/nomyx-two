@@ -22,7 +22,7 @@ export async function generateMetadata({
 
   return {
     title: blog
-      ? `${blog.title} | Nomyx Blog`
+      ? (blog.page_title || `${blog.title} | Nomyx Blog`)
       : "Nomyx Blog",
     description:
       blog?.excerpt ||
@@ -71,13 +71,13 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       <main className="bg-white">
         <section className="pt-32 pb-20 md:pt-40 md:pb-28">
           <div className="custom-container">
-            <Link
-              href="/blog"
-              className="mb-10 inline-flex h-11 items-center justify-center gap-2 rounded-[6px] border border-ink/10 bg-white px-5 text-sm font-bold text-ink shadow-sm transition-colors hover:border-accent hover:text-accent"
-            >
-              <ArrowLeft size={16} />
-              Back to Blog
-            </Link>
+            <nav className="mb-10 flex items-center gap-2 text-sm font-medium text-[#42546E]">
+              <Link href="/" className="hover:text-accent transition-colors">Home</Link>
+              <span className="text-slate-300">/</span>
+              <Link href="/blog" className="hover:text-accent transition-colors">Blog</Link>
+              <span className="text-slate-300">/</span>
+              <span className="text-ink font-semibold truncate max-w-[200px] md:max-w-md">{blog.title}</span>
+            </nav>
 
             <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start xl:gap-16">
               <article className="min-w-0">
@@ -87,7 +87,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
                 <div className="mt-8 flex flex-wrap items-center gap-4 text-sm font-medium text-[#42546E]">
                   {blog.authors ? (
-                    <Link href={`/author/${blog.authors.slug}`} className="flex items-center gap-3 transition-colors hover:text-accent group">
+                    <Link href={`/blog/author/${blog.authors.slug}`} className="flex items-center gap-3 transition-colors hover:text-accent group">
                       {blog.authors.cover_image_url ? (
                         <img src={blog.authors.cover_image_url} alt={blog.authors.name} className="h-10 w-10 rounded-full object-cover shadow-sm ring-1 ring-slate-900/5 group-hover:ring-accent/50 transition-all" />
                       ) : (

@@ -17,6 +17,9 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const title = String(formData.get("title") || "").trim();
+    const slug = String(formData.get("slug") || "").trim();
+    const pageTitle = formData.has("pageTitle") ? String(formData.get("pageTitle") || "").trim() || null : null;
+    const excerpt = String(formData.get("excerpt") || "").trim();
     const publishedAtInput = String(formData.get("publishedAt") || "").trim();
     const contentHtml = String(formData.get("contentHtml") || "").trim();
     const categoryId = formData.get("categoryId") ? String(formData.get("categoryId")) : null;
@@ -33,8 +36,8 @@ export async function POST(request: Request) {
     }
 
     const newsItem = await createNews({
-      title, publishedAt: normalizePublishedAt(publishedAtInput || null, status),
-      contentHtml, featured, status, coverImageUrl, coverImagePath, categoryId
+      title, slug, excerpt, publishedAt: normalizePublishedAt(publishedAtInput || null, status),
+      contentHtml, featured, status, coverImageUrl, coverImagePath, categoryId, pageTitle
     });
     return NextResponse.json({ newsItem });
   } catch (error) {

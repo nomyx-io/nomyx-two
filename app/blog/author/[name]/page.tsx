@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: AuthorProps): Promise<Metadat
   
   if (author) {
     return {
-      title: `${author.name} - Nomyx`,
-      description: author.bio_html ? plainTextFromHtml(author.bio_html).substring(0, 150) : "Author at Nomyx",
+      title: author.page_title || `${author.name} - Nomyx`,
+      description: author.meta_description || (author.bio_html ? plainTextFromHtml(author.bio_html).substring(0, 150) : "Author at Nomyx"),
     };
   }
   return {

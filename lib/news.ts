@@ -23,6 +23,7 @@ export type NewsPost = {
   featured: boolean;
   status: NewsStatus;
   excerpt: string | null;
+  page_title: string | null;
   created_at: string;
   updated_at: string;
   category?: NewsCategory | null;
@@ -217,7 +218,7 @@ export async function getPublishedNews() {
   }
 
   const query = buildQuery({
-    select: "id,title,slug,published_at,cover_image_url,content_html,featured,excerpt,category_id,category:news_categories(id,name,slug)",
+    select: "id,title,slug,published_at,cover_image_url,content_html,featured,excerpt,page_title,category_id,category:news_categories(id,name,slug)",
     status: "eq.published",
     order: "published_at.desc,created_at.desc",
   });
@@ -231,7 +232,7 @@ export async function getFeaturedNews(limit = 3) {
   }
 
   const query = buildQuery({
-    select: "id,title,slug,published_at,cover_image_url,content_html,featured,excerpt,category_id,category:news_categories(id,name,slug)",
+    select: "id,title,slug,published_at,cover_image_url,content_html,featured,excerpt,page_title,category_id,category:news_categories(id,name,slug)",
     status: "eq.published",
     featured: "eq.true",
     order: "published_at.desc,created_at.desc",
@@ -247,7 +248,7 @@ export async function getPublishedNewsBySlug(slug: string) {
   }
 
   const query = buildQuery({
-    select: "id,title,slug,published_at,cover_image_url,content_html,featured,excerpt,created_at,updated_at,category_id,category:news_categories(id,name,slug)",
+    select: "id,title,slug,published_at,cover_image_url,content_html,featured,excerpt,page_title,created_at,updated_at,category_id,category:news_categories(id,name,slug)",
     slug: `eq.${slug}`,
     status: "eq.published",
     limit: 1,
@@ -325,6 +326,8 @@ export async function getNewsById(id: string) {
 
 export async function createNews(input: {
   title: string;
+  slug?: string;
+  excerpt?: string;
   publishedAt: string | null;
   contentHtml: string;
   featured: boolean;
@@ -332,9 +335,10 @@ export async function createNews(input: {
   coverImageUrl: string | null;
   coverImagePath: string | null;
   categoryId: string | null;
+  pageTitle?: string | null;
 }) {
-  const slug = await ensureUniqueSlug(input.title);
-  const excerpt = buildExcerpt(input.contentHtml);
+  const slug = input.slug ? await ensureUniqueSlug(input.slug) : await ensureUniqueSlug(input.title);
+  const excerpt = input.excerpt || buildExcerpt(input.contentHtml);
   const body = {
     title: input.title,
     slug,
@@ -346,6 +350,7 @@ export async function createNews(input: {
     cover_image_path: input.coverImagePath,
     excerpt,
     category_id: input.categoryId,
+    page_title: input.pageTitle || null,
   };
 
   const rows = await supabaseRequest<NewsPost[]>(
@@ -367,6 +372,8 @@ export async function updateNews(
   id: string,
   input: {
     title: string;
+    slug?: string;
+    excerpt?: string;
     publishedAt: string | null;
     contentHtml: string;
     featured: boolean;
@@ -374,6 +381,7 @@ export async function updateNews(
     coverImageUrl: string | null;
     coverImagePath: string | null;
     categoryId: string | null;
+    pageTitle?: string | null;
   }
 ) {
   const existing = await getNewsById(id);
@@ -382,8 +390,8 @@ export async function updateNews(
     throw new Error("News post not found");
   }
 
-  const slug = existing.title === input.title ? existing.slug : await ensureUniqueSlug(input.title, id);
-  const excerpt = buildExcerpt(input.contentHtml);
+  const slug = input.slug ? (existing.slug === input.slug ? existing.slug : await ensureUniqueSlug(input.slug, id)) : (existing.title === input.title ? existing.slug : await ensureUniqueSlug(input.title, id));
+  const excerpt = input.excerpt || buildExcerpt(input.contentHtml);
   const query = buildQuery({ id: `eq.${id}` });
   const rows = await supabaseRequest<NewsPost[]>(
     `/rest/v1/news_posts?${query}`,
@@ -403,6 +411,7 @@ export async function updateNews(
         cover_image_path: input.coverImagePath,
         excerpt,
         category_id: input.categoryId,
+        page_title: input.pageTitle || null,
       }),
     },
     { admin: true }

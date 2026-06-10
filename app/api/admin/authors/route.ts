@@ -28,8 +28,11 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const name = String(formData.get("name") || "").trim();
+    const slug = String(formData.get("slug") || "").trim() || undefined;
     const bioHtml = String(formData.get("bioHtml") || "").trim();
     const designation = formData.has("designation") ? String(formData.get("designation") || "").trim() || null : null;
+    const metaDescription = formData.has("metaDescription") ? String(formData.get("metaDescription") || "").trim() || null : null;
+    const pageTitle = formData.has("pageTitle") ? String(formData.get("pageTitle") || "").trim() || null : null;
     const imageFile = formData.get("image");
 
     if (!name) {
@@ -47,10 +50,13 @@ export async function POST(request: Request) {
 
     const author = await createAuthor({
       name,
+      slug,
       bioHtml: bioHtml || null,
       designation,
       coverImageUrl,
       coverImagePath,
+      metaDescription,
+      pageTitle,
     });
 
     return NextResponse.json({ author });

@@ -28,8 +28,11 @@ export async function PATCH(request: Request, { params }: Props) {
 
     const formData = await request.formData();
     const name = String(formData.get("name") || "").trim();
+    const slug = String(formData.get("slug") || "").trim() || undefined;
     const bioHtml = String(formData.get("bioHtml") || "").trim();
     const designation = formData.has("designation") ? String(formData.get("designation") || "").trim() || null : existing.designation;
+    const metaDescription = formData.has("metaDescription") ? String(formData.get("metaDescription") || "").trim() || null : existing.meta_description;
+    const pageTitle = formData.has("pageTitle") ? String(formData.get("pageTitle") || "").trim() || null : existing.page_title;
     const removeImage = String(formData.get("removeImage")) === "true";
     const imageFile = formData.get("image");
 
@@ -57,10 +60,13 @@ export async function PATCH(request: Request, { params }: Props) {
 
     const author = await updateAuthor(id, {
       name,
+      slug,
       bioHtml: bioHtml || null,
       designation,
       coverImageUrl,
       coverImagePath,
+      metaDescription,
+      pageTitle,
     });
 
     return NextResponse.json({ author });

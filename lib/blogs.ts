@@ -24,6 +24,7 @@ export type BlogPost = {
   featured: boolean;
   status: BlogStatus;
   excerpt: string | null;
+  page_title: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -194,7 +195,7 @@ export async function getPublishedBlogs() {
   }
 
   const query = buildQuery({
-    select: "id,title,slug,author_id,published_at,cover_image_url,content_html,faqs,featured,excerpt,authors(id,name,cover_image_url)",
+    select: "id,title,slug,author_id,published_at,cover_image_url,content_html,faqs,featured,excerpt,page_title,authors(id,name,cover_image_url)",
     status: "eq.published",
     order: "published_at.desc,created_at.desc",
   });
@@ -208,7 +209,7 @@ export async function getFeaturedBlogs(limit = 3) {
   }
 
   const query = buildQuery({
-    select: "id,title,slug,author_id,published_at,cover_image_url,content_html,faqs,featured,excerpt,authors(id,name,cover_image_url)",
+    select: "id,title,slug,author_id,published_at,cover_image_url,content_html,faqs,featured,excerpt,page_title,authors(id,name,cover_image_url)",
     status: "eq.published",
     featured: "eq.true",
     order: "published_at.desc,created_at.desc",
@@ -225,7 +226,7 @@ export async function getPublishedBlogBySlug(slug: string) {
 
   const query = buildQuery({
     select:
-      "id,title,slug,author_id,published_at,cover_image_url,content_html,faqs,featured,excerpt,created_at,updated_at,authors(id,name,slug,cover_image_url)",
+      "id,title,slug,author_id,published_at,cover_image_url,content_html,faqs,featured,excerpt,page_title,created_at,updated_at,authors(id,name,slug,cover_image_url)",
     slug: `eq.${slug}`,
     status: "eq.published",
     limit: 1,
@@ -303,6 +304,8 @@ export async function getBlogById(id: string) {
 
 export async function createBlog(input: {
   title: string;
+  slug?: string;
+  excerpt?: string;
   authorId: string | null;
   publishedAt: string | null;
   contentHtml: string;
@@ -311,9 +314,10 @@ export async function createBlog(input: {
   status: BlogStatus;
   coverImageUrl: string | null;
   coverImagePath: string | null;
+  pageTitle?: string | null;
 }) {
-  const slug = await ensureUniqueSlug(input.title);
-  const excerpt = buildExcerpt(input.contentHtml);
+  const slug = input.slug ? await ensureUniqueSlug(input.slug) : await ensureUniqueSlug(input.title);
+  const excerpt = input.excerpt || buildExcerpt(input.contentHtml);
   const body = {
     title: input.title,
     slug,
@@ -326,6 +330,7 @@ export async function createBlog(input: {
     cover_image_url: input.coverImageUrl,
     cover_image_path: input.coverImagePath,
     excerpt,
+    page_title: input.pageTitle || null,
   };
 
   const rows = await supabaseRequest<BlogPost[]>(
@@ -347,6 +352,8 @@ export async function updateBlog(
   id: string,
   input: {
     title: string;
+    slug?: string;
+    excerpt?: string;
     authorId: string | null;
     publishedAt: string | null;
     contentHtml: string;
@@ -355,6 +362,7 @@ export async function updateBlog(
     status: BlogStatus;
     coverImageUrl: string | null;
     coverImagePath: string | null;
+    pageTitle?: string | null;
   }
 ) {
   const existing = await getBlogById(id);
@@ -363,8 +371,8 @@ export async function updateBlog(
     throw new Error("Blog not found");
   }
 
-  const slug = existing.title === input.title ? existing.slug : await ensureUniqueSlug(input.title, id);
-  const excerpt = buildExcerpt(input.contentHtml);
+  const slug = input.slug ? (existing.slug === input.slug ? existing.slug : await ensureUniqueSlug(input.slug, id)) : (existing.title === input.title ? existing.slug : await ensureUniqueSlug(input.title, id));
+  const excerpt = input.excerpt || buildExcerpt(input.contentHtml);
   const query = buildQuery({ id: `eq.${id}` });
   const rows = await supabaseRequest<BlogPost[]>(
     `/rest/v1/blog_posts?${query}`,
@@ -383,6 +391,7 @@ export async function updateBlog(
         featured: input.featured,
         cover_image_path: input.coverImagePath,
         excerpt,
+        page_title: input.pageTitle || null,
       }),
     },
     { admin: true }

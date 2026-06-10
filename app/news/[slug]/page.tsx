@@ -23,7 +23,7 @@ export async function generateMetadata({
 
   return {
     title: news
-      ? `${news.title} | Nomyx News`
+      ? (news.page_title || `${news.title} | Nomyx News`)
       : "Nomyx News",
     description:
       news?.excerpt ||
@@ -68,13 +68,13 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
       <main className="bg-white">
         <section className="pt-32 pb-20 md:pt-40 md:pb-28">
           <div className="custom-container">
-            <Link
-              href="/news"
-              className="mb-10 inline-flex h-11 items-center justify-center gap-2 rounded-[6px] border border-ink/10 bg-white px-5 text-sm font-bold text-ink shadow-sm transition-colors hover:border-accent hover:text-accent"
-            >
-              <ArrowLeft size={16} />
-              Back to News
-            </Link>
+            <nav className="mb-10 flex items-center gap-2 text-sm font-medium text-[#42546E]">
+              <Link href="/" className="hover:text-accent transition-colors">Home</Link>
+              <span className="text-slate-300">/</span>
+              <Link href="/news" className="hover:text-accent transition-colors">News</Link>
+              <span className="text-slate-300">/</span>
+              <span className="text-ink font-semibold truncate max-w-[200px] md:max-w-md">{news.title}</span>
+            </nav>
 
             <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start xl:gap-16">
               <article className="min-w-0">
@@ -82,26 +82,36 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                   {news.title}
                 </h1>
 
-                <div className="mt-6 flex flex-wrap items-center gap-3 text-[12px] font-bold uppercase tracking-[0.15em] text-[#42546E]">
-                  <span className="inline-flex h-9 items-center gap-2 rounded-full border border-border bg-white px-4 shadow-sm">
-                    <CalendarDays size={14} className="text-accent" />
+                <div className="mt-8 flex flex-wrap items-center gap-4 text-sm font-medium text-[#42546E]">
+                  <span className="flex items-center gap-1.5">
+                    <CalendarDays size={16} className="text-slate-400" />
                     {formatDate(news.published_at)}
                   </span>
-                  <span className="inline-flex h-9 items-center gap-2 rounded-full border border-border bg-white px-4 shadow-sm">
-                    <Clock3 size={14} className="text-accent" />
+
+                  <span className="text-slate-300">•</span>
+
+                  <span className="flex items-center gap-1.5">
+                    <Clock3 size={16} className="text-slate-400" />
                     {readTime} min read
                   </span>
+
                   {news.category && (
-                    <span className="inline-flex h-9 items-center gap-2 rounded-full border border-border bg-white px-4 shadow-sm">
-                      <FolderTree size={14} className="text-accent" />
-                      {news.category.name}
-                    </span>
+                    <>
+                      <span className="text-slate-300">•</span>
+                      <span className="flex items-center gap-1.5 text-accent font-semibold">
+                        {news.category.name}
+                      </span>
+                    </>
                   )}
+
                   {news.featured && (
-                    <span className="inline-flex h-9 items-center gap-2 rounded-full bg-ink px-4 text-white shadow-sm">
-                      <Star size={14} />
-                      Featured
-                    </span>
+                    <>
+                      <span className="text-slate-300">•</span>
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-accent">
+                        <Star size={12} className="fill-accent" />
+                        Featured
+                      </span>
+                    </>
                   )}
                 </div>
 

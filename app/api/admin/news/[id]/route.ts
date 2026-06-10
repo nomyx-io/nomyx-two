@@ -7,8 +7,14 @@ export async function PATCH(request: Request, props: { params: Promise<{ id: str
   try {
     const params = await props.params;
     const id = params.id;
+    const existing = await getNewsById(id);
+    if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
     const formData = await request.formData();
     const title = String(formData.get("title") || "").trim();
+    const slug = String(formData.get("slug") || "").trim();
+    const pageTitle = formData.has("pageTitle") ? String(formData.get("pageTitle") || "").trim() || null : existing.page_title;
+    const excerpt = String(formData.get("excerpt") || "").trim();
     const publishedAtInput = String(formData.get("publishedAt") || "").trim();
     const contentHtml = String(formData.get("contentHtml") || "").trim();
     const categoryId = formData.get("categoryId") && formData.get("categoryId") !== "null" ? String(formData.get("categoryId")) : null;
@@ -18,9 +24,6 @@ export async function PATCH(request: Request, props: { params: Promise<{ id: str
     const removeImage = String(formData.get("removeImage") || "false") === "true";
 
     if (!title || !contentHtml) return NextResponse.json({ error: "Title and content required" }, { status: 400 });
-
-    const existing = await getNewsById(id);
-    if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     let coverImageUrl = existing.cover_image_url;
     let coverImagePath = existing.cover_image_path;
@@ -35,8 +38,8 @@ export async function PATCH(request: Request, props: { params: Promise<{ id: str
     }
 
     const newsItem = await updateNews(id, {
-      title, publishedAt: normalizePublishedAt(publishedAtInput || null, status),
-      contentHtml, featured, status, coverImageUrl, coverImagePath, categoryId
+      title, slug, excerpt, publishedAt: normalizePublishedAt(publishedAtInput || null, status),
+      contentHtml, featured, status, coverImageUrl, coverImagePath, categoryId, pageTitle
     });
     return NextResponse.json({ newsItem });
   } catch (error) {

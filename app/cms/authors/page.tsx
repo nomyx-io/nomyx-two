@@ -25,6 +25,9 @@ import type { Author } from "@/lib/authors";
 type FormState = {
   id: string | null;
   name: string;
+  slug: string;
+  pageTitle: string;
+  metaDescription: string;
   designation: string;
   bioHtml: string;
   imageFile: File | null;
@@ -35,6 +38,9 @@ type FormState = {
 const emptyForm: FormState = {
   id: null,
   name: "",
+  slug: "",
+  pageTitle: "",
+  metaDescription: "",
   designation: "",
   bioHtml: "<p></p>",
   imageFile: null,
@@ -175,6 +181,9 @@ export default function AuthorsCmsPage() {
       ...current,
       id: item.id,
       name: item.name,
+      slug: item.slug || "",
+      pageTitle: item.page_title || "",
+      metaDescription: item.meta_description || "",
       designation: item.designation || "",
       bioHtml: item.bio_html || "",
       existingImageUrl: item.cover_image_url,
@@ -253,6 +262,9 @@ export default function AuthorsCmsPage() {
     setForm({
       id: item.id,
       name: item.name,
+      slug: item.slug || "",
+      pageTitle: item.page_title || "",
+      metaDescription: item.meta_description || "",
       designation: item.designation || "",
       bioHtml: item.bio_html || "",
       imageFile: null,
@@ -269,6 +281,9 @@ export default function AuthorsCmsPage() {
     try {
       const formData = new FormData();
       formData.set("name", form.name);
+      formData.set("slug", form.slug);
+      formData.set("pageTitle", form.pageTitle);
+      formData.set("metaDescription", form.metaDescription);
       formData.set("bioHtml", form.bioHtml);
       formData.set("designation", form.designation);
       formData.set("removeImage", String(form.removeImage));
@@ -455,7 +470,7 @@ export default function AuthorsCmsPage() {
                           <td className="px-6 py-4 text-right">
                             <div className="flex items-center justify-end gap-2">
                               <Link
-                                href={`/author/${item.slug}`}
+                                href={`/blog/author/${item.slug}`}
                                 target="_blank"
                                 className="inline-flex h-[34px] w-[34px] items-center justify-center rounded-[6px] border border-border bg-white text-ink-muted shadow-[0_2px_8px_rgba(10,17,40,0.04)] transition-all hover:-translate-y-0.5 hover:border-accent hover:text-accent"
                                 title="View Profile"
@@ -532,6 +547,46 @@ export default function AuthorsCmsPage() {
                       onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
                       placeholder="Enter the author's name"
                       className="h-12 w-full rounded-[6px] border border-border bg-slate-50/50 px-4 text-base font-medium outline-none transition-colors focus:bg-white focus:border-accent"
+                    />
+                  </div>
+
+                  {/* Slug */}
+                  <div>
+                    <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted">
+                      URL Slug
+                    </label>
+                    <input
+                      value={form.slug || ""}
+                      onChange={(event) => setForm((current) => ({ ...current, slug: event.target.value }))}
+                      placeholder="Leave blank to auto-generate from name"
+                      className="h-12 w-full rounded-[6px] border border-border bg-slate-50/50 px-4 text-base font-medium outline-none transition-colors focus:bg-white focus:border-accent"
+                    />
+                  </div>
+
+                  {/* Page Title */}
+                  <div>
+                    <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted">
+                      Page Title
+                    </label>
+                    <input
+                      value={form.pageTitle || ""}
+                      onChange={(event) => setForm((current) => ({ ...current, pageTitle: event.target.value }))}
+                      placeholder="Leave blank to use Author Name"
+                      className="h-12 w-full rounded-[6px] border border-border bg-slate-50/50 px-4 text-base font-medium outline-none transition-colors focus:bg-white focus:border-accent"
+                    />
+                  </div>
+
+                  {/* Meta Description */}
+                  <div>
+                    <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted">
+                      Meta Description
+                    </label>
+                    <textarea
+                      value={form.metaDescription || ""}
+                      onChange={(event) => setForm((current) => ({ ...current, metaDescription: event.target.value }))}
+                      placeholder="Enter the meta description for the author page"
+                      rows={3}
+                      className="w-full resize-none rounded-[6px] border border-border bg-slate-50/50 px-4 py-3 text-base font-medium outline-none transition-colors focus:bg-white focus:border-accent"
                     />
                   </div>
 

@@ -33,6 +33,9 @@ import type { NewsCategory, NewsPost, NewsStatus } from "@/lib/news";
 type FormState = {
   id: string | null;
   title: string;
+  slug: string;
+  pageTitle: string;
+  excerpt: string;
   publishedAt: string;
   contentHtml: string;
   categoryId: string | null;
@@ -46,6 +49,9 @@ type FormState = {
 const emptyForm: FormState = {
   id: null,
   title: "",
+  slug: "",
+  pageTitle: "",
+  excerpt: "",
   publishedAt: "",
   contentHtml: "<p></p>",
   categoryId: null,
@@ -156,6 +162,9 @@ export default function NewsCmsPage() {
       ...current,
       id: item.id,
       title: item.title,
+      slug: item.slug || "",
+      pageTitle: item.page_title || "",
+      excerpt: item.excerpt || "",
       publishedAt: toDateInput(item.published_at),
       contentHtml: item.content_html,
       categoryId: item.category_id,
@@ -243,6 +252,9 @@ export default function NewsCmsPage() {
     setForm({
       id: item.id,
       title: item.title,
+      slug: item.slug || "",
+      pageTitle: item.page_title || "",
+      excerpt: item.excerpt || "",
       publishedAt: toDateInput(item.published_at),
       contentHtml: item.content_html,
       categoryId: item.category_id,
@@ -262,6 +274,9 @@ export default function NewsCmsPage() {
     try {
       const formData = new FormData();
       formData.set("title", form.title);
+      formData.set("slug", form.slug);
+      formData.set("pageTitle", form.pageTitle);
+      formData.set("excerpt", form.excerpt);
       formData.set("publishedAt", form.publishedAt);
       formData.set("contentHtml", form.contentHtml);
       if (form.categoryId) formData.set("categoryId", form.categoryId);
@@ -546,6 +561,46 @@ export default function NewsCmsPage() {
                       onChange={(event) => setForm((current) => ({ ...current, title: event.target.value }))}
                       placeholder="Enter the article title"
                       className="h-12 w-full rounded-[6px] border border-border bg-slate-50/50 px-4 text-base font-medium outline-none transition-colors focus:bg-white focus:border-accent"
+                    />
+                  </div>
+
+                  {/* Page Title */}
+                  <div>
+                    <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted">
+                      Page Title
+                    </label>
+                    <input
+                      value={form.pageTitle || ""}
+                      onChange={(event) => setForm((current) => ({ ...current, pageTitle: event.target.value }))}
+                      placeholder="Leave blank to use Article Title"
+                      className="h-12 w-full rounded-[6px] border border-border bg-slate-50/50 px-4 text-base font-medium outline-none transition-colors focus:bg-white focus:border-accent"
+                    />
+                  </div>
+
+                  {/* Slug */}
+                  <div>
+                    <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted">
+                      URL Slug
+                    </label>
+                    <input
+                      value={form.slug || ""}
+                      onChange={(event) => setForm((current) => ({ ...current, slug: event.target.value }))}
+                      placeholder="Leave blank to auto-generate from title"
+                      className="h-12 w-full rounded-[6px] border border-border bg-slate-50/50 px-4 text-base font-medium outline-none transition-colors focus:bg-white focus:border-accent"
+                    />
+                  </div>
+
+                  {/* Meta Description */}
+                  <div>
+                    <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted">
+                      Meta Description (Excerpt)
+                    </label>
+                    <textarea
+                      value={form.excerpt || ""}
+                      onChange={(event) => setForm((current) => ({ ...current, excerpt: event.target.value }))}
+                      placeholder="Leave blank to auto-generate from content"
+                      rows={3}
+                      className="w-full resize-none rounded-[6px] border border-border bg-slate-50/50 px-4 py-3 text-base font-medium outline-none transition-colors focus:bg-white focus:border-accent"
                     />
                   </div>
 
