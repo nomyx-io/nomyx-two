@@ -8,6 +8,8 @@ import { ListItemNode, ListNode } from '@lexical/list';
 import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
+import { TableNode, TableCellNode, TableRowNode } from '@lexical/table';
 
 import { ImageNode } from './nodes/ImageNode';
 import { CalloutNode } from './nodes/CalloutNode';
@@ -33,6 +35,9 @@ const theme = {
   },
   link: 'font-semibold text-accent underline',
   paragraph: 'mb-4',
+  table: 'w-full border-collapse my-6 border border-border',
+  tableCell: 'border border-border px-4 py-3 align-top relative',
+  tableCellHeader: 'bg-[#F2F9FF] font-semibold text-[#19233D] text-left border border-border px-4 py-3 relative',
 };
 
 export function LexicalEditor({
@@ -59,6 +64,9 @@ export function LexicalEditor({
       LinkNode,
       ImageNode,
       CalloutNode,
+      TableNode,
+      TableCellNode,
+      TableRowNode,
     ],
   };
 
@@ -69,7 +77,7 @@ export function LexicalEditor({
         <div className="relative">
           <RichTextPlugin
             contentEditable={
-              <ContentEditable className="min-h-[520px] bg-white px-6 py-6 text-[17px] leading-8 text-ink outline-none [&_.blog-callout-list]:my-7 [&_.blog-callout-list]:rounded-[12px] [&_.blog-callout-list]:border [&_.blog-callout-list]:border-accent/15 [&_.blog-callout-list]:bg-[#F2F9FF] [&_.blog-callout-list]:px-4 [&_.blog-callout-list]:py-3 [&_.blog-callout-list]:shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] [&_.blog-callout-list_li]:mb-2 [&_.blog-callout-list_li]:ml-5 [&_.blog-callout-list_li]:list-disc [&_.blog-callout-list_li]:font-semibold [&_.blog-callout-list_li]:text-ink [&_.blog-callout-list_ul]:mb-0" />
+              <ContentEditable className="min-h-[520px] bg-white px-6 py-6 text-[17px] leading-8 text-ink outline-none [&_.blog-callout-list]:my-3 [&_.blog-callout-list]:rounded-[12px] [&_.blog-callout-list]:border [&_.blog-callout-list]:border-accent/15 [&_.blog-callout-list]:bg-[#F2F9FF] [&_.blog-callout-list]:px-4 [&_.blog-callout-list]:py-3 [&_.blog-callout-list]:shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] [&_.blog-callout-list_li]:mb-2 [&_.blog-callout-list_li]:ml-5 [&_.blog-callout-list_li]:list-disc [&_.blog-callout-list_li]:font-semibold [&_.blog-callout-list_li]:text-ink [&_.blog-callout-list_ul]:mb-0" />
             }
             placeholder={<div className="absolute top-6 left-6 text-ink/40 pointer-events-none text-[17px]">Start writing...</div>}
             ErrorBoundary={LexicalErrorBoundary}
@@ -77,6 +85,7 @@ export function LexicalEditor({
           <HistoryPlugin />
           <ListPlugin />
           <LinkPlugin />
+          <TablePlugin />
           <FloatingLinkEditorPlugin />
           <HTMLSyncPlugin value={value} onChange={onChange} />
         </div>

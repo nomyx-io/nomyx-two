@@ -21,7 +21,12 @@ export type SerializedImageNode = Spread<
 
 function convertImageElement(domNode: Node): null | DOMConversionOutput {
   if (domNode instanceof HTMLImageElement) {
-    const { alt: altText, src, width, height } = domNode;
+    const altText = domNode.getAttribute('alt') || '';
+    const src = domNode.getAttribute('src') || '';
+    const widthAttr = domNode.getAttribute('width');
+    const heightAttr = domNode.getAttribute('height');
+    const width = widthAttr ? parseInt(widthAttr, 10) : undefined;
+    const height = heightAttr ? parseInt(heightAttr, 10) : undefined;
     const node = $createImageNode({ altText, src, width, height });
     return { node };
   }

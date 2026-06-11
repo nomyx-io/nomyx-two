@@ -25,11 +25,13 @@ import {
 } from '@lexical/list';
 import { $createHeadingNode, $createQuoteNode, HeadingNode } from '@lexical/rich-text';
 import { mergeRegister, $getNearestNodeOfType } from '@lexical/utils';
+import { INSERT_TABLE_COMMAND } from '@lexical/table';
 import { toast } from 'sonner';
 import {
   Bold, Heading1, Heading2, Heading3, ImagePlus, Italic, Link2, List, ListOrdered, Quote, 
   RemoveFormatting, Underline, ListChecks, Undo, Redo, Strikethrough, Code, AlignLeft, 
-  AlignCenter, AlignRight, AlignJustify, Type, Palette, Baseline, ChevronDown, Check, TypeOutline
+  AlignCenter, AlignRight, AlignJustify, Type, Palette, Baseline, ChevronDown, Check, TypeOutline,
+  Table as TableIcon
 } from 'lucide-react';
 import { $createCalloutNode } from '../nodes/CalloutNode';
 import { $createImageNode } from '../nodes/ImageNode';
@@ -394,6 +396,20 @@ export function ToolbarPlugin({ imageUploadTitle = "blog-content" }: { imageUplo
         <ToolbarButton onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')} icon={Italic} active={isItalic} title="Italic" />
         <ToolbarButton onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')} icon={Underline} active={isUnderline} title="Underline" />
         <ToolbarButton onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')} icon={Strikethrough} active={isStrikethrough} title="Strikethrough" />
+        
+        <Divider />
+
+        <ToolbarButton onClick={() => {
+          const rows = prompt('How many rows?', '3');
+          const columns = prompt('How many columns?', '3');
+          if (rows && columns && !isNaN(Number(rows)) && !isNaN(Number(columns))) {
+            editor.dispatchCommand(INSERT_TABLE_COMMAND, {
+              columns,
+              rows,
+              includeHeaders: { rows: true, columns: false },
+            });
+          }
+        }} icon={TableIcon} title="Insert Table" />
         <ToolbarButton onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')} icon={Code} active={isCode} title="Inline Code" />
         <ToolbarButton onClick={() => insertLink()} icon={Link2} title="Link" />
         
