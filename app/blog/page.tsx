@@ -34,7 +34,7 @@ export default async function BlogIndexPage() {
 
       <main className="overflow-hidden">
         <section 
-          className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28"
+          className="relative overflow-hidden pt-32 pb-10 md:pt-40 md:pb-16"
           style={{
             background: "linear-gradient(to bottom, #D9EFFF 0%, #FFFFFF 100%)"
           }}
@@ -47,14 +47,14 @@ export default async function BlogIndexPage() {
               <h1 className="text-display mb-8">
                 Nomyx Blog
               </h1>
-              <p className="mx-auto prgraphs mb-20 md:text-xl">
+              <p className="mx-auto prgraphs md:text-xl">
                 Tokenization infrastructure notes, capital markets workflows, and product thinking from the Nomyx team.
               </p>
             </div>
           </div>
         </section>
 
-        <section className="py-20 md:py-24">
+        <section className="py-10 md:py-12">
           <div className="custom-container">
             {blogs.length === 0 ? (
               <div className="rounded-2xl border border-[#0A112824] bg-white px-6 py-20 text-center text-sm font-bold uppercase tracking-widest text-ink-muted">
@@ -67,15 +67,15 @@ export default async function BlogIndexPage() {
                     key={blog.id}
                     className="flex h-full flex-col overflow-hidden rounded-2xl border border-[#0A112824] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                   >
-                    <Link href={`/blog/${blog.slug}`} className="relative block aspect-[3/2] overflow-hidden bg-ink group">
+                    <Link href={`/blog/${blog.slug}`} className="relative block overflow-hidden bg-slate-50 border-b border-border group">
                       {blog.cover_image_url ? (
                         <img
                           src={blog.cover_image_url}
                           alt={blog.title}
-                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                          className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.035]"
                         />
                       ) : (
-                        <div className="flex h-full items-center justify-center bg-ink text-xs font-bold uppercase tracking-widest text-white/30">
+                        <div className="flex aspect-[3/2] w-full items-center justify-center bg-slate-100 text-xs font-bold uppercase tracking-widest text-slate-400">
                           No Image Available
                         </div>
                       )}

@@ -343,7 +343,7 @@ export function ToolbarPlugin({ imageUploadTitle = "blog-content" }: { imageUplo
     bullet: 'Bulleted List',
     number: 'Numbered List',
     code: 'Code Block',
-    callout: 'Callout Box'
+    callout: 'Highlighter Box'
   };
 
   return (
@@ -366,7 +366,7 @@ export function ToolbarPlugin({ imageUploadTitle = "blog-content" }: { imageUplo
           <DropdownItem label="Numbered List" icon={ListOrdered} onClick={() => formatBlock('number')} active={blockType === 'number'} />
           <DropdownItem label="Quote" icon={Quote} onClick={() => formatBlock('quote')} active={blockType === 'quote'} />
           <DropdownItem label="Code Block" icon={Code} onClick={() => formatBlock('code')} active={blockType === 'code'} />
-          <DropdownItem label="Callout Box" icon={Baseline} onClick={() => formatBlock('callout')} active={blockType === 'callout'} />
+          <DropdownItem label="Highlighter Box" icon={Baseline} onClick={() => formatBlock('callout')} active={blockType === 'callout'} />
         </Dropdown>
 
         <Divider />
