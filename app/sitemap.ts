@@ -31,7 +31,7 @@ const staticRoutes = [
   "/nomyx-id",
   "/private-credit-syndication",
   "/real-estate-tokenization",
-  "/resources",
+  "/technical-documentation",
   "/spv-deal-syndication",
   "/the-diamond-standard",
 ];

@@ -4,7 +4,7 @@ import { getPublishedNews, getFeaturedNews, getNewsCategories } from "@/lib/news
 import NewsPageClient from "./NewsPageClient";
 
 export const metadata: Metadata = {
-  title: "Nomyx News",
+  title: "Nomyx News & Company Updates",
   description: "Get the latest updates, press releases, and partner announcements from Nomyx.",
   alternates: {
     canonical: "https://www.nomyx.io/news",

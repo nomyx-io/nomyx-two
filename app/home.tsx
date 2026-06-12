@@ -83,7 +83,7 @@ const navDropdowns = {
     {
       title: "Technical Documentation",
       description: "Institutional library of guides, briefs, and reports",
-      href: "/resources",
+      href: "/technical-documentation",
     },
     {
       title: "Blog",

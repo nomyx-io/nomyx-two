@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
+  title: "Technical Documentation | Nomyx",
   alternates: {
-    canonical: "https://www.nomyx.io/resources",
+    canonical: "https://www.nomyx.io/technical-documentation",
   },
 };
 

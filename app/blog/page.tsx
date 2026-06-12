@@ -7,6 +7,7 @@ import { getPublishedBlogs, plainTextFromHtml } from "@/lib/blogs";
 import { AnimatedButton } from "@/app/components/evergreen/shared";
 
 export const metadata: Metadata = {
+  title: "Nomyx Insights | Institutional Tokenization",
   alternates: {
     canonical: "https://www.nomyx.io/blog",
   },
