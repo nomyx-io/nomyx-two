@@ -90,7 +90,7 @@ export default async function BlogDetailPage({ params, searchParams }: BlogDetai
 
             <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start xl:gap-16">
               <article className="min-w-0">
-                <h1 className="max-w-4xl text-[clamp(34px,4vw,52px)] font-bold leading-[1.08] text-ink md:font-black">
+                <h1 className="w-full text-[32px] sm:text-[36px] md:text-[40px] lg:text-[45px] xl:text-[49px] font-bold leading-[1.08] text-ink md:font-black">
                   {blog.title}
                 </h1>
 
